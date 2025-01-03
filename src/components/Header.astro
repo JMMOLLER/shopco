@@ -1,1 +1,42 @@
-<header class="bg-slate-200">header</header>
+---
+import CartIcon from "@icons/Cart.astro";
+import SearchIcon from "@icons/Search.astro";
+import UserIcon from "@icons/User.astro";
+import { Image } from "astro:assets";
+---
+
+<header
+  class="mx-auto my-6 max-w-screen-xl w-full inline-flex gap-x-10 items-center px-5"
+>
+  <Image
+    src="/logo.svg"
+    alt="Shop.co logo"
+    class="h-5 w-auto"
+    width={22}
+    height={32}
+  />
+  <ul class="inline-flex gap-x-6 items-center text-center">
+    <li>Shop</li>
+    <li>On Sale</li>
+    <li>New Arrivals</li>
+    <li>Brands</li>
+  </ul>
+  <search class="grow inline-flex gap-x-3 bg-[#F0F0F0] rounded-full px-4 py-3">
+    <SearchIcon className="text-[#00000050]" />
+    <input
+      class="bg-transparent focus:outline-none w-full"
+      type="text"
+      name="searchbox"
+      role="searchbox"
+      placeholder="Search for products..."
+    />
+  </search>
+  <div class="inline-flex gap-x-[14px]">
+    <button type="button">
+      <CartIcon />
+    </button>
+    <button type="button">
+      <UserIcon />
+    </button>
+  </div>
+</header>
