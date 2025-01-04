@@ -3,6 +3,12 @@ export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		extend: {
+      fontSize: {
+        clamp: "clamp(1rem, 5vw, 3rem)",
+      },
+      lineHeight: {
+        clamp: "clamp(1.5rem, 5vw, 3rem)",
+      },
       fontFamily: {
         sans: ['Satoshi-Regular', 'sans-serif'],
         integral: ['IntegralCF-Regular', 'sans-serif'],
