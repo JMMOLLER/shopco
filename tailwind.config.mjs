@@ -5,6 +5,14 @@ export default {
 		extend: {
       fontFamily: {
         sans: ['Satoshi-Regular', 'sans-serif'],
+        integral: ['IntegralCF-Regular', 'sans-serif'],
+      },
+      colors: {
+        primary: "#00000060",
+        accent: "#",
+      },
+      backgroundColor: {
+        primary: "#F0F0F0"
       }
     },
 	},

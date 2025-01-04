@@ -1,0 +1,95 @@
+@font-face {
+  font-family: 'IntegralCF-Regular';
+  src: url('/fonts/Integralcf/Satoshi-Regular.otf') format('otf');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IntegralCF-Bold';
+  src: url('/fonts/Integralcf/Integralcf-bold.otf') format('otf');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IntegralCF-BoldOblique';
+  src: url('/fonts/Integralcf/Integralcf-boldoblique.otf') format('otf');
+  font-weight: 700;
+  font-display: swap;
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'IntegralCF-DemiBold';
+  src: url('/fonts/Integralcf/Integralcf-demibold.otf') format('otf');
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IntegralCF-DemiBoldOblique';
+  src: url('/fonts/Integralcf/Integralcf-demiboldoblique.otf') format('otf');
+  font-weight: 600;
+  font-display: swap;
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'IntegralCF-ExtraBold';
+  src: url('/fonts/Integralcf/Integralcf-extrabold.otf') format('otf');
+  font-weight: 800;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IntegralCF-ExtraBoldOblique';
+  src: url('/fonts/Integralcf/Integralcf-extraboldoblique.otf') format('otf');
+  font-weight: 800;
+  font-display: swap;
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'IntegralCF-Heavy';
+  src: url('/fonts/Integralcf/Integralcf-heavy.otf') format('otf');
+  font-weight: 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IntegralCF-HeavyOblique';
+  src: url('/fonts/Integralcf/Integralcf-heavyoblique.otf') format('otf');
+  font-weight: 900;
+  font-display: swap;
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'IntegralCF-Medium';
+  src: url('/fonts/Integralcf/Integralcf-medium.otf') format('otf');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IntegralCF-MediumOblique';
+  src: url('/fonts/Integralcf/Integralcf-mediumoblique.otf') format('otf');
+  font-weight: 500;
+  font-display: swap;
+  font-style: oblique;
+}
+
+@font-face {
+  font-family: 'IntegralCF-RegularOblique';
+  src: url('/fonts/Integralcf/Integralcf-regularoblique.otf') format('otf');
+  font-weight: 400;
+  font-display: swap;
+  font-style: oblique;
+}

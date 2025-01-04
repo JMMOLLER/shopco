@@ -1,3 +1,191 @@
-<footer class="bg-gray-300">
-  footer
+---
+import { Image } from "astro:assets";
+import FacebookIcon from "@icons/Facebook.astro";
+import InstagramIcon from "@icons/Instagram.astro";
+import TwitterIcon from "@icons/Twitter.astro";
+import GitHubIcon from "@icons/GitHub.astro";
+import VisaIcon from "@icons/Visa.astro";
+import MasterCardIcon from "@icons/MasterCard.astro";
+import PayPalIcon from "@icons/PayPal.astro";
+import ApplePayIcon from "@icons/ApplePay.astro";
+import GooglePayIcon from "@icons/GooglePay.astro";
+import Mail from "@icons/Mail.astro";
+---
+
+<footer class="bg-primary mt-[90px]">
+  <div class="mx-auto mt-36 mb-20 max-w-screen-xl w-full px-5 relative">
+    <div
+      class="absolute left-1/2 transform -translate-x-1/2 -translate-y-[130%] bg-black py-9 px-16 flex items-center justify-between gap-7 rounded-3xl w-[calc(100%-2rem)]"
+    >
+      <h4
+        class="text-white text-[2.5rem] leading-10 max-w-xl w-full font-integral font-extrabold line-clamp-2"
+      >
+        STAY UPTO DATE ABOUT OUR LATEST OFFERS
+      </h4>
+      <div class="w-full max-w-[350px] flex flex-col gap-3">
+        <span
+          class="inline-flex gap-3 items-center bg-white rounded-full px-4 py-3"
+        >
+          <Mail className="text-[#00000080]" />
+          <input
+            class="focus:outline-none bg-transparent text-black"
+            placeholder="Enter your email address"
+            name="suscribe"
+            type="text"
+          /></span
+        >
+        <button class="btn rounded-full bg-white" type="button">
+          Subscribe to Newsletter
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-6 max-md:grid-cols-4 grid-rows-3 gap-4 mb-8">
+      <div class="md:col-span-2 md:row-span-3 max-md:col-span-4 flex flex-col gap-6 md:max-w-72">
+        <Image
+          class="w-auto max-w-40 h-6"
+          alt="Shop.co logo"
+          loading="eager"
+          src="/logo.svg"
+          width={167}
+          height={23}
+        />
+        <p class="text-primary">
+          We have clothes that suits your style and which you’re proud to wear.
+          From women to men.
+        </p>
+        <span class="socials inline-flex gap-3 text-black">
+          <a
+            class="w-[28px] h-[28px] flex items-center justify-center rounded-full bg-white border border-[#D6DCE5]"
+            aria-label="Ir a Twitter"
+            href="/"
+          >
+            <TwitterIcon />
+          </a>
+          <a
+            class="w-[28px] h-[28px] flex items-center justify-center rounded-full bg-black text-white border border-[#D6DCE5]"
+            aria-label="Ir a Facebook"
+            href="/"
+          >
+            <FacebookIcon />
+          </a>
+          <a
+            class="w-[28px] h-[28px] flex items-center justify-center rounded-full bg-white border border-[#D6DCE5]"
+            aria-label="Ir a Instagram"
+            href="/"
+          >
+            <InstagramIcon />
+          </a>
+          <a
+            class="w-[28px] h-[28px] flex items-center justify-center rounded-full bg-white border border-[#D6DCE5]"
+            aria-label="Ir a GitHub"
+            href="/"
+          >
+            <GitHubIcon />
+          </a>
+        </span>
+      </div>
+      <div class="md:row-span-3 max-md:col-span-2 max-md:row-start-2 flex flex-col gap-6 max-md:gap-2">
+        <h4 class="font-medium text-black tracking-widest">COMPANY</h4>
+        <ul class="flex flex-col grow justify-between text-primary">
+          <li>
+            <a class="hover:underline" href="/">About</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Features</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Works</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Career</a>
+          </li>
+        </ul>
+      </div>
+      <div class="md:row-span-3 max-md:col-span-2 max-md:col-start-3 max-md:row-start-2 flex flex-col gap-6 max-md:gap-2">
+        <h4 class="font-medium text-black tracking-widest">HELP</h4>
+        <ul class="flex flex-col grow justify-between text-primary">
+          <li>
+            <a class="hover:underline" href="/">Customer Support</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Delivery Details</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Terms & Conditions</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Privacy Policy</a>
+          </li>
+        </ul>
+      </div>
+      <div class="md:row-span-3 max-md:col-span-2 max-md:row-start-3 flex flex-col gap-6 max-md:gap-2">
+        <h4 class="font-medium text-black tracking-widest">FAQ</h4>
+        <ul class="flex flex-col grow justify-between text-primary">
+          <li>
+            <a class="hover:underline" href="/">Account</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Manage Deliveries</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Orders</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Payments</a>
+          </li>
+        </ul>
+      </div>
+      <div class="md:row-span-3 max-md:col-span-2 max-md:col-start-3 max-md:row-start-3 flex flex-col gap-6 max-md:gap-2">
+        <h4 class="font-medium text-black tracking-widest">RESOURCES</h4>
+        <ul class="flex flex-col grow justify-between text-primary">
+          <li>
+            <a class="hover:underline" href="/">Free eBooks</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Development Tutorial</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">How to - Blog</a>
+          </li>
+          <li>
+            <a class="hover:underline" href="/">Youtube Playlist</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="my-5 border-black border-opacity-10" />
+
+    <footer class="inline-flex justify-between items-center w-full">
+      <span>Shop.co © 2000-2025, All Rights Reserved</span>
+      <div aria-label="payments-methods" class="inline-flex gap-3">
+        <span
+          class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
+        >
+          <VisaIcon />
+        </span>
+        <span
+          class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
+        >
+          <MasterCardIcon />
+        </span>
+        <span
+          class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
+        >
+          <PayPalIcon />
+        </span>
+        <span
+          class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
+        >
+          <ApplePayIcon />
+        </span>
+        <span
+          class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
+        >
+          <GooglePayIcon />
+        </span>
+      </div>
+    </footer>
+  </div>
 </footer>
