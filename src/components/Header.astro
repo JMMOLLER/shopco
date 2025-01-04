@@ -1,4 +1,5 @@
 ---
+import ArrowDownIcon from "@icons/ArrowDown.astro";
 import CartIcon from "@icons/Cart.astro";
 import SearchIcon from "@icons/Search.astro";
 import UserIcon from "@icons/User.astro";
@@ -16,10 +17,21 @@ import { Image } from "astro:assets";
     height={32}
   />
   <ul class="inline-flex gap-x-6 items-center text-center">
-    <li>Shop</li>
-    <li>On Sale</li>
-    <li>New Arrivals</li>
-    <li>Brands</li>
+    <li>
+      <div class="dropdown dropdown-hover">
+        <button class="inline-flex gap-x-1 items-center" tabindex="0" type="button">Shop <ArrowDownIcon /></button>
+        <ul
+          class="dropdown-content menu bg-base-100 z-[1] w-auto min-w-20 p-2 shadow"
+          tabindex="0"
+        >
+          <li><a class="text-nowrap" href="#">Item 1</a></li>
+          <li><a class="text-nowrap" href="#">Item 2</a></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="#">On Sale</a></li>
+    <li><a href="#">New Arrivals</a></li>
+    <li><a href="#">Brands</a></li>
   </ul>
   <search class="grow inline-flex gap-x-3 bg-[#F0F0F0] rounded-full px-4 py-3">
     <SearchIcon className="text-[#00000050]" />

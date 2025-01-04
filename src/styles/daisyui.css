@@ -1,0 +1,9 @@
+.dropdown {
+  & ul {
+    @apply rounded-md;
+
+    & li {
+      @apply rounded-lg;
+    }
+  }
+}
