@@ -1,5 +1,5 @@
 ---
-import ArrowDownIcon from "@icons/ArrowDown.astro";
+import ArrowDownIcon from "../assets/chevron-down.svg?raw";
 import CartIcon from "@icons/Cart.astro";
 import SearchIcon from "@icons/Search.astro";
 import UserIcon from "@icons/User.astro";
@@ -8,10 +8,10 @@ import MobileNav from "@components/react-components/MobileNav";
 ---
 
 <header
-  class="mx-auto my-6 max-w-screen-xl w-full inline-flex gap-x-10 items-center max-md:justify-between px-5 relative"
+  class="mx-auto my-6 max-w-screen-xl w-full inline-flex gap-x-10 items-center max-nav:justify-between px-5 relative nav:h-12 max-nav:h-6 transition-all"
 >
   <!-- MOBILE MENU -->
-  <MobileNav client:media="(max-width: 768px)" />
+  <MobileNav client:media="(max-width: 905px)" />
   <!-- MOBILE MENU END -->
   <Image
     class="h-5 w-auto"
@@ -21,14 +21,14 @@ import MobileNav from "@components/react-components/MobileNav";
     height={20}
     width={127}
   />
-  <nav class="max-md:hidden">
+  <nav class="max-nav:hidden">
     <ul class="inline-flex gap-x-6 items-center text-center">
       <li>
         <div class="dropdown dropdown-hover">
           <button
             class="inline-flex gap-x-1 items-center"
             tabindex="0"
-            type="button">Shop <ArrowDownIcon /></button
+            type="button">Shop <Fragment set:html={ArrowDownIcon} /></button
           >
           <ul
             class="dropdown-content menu bg-base-100 z-[1] w-auto min-w-20 p-2 shadow"
@@ -50,7 +50,7 @@ import MobileNav from "@components/react-components/MobileNav";
     </ul>
   </nav>
   <search
-    class="grow inline-flex gap-x-3 bg-[#F0F0F0] rounded-full px-4 py-3 max-md:hidden"
+    class="grow inline-flex gap-x-3 bg-[#F0F0F0] rounded-full px-4 py-3 max-nav:hidden"
   >
     <SearchIcon className="text-[#00000050]" />
     <input
@@ -62,7 +62,10 @@ import MobileNav from "@components/react-components/MobileNav";
     />
   </search>
   <nav class="inline-flex gap-x-[14px]">
-    <button class="md:hidden" type="button">
+    <button
+      class="nav:absolute nav:opacity-0 opacity-100 nav:transition-opacity duration-1000"
+      type="button"
+    >
       <SearchIcon />
     </button>
     <button type="button">
