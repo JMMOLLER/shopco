@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import ChevronDownIcon from "../../assets/chevron-down.svg";
-import HamburgerIcon from "../../assets/hamburger.svg";
-import CloseIcon from "../../assets/close.svg";
+import ChevronDownIcon from "@assets/chevron-down.svg";
+import HamburgerIcon from "@assets/hamburger.svg";
+import CloseIcon from "@assets/close.svg";
 
 type SvgIcon = {
   chevronDown: string | null;
