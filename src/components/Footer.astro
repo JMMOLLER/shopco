@@ -12,13 +12,13 @@ import GooglePayIcon from "@icons/GooglePay.astro";
 import Mail from "@icons/Mail.astro";
 ---
 
-<footer class="bg-primary mt-[90px] max-md:mt-[20%] max-sm:mt-[min(31%,135px)]">
+<footer class="bg-primary mt-[90px] max-md:mt-[20%] max-sm:mt-[min(31%,135px)] max-min:mt-[clamp(0px,60%,190px)]">
   <div class="mx-auto mt-36 mb-20 max-w-screen-xl w-full px-5 relative">
     <div
       class="absolute left-1/2 transform -translate-x-1/2 -translate-y-[130%] max-md:-translate-y-[110%] bg-black py-9 px-16 max-md:py-6 max-md:px-8 flex max-md:flex-col items-center justify-between gap-8 rounded-3xl w-[calc(100%-2rem)]"
     >
       <h4
-        class="text-white text-clamp leading-clamp max-w-xl w-full font-integral font-extrabold md:line-clamp-2"
+        class="text-white text-[clamp(2rem,1.4286rem+1.1905vw,2.5rem)] leading-[calc(clamp(2rem,1.4286rem+1.1905vw,2.5rem)+3px)] max-min:text-2xl max-w-xl w-full font-integral font-extrabold"
       >
         STAY UPTO DATE ABOUT OUR LATEST OFFERS
       </h4>

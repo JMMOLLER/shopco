@@ -12,7 +12,8 @@ export default {
 	theme: {
 		extend: {
       screens: {
-        'nav': '905px'
+        'nav': '905px',
+        'min': '537px'
       },
       backgroundImage: {
         'mobile-nav-gradient': 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,1) 15%)'
