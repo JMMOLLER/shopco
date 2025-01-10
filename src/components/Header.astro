@@ -13,6 +13,8 @@ import MobileNav from "@components/react-components/MobileNav";
   <!-- MOBILE MENU -->
   <MobileNav client:media="(max-width: 905px)" />
   <!-- MOBILE MENU END -->
+
+  <!-- LOGOTIPO - Envolviendo la imagen en un enlace -->
   <Image
     class="h-5 w-auto"
     alt="Shop.co logo"
@@ -21,34 +23,53 @@ import MobileNav from "@components/react-components/MobileNav";
     height={20}
     width={127}
   />
+
+  <!-- NAVEGACIÓN PRINCIPAL -->
   <nav class="max-nav:hidden">
     <ul class="inline-flex gap-x-6 items-center text-center">
-      <li>
-        <div class="dropdown dropdown-hover">
-          <button
-            class="inline-flex gap-x-1 items-center"
-            tabindex="0"
-            type="button">Shop <Fragment set:html={ArrowDownIcon} /></button
-          >
-          <ul
-            class="dropdown-content menu bg-base-100 z-[1] w-auto min-w-20 p-2 shadow"
-          >
-            <li>
-              <a aria-label="Ir a Item 1" class="text-nowrap" href="/">Item 1</a
-              >
-            </li>
-            <li>
-              <a aria-label="Ir a Item 2" class="text-nowrap" href="/">Item 2</a
-              >
-            </li>
-          </ul>
-        </div>
+      <!-- Menú Desplegable "Shop" -->
+      <li class="dropdown dropdown-hover">
+        <button
+          class="inline-flex gap-x-1 items-center"
+          tabindex="0"
+          aria-haspopup="true"
+          aria-expanded="false"
+          type="button"
+          >Shop <Fragment set:html={ArrowDownIcon} />
+        </button>
+
+        <!-- Contenido del Menú Desplegable -->
+        <ul
+          class="dropdown-content menu bg-base-100 z-[1] w-auto min-w-20 p-2 shadow"
+        >
+          <li>
+            <a
+              aria-label="Ir a Item 1"
+              role="menuitem"
+              class="text-nowrap"
+              href="/">Item 1</a
+            >
+          </li>
+          <li>
+            <a
+              aria-label="Ir a Item 2"
+              role="menuitem"
+              class="text-nowrap"
+              href="/">Item 2</a
+            >
+          </li>
+        </ul>
       </li>
+
+      <!-- Otros Enlaces de Navegación -->
       <li><a href="/">On Sale</a></li>
       <li><a href="/">New Arrivals</a></li>
       <li><a href="/">Brands</a></li>
     </ul>
   </nav>
+  <!-- NAVEGACIÓN PRINCIPAL END -->
+
+  <!-- Búsqueda -->
   <search
     class="grow inline-flex gap-x-3 bg-[#F0F0F0] rounded-full px-4 py-3 max-nav:hidden"
   >
@@ -61,18 +82,34 @@ import MobileNav from "@components/react-components/MobileNav";
       type="text"
     />
   </search>
+
+  <!-- ICONOS DE ACCIÓN -->
   <nav class="inline-flex gap-x-[14px]">
     <button
       class="nav:absolute nav:opacity-0 opacity-100 nav:transition-opacity duration-1000"
+      aria-label="Abrir el buscador"
       type="button"
     >
       <SearchIcon />
     </button>
-    <button type="button">
+    <a aria-label="Ir al carrito" href="/">
       <CartIcon />
-    </button>
-    <button type="button">
+    </a>
+    <a aria-label="Ir a la cuenta" href="/">
       <UserIcon />
-    </button>
+    </a>
   </nav>
 </header>
+
+<script>
+  const dropdowns = document.querySelectorAll(".dropdown button");
+  
+  dropdowns.forEach((dropdown) => {
+    dropdown.addEventListener("mouseover", () => {
+      dropdown.ariaExpanded = 'true';
+    });
+    dropdown.addEventListener("mouseout", () => {
+      dropdown.ariaExpanded = 'false';
+    });
+  });
+</script>

@@ -111,8 +111,8 @@ function MobileNav() {
         ref={btnRef}
         className="nav:hidden focus:outline-none p-1 flex items-center justify-center"
         title="Toggle navigation"
-        type="button"
         onClick={handleClick}
+        type="button"
       >
         <span
           dangerouslySetInnerHTML={{
@@ -124,6 +124,8 @@ function MobileNav() {
       </button>
       <nav
         ref={navRef}
+        aria-expanded={navIsOpen}
+        aria-hidden={!navIsOpen}
         className="shadow-[1px_20px_20px_0px_rgba(0,0,0,0.25)] bg-mobile-nav-gradient absolute max-md:flex flex-col gap-y-4 items-center text-center left-0 z-20 p-5 rounded-lg w-full opacity-100 !hidden"
       >
         <ul className="flex flex-col gap-y-3 items-center text-center">
