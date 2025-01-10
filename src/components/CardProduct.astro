@@ -7,6 +7,7 @@ type Product = {
   rating: string;
   discount?: number;
   thumbnailUrl: string;
+  loading?: "lazy" | "eager";
 };
 
 const {
@@ -14,6 +15,7 @@ const {
   price,
   discount,
   thumbnailUrl,
+  loading,
   rating: r
 } = Astro.props as Product;
 
@@ -29,7 +31,7 @@ const previousPrice = discount
       class="aspect-[99/100] w-[295px] rounded-[20px]"
       onerror={`this.src = "/imgs/not-found.webp"`}
       src={thumbnailUrl ?? "/imgs/not-found.webp"}
-      loading="eager"
+      loading={loading ?? "lazy"}	
       height={297}
       width={295}
       alt={title}

@@ -1,13 +1,19 @@
 ---
 import Starlight from "@icons/Starlight.astro";
+import { Image } from "astro:assets";
 ---
 
 <section
-  aria-labelledby="hero"
   class="bg-[#F2F0F1] w-full flex max-md:flex-col md:justify-around gap-16"
+  aria-labelledby="hero-heading"
 >
-  <div class="flex flex-col gap-8 max-md:gap-5 md:pt-11 md:p-[clamp(1.25rem,2.1786rem+-1.9345vw,0.4375rem)] max-md:px-4 max-md:py-10 max-md:pb-0 max-md:max-h-[1200px] md:max-w-[50%]">
-    <h1 class="font-integral font-extrabold text-black md:text-[clamp(2.5rem,0.2143rem+4.7619vw,4.5rem)] md:leading-[clamp(2.5rem,0.2143rem+4.7619vw,4.5rem)] max-md:text-4xl">
+  <div
+    class="flex flex-col gap-8 max-md:gap-5 md:pt-11 md:p-[clamp(1.25rem,2.1786rem+-1.9345vw,0.4375rem)] max-md:px-4 max-md:py-10 max-md:pb-0 max-md:max-h-[1200px] md:max-w-[50%]"
+  >
+    <h1
+      class="font-integral font-extrabold text-black md:text-[clamp(2.5rem,0.2143rem+4.7619vw,4.5rem)] md:leading-[clamp(2.5rem,0.2143rem+4.7619vw,4.5rem)] max-md:text-4xl"
+      id="hero-heading"
+    >
       FIND CLOTHES THAT MATCHES YOUR STYLE
     </h1>
     <p class="text-primary">
@@ -15,8 +21,9 @@ import Starlight from "@icons/Starlight.astro";
       designed to bring out your individuality and cater to your sense of style.
     </p>
     <button
-      type="button"
       class="btn bg-black text-white rounded-full py-4 px-14 md:w-fit"
+      aria-label="Shop Now"
+      type="button"
     >
       Shop Now
     </button>
@@ -36,8 +43,15 @@ import Starlight from "@icons/Starlight.astro";
     </div>
   </div>
   <span class="relative flex flex-col">
-    <Starlight className="absolute top-1/2 z-10" />
-    <img class="md:mx-auto mt-auto" src="/imgs/hero-pattern.webp" alt="">
+    <Starlight className="absolute left-4 top-1/2 z-10" aria-hidden="true" />
+    <Image
+      alt="Decorative hero pattern displaying fashion elements"
+      class="md:mx-auto mt-auto w-auto"
+      src="/imgs/hero-pattern.webp"
+      loading="eager"
+      width={100}
+      height={200}
+    />
     <Starlight className="absolute md:top-16 top-0 right-5 !w-[104px] z-10" />
   </span>
 </section>
