@@ -1,6 +1,14 @@
+import plugin from 'tailwindcss/plugin';
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  safelist: [
+    {
+      pattern: /rating-star-\[.*\]/, // Conserva las clases coincidentes como rating-star-[1.0]
+      variants: ['responsive'], // Asegura que las variantes se incluyan también
+    },
+  ],
 	theme: {
 		extend: {
       screens: {
@@ -16,7 +24,7 @@ export default {
         clamp: "clamp(1.5rem, 5vw, 3rem)",
       },
       fontFamily: {
-        sans: ['Satoshi-Regular', 'sans-serif'],
+        sans: ['Satoshi', 'sans-serif'],
         integral: ['IntegralCF-Regular', 'sans-serif'],
       },
       colors: {
@@ -54,5 +62,44 @@ export default {
       },
     },
 	},
-	plugins: [require('daisyui')],
+	plugins: [require('daisyui'),
+    plugin(function ({ addComponents, addUtilities }) {
+      // Estilos base para las estrellas
+      addComponents({
+        '.rating-star': {
+          fontStyle: 'normal',
+          display: 'inline-block',
+          position: 'relative',
+          unicodeBidi: 'bidi-override',
+          width: 'fit-content',
+        },
+        '.rating-star::before': {
+          display: 'block',
+          content: '"★★★★★"',
+          color: '#dddddd6e',
+        },
+        '.rating-star::after': {
+          position: 'absolute',
+          top: '0',
+          content: '"★★★★★"',
+          width: '0', // Ancho inicial
+          color: '#FFC633',
+          overflow: 'hidden',
+          height: '100%',
+          display: 'flex',
+        },
+      });
+
+      // Generar utilidades para los valores de rating
+      const starWidths = {};
+      for (let i = 0; i <= 5; i += 0.1) {
+        const value = i.toFixed(1).replace('.', '\\.'); // Escapar el punto
+        starWidths[`.rating-star-\\[${value}\\]::after`] = {
+          width: `${i * 20}%`,
+        };
+      }
+
+      addUtilities(starWidths, ['responsive']);
+    })
+  ],
 }

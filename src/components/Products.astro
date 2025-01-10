@@ -1,0 +1,244 @@
+---
+import CardProduct from "./CardProduct.astro";
+import { Image } from "astro:assets";
+
+type Product = {
+  title: string;
+  thumbnailUrl: string;
+  rating: string;
+  discount: number | undefined;
+  price: number;
+};
+
+const newArrivals = [
+  {
+    title: "T-shirt with Tape Details",
+    thumbnailUrl: "/imgs/t-shirt.webp",
+    rating: "4.5",
+    discount: undefined,
+    price: 120
+  },
+  {
+    title: "Skinny Fit Jeans",
+    thumbnailUrl: "/imgs/fit-jeans.webp",
+    rating: "3.5",
+    discount: 20,
+    price: 240
+  },
+  {
+    title: "Checkered Shirt",
+    thumbnailUrl: "/imgs/checkered-shirt.webp",
+    rating: "4.5",
+    discount: undefined,
+    price: 180
+  },
+  {
+    title: "Sleeve Striped T-shirt",
+    thumbnailUrl: "/imgs/striped-t-shirt.webp",
+    rating: "4.5",
+    discount: 30,
+    price: 130
+  }
+] as Product[];
+
+const topSellings = [
+  {
+    title: "Vertical Striped Shirt",
+    thumbnailUrl: "/imgs/striped-shirt.webp",
+    rating: "5",
+    discount: 20,
+    price: 212
+  },
+  {
+    title: "Courage Graphic T-shirt",
+    thumbnailUrl: "/imgs/courage-t-shirt.webp",
+    rating: "4",
+    discount: undefined,
+    price: 145
+  },
+  {
+    title: "Loose Fit Bermuda Shorts",
+    thumbnailUrl: "/imgs/bermuda-shorts.webp",
+    rating: "3.0",
+    discount: undefined,
+    price: 80
+  },
+  {
+    title: "Faded Skinny Jeans",
+    thumbnailUrl: "/imgs/skinny-jeans.webp",
+    rating: "4.5",
+    discount: undefined,
+    price: 210
+  }
+] as Product[];
+---
+
+<section aria-labelledby="products" class="px-24 max-md:px-4 w-screen">
+  <!-- Nueva Llegada -->
+  <section aria-labelledby="new-arrivals-header" class="pt-[72px] pb-16">
+    <header>
+      <h2
+        id="new-arrivals-header"
+        class="text-center text-black font-integral font-extrabold text-5xl"
+      >
+        NEW ARRIVALS
+      </h2>
+    </header>
+    <div class="overflow-x-auto max-md:w-[calc(100vw-16px)] pb-2">
+      <ul class="flex gap-5 justify-evenly mt-14 min-w-[1075px]">
+        {
+          newArrivals.map((product) => (
+            <li>
+              <CardProduct
+                thumbnailUrl={product.thumbnailUrl}
+                discount={product.discount}
+                rating={product.rating}
+                title={product.title}
+                price={product.price}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="flex justify-center mt-7">
+      <a
+        class="block max-md:w-full py-3 px-14 border border-opacity-10 rounded-full mx-auto text-center"
+        aria-label="Show all new arrivals"
+        href="/"
+      >
+        View All
+      </a>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- Más Vendidos -->
+  <section aria-labelledby="top-selling-header" class="py-16">
+    <header>
+      <h2
+        id="top-selling-header"
+        class="text-center text-black font-integral font-extrabold text-5xl"
+      >
+        TOP SELLING
+      </h2>
+    </header>
+    <div class="overflow-x-auto max-md:w-[calc(100vw-16px)] pb-2">
+      <ul class="flex gap-5 justify-evenly mt-14 min-w-[1075px]">
+        {
+          topSellings.map((product) => (
+            <li>
+              <CardProduct
+                thumbnailUrl={product.thumbnailUrl}
+                discount={product.discount}
+                rating={product.rating}
+                title={product.title}
+                price={product.price}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="flex justify-center mt-7">
+      <a
+        class="block max-md:w-full py-3 px-14 border border-opacity-10 rounded-full mx-auto text-center"
+        aria-label="Show all top selling products"
+        href="/"
+      >
+        View All
+      </a>
+    </div>
+  </section>
+
+  <!-- Buscar por estilo de vestimenta -->
+  <section
+    aria-labelledby="browse-by-dress-style"
+    class="bg-[#F0F0F0] mt-4 mb-6 rounded-[40px] px-16 pt-[70px] pb-[76px] max-md:px-6 max-md:py-10"
+  >
+    <header>
+      <h3
+        id="browse-by-dress-style"
+        class="text-center text-black font-integral font-extrabold text-5xl"
+      >
+        BROWSE BY DRESS STYLE
+      </h3>
+    </header>
+
+    <div class="mt-16 flex flex-col gap-5">
+      <div class="flex max-nav:flex-col justify-center gap-5 w-full">
+        <a aria-label="View casual style products" class="relative" href="/">
+          <figure>
+            <Image
+              class="w-full md:h-[289px] max-nav:h-[190px] object-cover rounded-3xl"
+              src="/imgs/casual-style.webp"
+              alt="Casual Style"
+              loading="eager"
+              height={289}
+              width={407}
+            />
+            <figcaption class="absolute left-9 top-6 font-bold text-4xl">
+              Casual
+            </figcaption>
+          </figure>
+        </a>
+        <a
+          aria-label="View formal style products"
+          class="relative max-w-[880px] grow bg-white rounded-3xl flex justify-end"
+          href=""
+        >
+          <figure>
+            <Image
+              class="w-auto md:h-[289px] max-nav:h-[190px] object-cover rounded-3xl"
+              src="/imgs/formal-style.webp"
+              alt="Formal Style"
+              loading="eager"
+              height={289}
+              width={407}
+            />
+            <figcaption class="absolute left-9 top-6 font-bold text-4xl">
+              Formal
+            </figcaption>
+          </figure>
+        </a>
+      </div>
+      <div class="flex max-nav:flex-col justify-center gap-5 w-full">
+        <a
+          aria-label="View party style products"
+          class="relative max-w-[880px] grow bg-white rounded-3xl flex justify-end"
+          href=""
+        >
+          <figure>
+            <Image
+              class="w-auto md:h-[289px] max-nav:h-[190px] object-cover rounded-3xl"
+              src="/imgs/party-style.webp"
+              alt="Party Style"
+              loading="eager"
+              height={289}
+              width={407}
+            />
+            <figcaption class="absolute left-9 top-6 font-bold text-4xl">
+              Party
+            </figcaption>
+          </figure>
+        </a>
+        <a aria-label="View gym style products" class="relative" href="">
+          <figure>
+            <Image
+              class="nav:w-[407px] w-full md:h-[289px] max-nav:h-[190px] object-cover rounded-3xl"
+              src="/imgs/gym-style.webp"
+              alt="Gym Style"
+              loading="eager"
+              height={289}
+              width={407}
+            />
+            <figcaption class="absolute left-9 top-6 font-bold text-4xl">
+              Gym
+            </figcaption>
+          </figure>
+        </a>
+      </div>
+    </div>
+  </section>
+</section>

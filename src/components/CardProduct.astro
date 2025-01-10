@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+
+type Product = {
+  title: string;
+  price: number;
+  rating: string;
+  discount?: number;
+  thumbnailUrl: string;
+};
+
+const {
+  title,
+  price,
+  discount,
+  thumbnailUrl,
+  rating: r
+} = Astro.props as Product;
+
+const rating = parseFloat(r).toFixed(1);
+const previousPrice = discount
+  ? (price / (1 - discount / 100)).toFixed(2)
+  : null;
+---
+
+<article aria-labelledby={`product-title-${title}`}>
+  <figure>
+    <Image
+      class="aspect-[99/100] w-[295px] rounded-[20px]"
+      onerror={`this.src = "/imgs/not-found.webp"`}
+      src={thumbnailUrl ?? "/imgs/not-found.webp"}
+      loading="eager"
+      height={297}
+      width={295}
+      alt={title}
+    />
+  </figure>
+
+  <div class="flex flex-col gap-2 mt-4 text-black">
+    <h3 class="font-bold text-xl">{title}</h3>
+
+    <div class="inline-flex justify-start gap-1">
+      <!-- Estrellas de Calificación -->
+      <span
+        class={`text-xl -my-[6px] inline-flex rating-star rating-star-[${rating}]`}
+        aria-label={`Calificación de ${rating} de 5`}
+        role="img"></span>
+      <p class="text-sm">
+        {rating}/<span class="opacity-60">5</span>
+      </p>
+    </div>
+
+    <div class="inline-flex items-center gap-3">
+      <!-- Precio Actual -->
+      <data class="font-bold text-2xl" value="120">${price ?? "$"}</data>
+
+      <!-- Precio Anterior con Descuento -->
+      {
+        discount && previousPrice && (
+          <>
+            <s class="font-bold text-2xl opacity-40">${previousPrice}</s>
+            <span class="bg-[#FF333310] text-[#FF3333] rounded-full py-[6px] px-[14px]">
+              -{discount}%
+            </span>
+          </>
+        )
+      }
+    </div>
+  </div>
+</article>
