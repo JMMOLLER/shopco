@@ -1,0 +1,150 @@
+---
+import CardReviews from "./CardReviews.astro";
+import "@splidejs/splide/css";
+
+const reviews = [
+  {
+    comment:
+      "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
+    username: "John D.",
+    rating: "5"
+  },
+  {
+    comment:
+      "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
+    username: "Sarah M.",
+    rating: "5"
+  },
+  {
+    comment:
+      "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes and occasions.",
+    username: "Alex K.",
+    rating: "5"
+  },
+  {
+    comment:
+      "As someone who's always on the lookout for unique fashion pieces, I'm thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
+    username: "James L.",
+    rating: "5"
+  },
+  {
+    comment:
+      "As someone who's always on the lookout for unique fashion pieces, I'm thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
+    username: "Mooen",
+    rating: "5"
+  }
+];
+---
+
+<section class="py-20 max-md:py-12" role="region" aria-labelledby="customers-heading">
+  <header
+    class="text-start px-[100px] max-md:px-4 pb-10 inline-flex justify-between items-end w-full"
+  >
+    <h2
+      id="customers-heading"
+      class="text-black font-integral font-extrabold text-[clamp(2rem,0.8571rem+2.381vw,3rem)]"
+    >
+      OUR HAPPY CUSTOMERS
+    </h2>
+
+    <!-- SLIDER BUTTONS -->
+    <nav
+      aria-label="Customer reviews carousel navigation"
+      class="inline-flex gap-x-4"
+    >
+      <button id="slide-previous" aria-label="Previous reviews" type="button">
+        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="m9.704 4.454-6.75 6.75a1.124 1.124 0 0 0 0 1.594l6.75 6.75a1.127 1.127 0 0 0 1.594-1.594l-4.83-4.829H20.25a1.125 1.125 0 1 0 0-2.25H6.469l4.83-4.829a1.127 1.127 0 1 0-1.594-1.594v.002Z"
+            fill="#000"
+          >
+          </path>
+        </svg>
+      </button>
+      <button id="slide-next" aria-label="Next reviews" type="button">
+        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="m14.296 4.454 6.75 6.75a1.124 1.124 0 0 1 0 1.594l-6.75 6.75a1.127 1.127 0 0 1-1.594-1.594l4.83-4.829H3.75a1.125 1.125 0 1 1 0-2.25h13.781l-4.83-4.829a1.127 1.127 0 1 1 1.594-1.594v.002Z"
+            fill="#000"
+          >
+          </path>
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- SLIDER -->
+  <div
+    class="splide w-screen"
+    role="group"
+    aria-label="Comments of our customers"
+  >
+    <div
+      class="splide__track before:absolute before:top-0 before:left-0 before:block before:w-[100px] max-md:before:w-0 before:h-full before:z-10 before:backdrop-blur-[2px] after:absolute after:top-0 after:right-0 after:block after:w-[100px] max-md:after:w-0 after:h-full after:z-10 after:backdrop-blur-[2px]"
+    >
+      <ul class="splide__list">
+        {
+          reviews.map((review) => (
+            <li class="splide__slide">
+              <CardReviews
+                className="max-w-[400px] h-full"
+                type="summary"
+                comment={review.comment}
+                username={review.username}
+                rating={review.rating}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  import Splide from "@splidejs/splide";
+  const isMobile = window.innerWidth < 768;
+  const isMinWidth = window.innerWidth < 390;
+
+  const splide = new Splide(".splide", {
+    gap: "20px",
+    type: "loop",
+    arrows: false,
+    pagination: false,
+    fixedWidth: !isMinWidth ? "400px" : "350px",
+    perPage: !isMobile ? 3 : 1,
+    padding: {
+      right: !isMobile ? "100px" : "16px",
+      left: !isMobile ? "100px" : "16px"
+    }
+  }).mount();
+
+  splide.event.on("resize", () => {
+    if (window.innerWidth < 438) {
+      console.log("here");
+      splide.options.fixedWidth = "350px";
+    } else {
+      splide.options.fixedWidth = "400px";
+    }
+
+    if (window.innerWidth < 768) {
+      splide.options.perPage = 1;
+      splide.options.padding = "16px";
+    } else {
+      splide.options.perPage = 3;
+      splide.options.padding = "100px";
+    }
+
+    splide.refresh();
+  });
+
+  const btnPrevious = document.getElementById("slide-previous")!;
+  const btnNext = document.getElementById("slide-next")!;
+
+  btnPrevious.addEventListener("click", () => {
+    splide.go("<");
+  });
+  btnNext.addEventListener("click", () => {
+    splide.go(">");
+  });
+</script>

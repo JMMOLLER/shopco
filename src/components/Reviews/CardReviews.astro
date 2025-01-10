@@ -1,0 +1,84 @@
+---
+import VerifiedIcon from "@assets/verified.svg?raw";
+
+type CardReviews = {
+  rating: string;
+  username: string;
+  comment: string;
+  className?: string;
+  type?: "summary" | "full";
+};
+
+const {
+  comment,
+  username,
+  className,
+  type = "full",
+  rating: r
+} = Astro.props as CardReviews;
+
+const rating = parseFloat(r).toFixed(1);
+const typeFullStyle = type === "full" ? "pr-6" : "pr-0";
+---
+
+<article
+  class={`border border-opacity-10 rounded-3xl bg-white px-8 py-7 flex flex-col justify-start ${className || ""}`}
+>
+  <div class={`relative ${typeFullStyle}`}>
+    <!-- Estrellas de Calificación -->
+    <span
+      class={`text-2xl -my-2 inline-flex rating-star rating-star-[${rating}]`}
+      aria-label={`Calificación de ${rating} de 5`}
+      role="img"
+    >
+    </span>
+
+    <!-- Desplegable -->
+    {
+      type === "full" && (
+        <button
+          class="absolute right-0 w-6 h-6"
+          aria-label="Opciones de la reseña"
+          aria-expanded="false"
+          type="button"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            role="img"
+            width="24"
+            height="24"
+          >
+            <path
+              d="M14.625 12a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0ZM4.5 9.375a2.625 2.625 0 1 0 0 5.25 2.625 2.625 0 0 0 0-5.25Zm15 0a2.625 2.625 0 1 0 0 5.25 2.625 2.625 0 0 0 0-5.25Z"
+              fill="#000"
+              fill-opacity=".4"
+            ></path>
+          </svg>
+        </button>
+      )
+    }
+  </div>
+
+  <!-- Nombre de Usuario -->
+  <div class={`inline-flex gap-x-1 items-center mt-2 ${typeFullStyle}`}>
+    <h3 class="font-bold text-black text-xl">{username}</h3>
+    <Fragment set:html={VerifiedIcon} />
+  </div>
+
+  <!-- Comentario -->
+  <p class={`text-primary text-base mt-1 ${typeFullStyle}`}>
+    "{comment}"
+  </p>
+
+  <!-- Fecha de Publicación -->
+  {
+    type === "full" && (
+      <p
+        class={`text-black text-opacity-60 font-medium text-base mt-6 ${typeFullStyle}`}
+      >
+        Posted on August 18, 2023
+      </p>
+    )
+  }
+</article>
