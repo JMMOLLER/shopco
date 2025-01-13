@@ -1,0 +1,29 @@
+---
+interface ColorSelectorProps {
+  content?: string;
+  name?: string;
+  id?: string;
+}
+
+const { id, name, content } = Astro.props as ColorSelectorProps;
+---
+
+<label
+  for="color"
+  class="relative bg-[#F0F0F0] py-3 px-5 rounded-full text-sm overflow-hidden transition-colors"
+>
+  <input
+    class="absolute z-20 w-full h-full left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 opacity-0 cursor-pointer"
+    type="checkbox"
+    name={name}
+    id={id}
+  />
+  <span>{content}</span>
+</label>
+
+<style>
+  label:has(input:checked) {
+    background-color: #000;
+    color: #fff;
+  }
+</style>

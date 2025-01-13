@@ -1,0 +1,26 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Filters from "@components/Filters.astro";
+import FetchProducts from "@components/react-components/FetchProducts";
+
+export const prerender = true
+---
+
+<Layout
+  title="Shop"
+  className="grid grid-cols-[0.5fr_1fr_1fr] grid-rows-[auto_1fr_1fr_1fr_auto] gap-x-5 gap-y-6 px-24 pb-20"
+>
+  <!-- BREADCRUMB -->
+  <div class="col-span-3 breadcrumbs text-sm py-0">
+    <ul class="text-primary">
+      <li><a aria-label="Go to Home" href="/">Home</a></li>
+      <li class="text-black">Shop</li>
+    </ul>
+  </div>
+
+  <!-- ASIDE -->
+  <Filters />
+
+  <!-- PRODUCTS CONTENT -->
+  <FetchProducts client:load />
+</Layout>

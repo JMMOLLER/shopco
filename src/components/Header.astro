@@ -15,14 +15,17 @@ import MobileNav from "@components/react-components/MobileNav";
   <!-- MOBILE MENU END -->
 
   <!-- LOGOTIPO - Envolviendo la imagen en un enlace -->
-  <Image
-    class="h-5 w-auto"
-    alt="Shop.co logo"
-    loading="eager"
-    src="/logo.svg"
-    height={20}
-    width={127}
-  />
+  <a aria-label="Go to home" href="/">
+    <Image
+      decoding="sync"
+      class="h-5 w-auto"
+      alt="Shop.co logo"
+      loading="eager"
+      src="/logo.svg"
+      height={20}
+      width={127}
+    />
+  </a>
 
   <!-- NAVEGACIÓN PRINCIPAL -->
   <nav class="max-nav:hidden">
@@ -47,7 +50,7 @@ import MobileNav from "@components/react-components/MobileNav";
               aria-label="Ir a Item 1"
               role="menuitem"
               class="text-nowrap"
-              href="/">Item 1</a
+              href="/shop">All</a
             >
           </li>
           <li>

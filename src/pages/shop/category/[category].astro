@@ -1,0 +1,12 @@
+---
+import { fetchCategories } from '../../../utils/fetchCategories'
+
+export const prerender = false;
+
+const { category } = Astro.params;
+---
+
+<section>
+  Products category [{category}]
+
+</section>

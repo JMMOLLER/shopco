@@ -6,7 +6,7 @@ import "@styles/daisyui.css";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 
-const { title = "Shop.Co" } = Astro.props as MainLayoutProps;
+const { className, title = "Shop.Co" } = Astro.props as MainLayoutProps;
 ---
 
 <!doctype html>
@@ -20,7 +20,7 @@ const { title = "Shop.Co" } = Astro.props as MainLayoutProps;
   </head>
   <body>
     <Header />
-    <main>
+    <main class={className}>
       <slot />
     </main>
     <Footer />

@@ -7,3 +7,80 @@
     }
   }
 }
+
+.breadcrumbs {
+  & ul li {
+    cursor: default;
+
+    &:before {
+      opacity: 1;
+      color: rgba(0, 0, 0, 0.747);
+      margin-top: 3px;
+    }
+  }
+}
+
+.join {
+  gap: 2px;
+  height: 40px;
+
+  & > button {
+    @apply rounded-lg bg-transparent border-none text-primary w-10 h-auto min-h-0;
+  }
+  & > button.active {
+    @apply bg-black bg-opacity-10 text-black;
+  }
+
+  & .join-item:first-child:not(:last-child),
+  &:first-child:not(:last-child) .join-item {
+    border-start-end-radius: inherit;
+    border-end-end-radius: inherit;
+  }
+
+  & .join-item:not(:first-child):not(:last-child),
+  & :not(:first-child):not(:last-child) .join-item {
+    border-start-end-radius: inherit;
+    border-end-end-radius: inherit;
+    border-end-start-radius: inherit;
+    border-start-start-radius: inherit;
+  }
+
+  & > .btn-disabled {
+    @apply bg-transparent text-gray-400;
+  }
+  
+  & > .btn {
+    @apply font-medium
+  }
+}
+
+.collapse-title,
+:where(.collapse > input[type="checkbox"]),
+:where(.collapse > input[type="radio"]) {
+  min-height: 1.688rem;
+  padding: 0;
+}
+
+:where(.collapse > input[type="checkbox"]),
+:where(.collapse > input[type="radio"]) {
+  height: 1.688rem;
+}
+
+.collapse-arrow > .collapse-title::after {
+  top: 0.9rem;
+  inset-inline-end: 0.5rem;
+}
+
+.collapse-content {
+  padding: 0;
+}
+
+.collapse[open] > :where(.collapse-content),
+.collapse-open > :where(.collapse-content),
+.collapse:focus:not(.collapse-close) > :where(.collapse-content),
+.collapse:not(.collapse-close)
+  > :where(input[type="checkbox"]:checked ~ .collapse-content),
+.collapse:not(.collapse-close)
+  > :where(input[type="radio"]:checked ~ .collapse-content) {
+  padding-bottom: 0;
+}

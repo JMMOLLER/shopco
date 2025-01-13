@@ -1,0 +1,168 @@
+---
+import ArrowDown from "@icons/ArrowDown.astro";
+import SizeSelector from "@components/SizeSelector.astro";
+import ColorSelector from "@components/ColorSelector.astro";
+import DualRangeSlider from "@components/react-components/DualRangeSlider";
+---
+
+<aside class="row-span-4 row-start-2 py-5 px-6 border rounded-3xl h-fit">
+  <!-- HEADER -->
+  <div class="inline-flex justify-between items-center w-full">
+    <h4 class="font-bold text-xl">Filters</h4>
+    <svg
+      width="24"
+      height="25"
+      viewBox="0 0 24 25"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.125 12.125v8.625a1.125 1.125 0 1 1-2.25 0v-8.625a1.125 1.125 0 1 1 2.25 0ZM18.75 18.5a1.125 1.125 0 0 0-1.125 1.125v1.125a1.125 1.125 0 1 0 2.25 0v-1.125A1.125 1.125 0 0 0 18.75 18.5ZM21 14.75h-1.125V4.25a1.125 1.125 0 1 0-2.25 0v10.5H16.5a1.125 1.125 0 1 0 0 2.25H21a1.125 1.125 0 1 0 0-2.25Zm-15.75.75a1.125 1.125 0 0 0-1.125 1.125v4.125a1.125 1.125 0 0 0 2.25 0v-4.125A1.125 1.125 0 0 0 5.25 15.5Zm2.25-3.75H6.375v-7.5a1.125 1.125 0 0 0-2.25 0v7.5H3A1.125 1.125 0 1 0 3 14h4.5a1.125 1.125 0 1 0 0-2.25Zm6.75-4.5h-1.125v-3a1.125 1.125 0 1 0-2.25 0v3H9.75a1.125 1.125 0 0 0 0 2.25h4.5a1.125 1.125 0 0 0 0-2.25Z"
+        fill="#000"
+        fill-opacity=".4"
+      >
+      </path>
+    </svg>
+  </div>
+
+  <hr class="my-6" />
+
+  <!-- CATEGORY -->
+  <div class="text-primary flex flex-col gap-y-3">
+    <a
+      href="/"
+      aria-label="Go to category"
+      class="inline-flex w-full justify-between items-center hover:underline"
+    >
+      T-Shirts <ArrowDown className="-rotate-90 text-black opacity-55" />
+    </a>
+    <a
+      href="/"
+      aria-label="Go to category"
+      class="inline-flex w-full justify-between items-center hover:underline"
+    >
+      Shorts <ArrowDown className="-rotate-90 text-black opacity-55" />
+    </a>
+    <a
+      href="/"
+      aria-label="Go to category"
+      class="inline-flex w-full justify-between items-center hover:underline"
+    >
+      Shirts <ArrowDown className="-rotate-90 text-black opacity-55" />
+    </a>
+    <a
+      href="/"
+      aria-label="Go to category"
+      class="inline-flex w-full justify-between items-center hover:underline"
+    >
+      Jeans <ArrowDown className="-rotate-90 text-black opacity-55" />
+    </a>
+  </div>
+
+  <hr class="mt-6" />
+
+  <!-- DUALSLIDER -->
+  <div class="collapse collapse-arrow bg-transparent mt-6">
+    <input type="checkbox" />
+    <div class="collapse-title text-xl font-medium">Price</div>
+    <div class="collapse-content mt-5">
+      <!-- COLLAPSE CONTENT -->
+      <DualRangeSlider min={0} max={100} client:load />
+    </div>
+  </div>
+
+  <hr class="mt-1" />
+
+  <!-- COLORS -->
+  <div class="collapse collapse-arrow bg-transparent mt-6">
+    <input type="checkbox" />
+    <div class="collapse-title text-xl font-medium">Colors</div>
+    <div class="collapse-content mt-5 flex flex-wrap gap-4">
+      <!-- COLLAPSE CONTENT -->
+      <ColorSelector className="bg-green-500" />
+      <ColorSelector className="bg-red-500" />
+      <ColorSelector className="bg-yellow-500" />
+      <ColorSelector className="bg-orange-500" />
+      <ColorSelector className="bg-cyan-500" />
+      <ColorSelector className="bg-blue-500" />
+      <ColorSelector className="bg-purple-500" />
+      <ColorSelector className="bg-pink-500" />
+      <ColorSelector className="bg-white" />
+      <ColorSelector />
+    </div>
+  </div>
+
+  <hr class="mt-1" />
+
+  <!-- SIZE -->
+  <div class="collapse collapse-arrow bg-transparent mt-6">
+    <input type="checkbox" />
+    <div class="collapse-title text-xl font-medium">Size</div>
+    <div class="collapse-content mt-5 flex flex-wrap justify-start gap-2">
+      <!-- COLLAPSE CONTENT -->
+      <SizeSelector content="XX-Small" />
+      <SizeSelector content="X-Small" />
+      <SizeSelector content="Small" />
+      <SizeSelector content="Medium" />
+      <SizeSelector content="Large" />
+      <SizeSelector content="X-Large" />
+      <SizeSelector content="XX-Large" />
+      <SizeSelector content="3X-Large" />
+      <SizeSelector content="4X-Large" />
+    </div>
+  </div>
+
+  <hr class="mt-1" />
+
+  <!-- DRESS STYLE -->
+  <div class="collapse collapse-arrow bg-transparent mt-6">
+    <input type="checkbox" />
+    <div class="collapse-title text-xl font-medium">Dress Style</div>
+    <div
+      class="collapse-content mt-5 flex flex-wrap justify-start gap-2 text-primary"
+    >
+      <!-- COLLAPSE CONTENT -->
+      <a
+        href="/"
+        aria-label="Go to category"
+        class="inline-flex w-full justify-between items-center hover:underline"
+      >
+        Casual <ArrowDown className="-rotate-90 text-black opacity-55" />
+      </a>
+      <a
+        href="/"
+        aria-label="Go to category"
+        class="inline-flex w-full justify-between items-center hover:underline"
+      >
+        Formal <ArrowDown className="-rotate-90 text-black opacity-55" />
+      </a>
+      <a
+        href="/"
+        aria-label="Go to category"
+        class="inline-flex w-full justify-between items-center hover:underline"
+      >
+        Party <ArrowDown className="-rotate-90 text-black opacity-55" />
+      </a>
+      <a
+        href="/"
+        aria-label="Go to category"
+        class="inline-flex w-full justify-between items-center hover:underline"
+      >
+        Gym <ArrowDown className="-rotate-90 text-black opacity-55" />
+      </a>
+    </div>
+  </div>
+
+  <button
+    class="py-4 px-14 bg-black text-white rounded-full w-full"
+    type="button">Apply Filter</button
+  >
+</aside>
+
+<style>
+  .collapse:has(> input[type="checkbox"]:checked) + button,
+  .collapse:has(> input[type="radio"]:checked) + button,
+  .collapse:has(> input[type="checkbox"]:checked) + hr,
+  .collapse:has(> input[type="radio"]:checked) + hr {
+    margin-top: 24px;
+  }
+</style>

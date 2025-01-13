@@ -1,17 +1,10 @@
 ---
-import CardProduct from "./CardProduct.astro";
+import CardProduct from "@components/react-components/CardProduct.tsx";
 import { Image } from "astro:assets";
-
-type Product = {
-  title: string;
-  thumbnailUrl: string;
-  rating: string;
-  discount: number | undefined;
-  price: number;
-};
 
 const newArrivals = [
   {
+    id: 1,
     title: "T-shirt with Tape Details",
     thumbnailUrl: "/imgs/t-shirt.webp",
     rating: "4.5",
@@ -19,6 +12,7 @@ const newArrivals = [
     price: 120
   },
   {
+    id: 2,
     title: "Skinny Fit Jeans",
     thumbnailUrl: "/imgs/fit-jeans.webp",
     rating: "3.5",
@@ -26,6 +20,7 @@ const newArrivals = [
     price: 240
   },
   {
+    id: 3,
     title: "Checkered Shirt",
     thumbnailUrl: "/imgs/checkered-shirt.webp",
     rating: "4.5",
@@ -33,6 +28,7 @@ const newArrivals = [
     price: 180
   },
   {
+    id: 4,
     title: "Sleeve Striped T-shirt",
     thumbnailUrl: "/imgs/striped-t-shirt.webp",
     rating: "4.5",
@@ -43,6 +39,7 @@ const newArrivals = [
 
 const topSellings = [
   {
+    id: 5,
     title: "Vertical Striped Shirt",
     thumbnailUrl: "/imgs/striped-shirt.webp",
     rating: "5",
@@ -50,6 +47,7 @@ const topSellings = [
     price: 212
   },
   {
+    id: 6,
     title: "Courage Graphic T-shirt",
     thumbnailUrl: "/imgs/courage-t-shirt.webp",
     rating: "4",
@@ -57,6 +55,7 @@ const topSellings = [
     price: 145
   },
   {
+    id: 7,
     title: "Loose Fit Bermuda Shorts",
     thumbnailUrl: "/imgs/bermuda-shorts.webp",
     rating: "3.0",
@@ -64,6 +63,7 @@ const topSellings = [
     price: 80
   },
   {
+    id: 8,
     title: "Faded Skinny Jeans",
     thumbnailUrl: "/imgs/skinny-jeans.webp",
     rating: "4.5",
@@ -93,8 +93,11 @@ const topSellings = [
                 thumbnailUrl={product.thumbnailUrl}
                 discount={product.discount}
                 rating={product.rating}
+                timestamp={new Date()}
                 title={product.title}
                 price={product.price}
+                id={product.id}
+                client:load
               />
             </li>
           ))
@@ -133,8 +136,11 @@ const topSellings = [
                 thumbnailUrl={product.thumbnailUrl}
                 discount={product.discount}
                 rating={product.rating}
+                timestamp={new Date()}
                 title={product.title}
                 price={product.price}
+                id={product.id}
+                client:load
               />
             </li>
           ))
