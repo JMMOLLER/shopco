@@ -1,5 +1,18 @@
 ---
-const { title, className, id, price, discount, ...props } = Astro.props;
+import { Image } from "astro:assets";
+
+type CardProduct = {
+  title: string;
+  className?: string;
+  id: string;
+  price: number;
+  discount: number;
+  rating: number;
+  thumbnailUrl: string;
+  loading: "lazy" | "eager";
+};
+
+const { title, className, id, price, discount, ...props } = Astro.props as CardProduct;
 
 const rating = parseFloat(String(props.rating)).toFixed(1);
 const previousPrice = discount
@@ -7,13 +20,15 @@ const previousPrice = discount
   : null;
 ---
 
-<article aria-labelledby={`product-title-${title}`} class={className}>
-  <figure>
-    <img
+<article aria-label={`product-title-${title.replaceAll(' ', '-')}`} class={className}>
+  <figure aria-label="Product Thumbnail">
+    <Image
       onerror={`this.src='/imgs/not-found.webp'`}
       class="aspect-[99/100] w-[295px] rounded-[20px]"
       src={props.thumbnailUrl ?? "/imgs/not-found.webp"}
       loading={props.loading ?? "lazy"}
+      height={295}
+      width={295}
       alt={title}
     />
   </figure>
@@ -35,14 +50,14 @@ const previousPrice = discount
         class={`text-xl -my-[6px] inline-flex rating-star rating-star-[${rating}]`}
         aria-label={`Calificación de ${rating} de 5`}
         role="img"></span>
-      <p class="text-sm">
+      <p aria-label="rating" class="text-sm">
         {rating}/<span class="opacity-60">5</span>
       </p>
     </div>
 
     <div class="inline-flex items-center gap-3">
       {/* Precio Actual */}
-      <data class="font-bold text-2xl" value="120">
+      <data aria-label="current price" class="font-bold text-2xl" value="120">
         ${price ?? "$"}
       </data>
 
@@ -50,8 +65,8 @@ const previousPrice = discount
       {
         discount && previousPrice && (
           <>
-            <s class="font-bold text-2xl opacity-40">${previousPrice}</s>
-            <span class="bg-[#FF333310] text-[#FF3333] rounded-full py-[6px] px-[14px]">
+            <s aria-label="old price" class="font-bold text-2xl opacity-40">${previousPrice}</s>
+            <span aria-label="discount" class="bg-[#FF333310] text-[#FF3333] rounded-full py-[6px] px-[14px]">
               -{discount}%
             </span>
           </>

@@ -25,10 +25,10 @@ export const products = {
 
         // Obtener el total de productos
         const result = await Promise.allSettled(
-          data.map(async (product) => {
+          data.map(async (product, index) => {
             const container = await experimental_AstroContainer.create();
             return await container.renderToString(CardProduct, {
-              props: { ...product, className: "mt-4 w-fit mx-auto" }
+              props: { ...product, className: "mt-4 w-fit mx-auto", loading: index < 8 ? "eager" : "lazy" }
             });
           })
         ).then((results) =>
