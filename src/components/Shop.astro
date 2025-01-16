@@ -1,0 +1,314 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Filters from "@components/Filters.astro";
+import getPageNumbers from "@utils/getPageNumbers";
+import { actions } from "astro:actions";
+
+const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
+const result = await Astro.callAction(actions.getProducts, {
+  page: currentPage,
+  size: 12
+});
+if (!result || result.error) {
+  return Astro.redirect(`/404`);
+}
+
+const { html, total, ...rest } = result.data;
+const pages = getPageNumbers({ ...rest });
+
+const { category } = Astro.params;
+
+export const prerender = false;
+---
+
+<Layout
+  title="Shop"
+  className="grid grid-cols-[0.5fr_1fr_1fr] grid-rows-[auto_1fr_1fr_1fr_auto] gap-x-5 gap-y-6 px-24 pb-20"
+>
+  <!-- BREADCRUMB -->
+  <nav aria-label="breadcrumb" class="col-span-3 breadcrumbs text-sm py-0">
+    <ol
+      aria-label="breadcrumb"
+      itemtype="https://schema.org/BreadcrumbList"
+      class="text-primary"
+      itemscope
+    >
+      <li
+        itemprop="itemListElement"
+        itemtype="https://schema.org/ListItem"
+        itemscope
+      >
+        <a aria-label="Go to Home" href="/">Home</a>
+      </li>
+      <li
+        itemprop="itemListElement"
+        itemtype="https://schema.org/ListItem"
+        class=`${!category ? 'text-black cursor-default' : ''}`
+        aria-current=`${!category ? 'page' : 'false'}`
+        itemscope
+      >
+        {category ? (<a aria-label="Go to Home" href="/shop">Shop</a>) : 'Shop'}
+      </li>
+      {
+        category && (
+          <li
+            itemprop="itemListElement"
+            itemtype="https://schema.org/ListItem"
+            aria-current="page"
+            class="text-black capitalize cursor-default"
+            itemscope
+          >
+            {category}
+          </li>
+        )
+      }
+    </ol>
+  </nav>
+
+  <!-- ASIDE -->
+  <Filters />
+
+  <!-- PRODUCTS CONTENT -->
+  <section aria-label="main" class="col-span-2 row-span-3 row-start-2">
+    <!-- HEADER -->
+    <header aria-label="header" class="flex justify-between items-end">
+      <h3 class="font-bold text-2xl capitalize">{category || 'All'}</h3>
+      <div class="inline-flex gap-x-3 text-primary">
+        <p aria-label="show count of products" id="products__info">
+          Showing {currentPage}-{rest.totalPages} of {total} Products
+        </p>
+        <div aria-label="sort products">
+          <label for="sort">Sort by:</label>
+          <select
+            id="sort"
+            name="sort"
+            class="bg-transparent font-medium text-black text-center cursor-pointer"
+            aria-label="Sort products"
+          >
+            <option value="newest">Newest</option>
+            <option value="price" selected>Most Popular</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENEDOR DE LOS PRODUCTOS -->
+    <div
+      id="products__container"
+      class="grid gap-5 grid-cols-[repeat(auto-fit,minmax(295px,1fr))]"
+      aria-labelledby="products__info"
+      role="region"
+    >
+      <!-- LOADER -->
+      <span
+        id="products__loader"
+        class="mx-auto loading loading-infinity loading-lg hidden"
+        aria-label="Loading products"
+        aria-live="polite"
+        role="status"
+      >
+      </span>
+
+      <!-- LISTA DE PRODUCTOS -->
+      <Fragment set:html={html} />
+    </div>
+  </section>
+
+  <footer class="col-span-2 col-start-2 row-start-5">
+    <hr class="mt-8" />
+    <div class="inline-flex w-full items-center mt-5">
+      {/* Botón Anterior */}
+      <button
+        id="paginator__prev"
+        class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit"
+        type="button"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.8332 6.99996H1.1665M1.1665 6.99996L6.99984 12.8333M1.1665 6.99996L6.99984 1.16663"
+            stroke="black"
+            stroke-width="1.67"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+        Previous
+      </button>
+
+      {/* Botones de Páginas */}
+      <nav
+        id="paginator__container"
+        aria-label="page paginator"
+        class="join mx-auto"
+      >
+        {
+          pages.map((page, index) =>
+            typeof page === "number" ? (
+              <button
+                class={`join-item btn ${currentPage === page ? "active" : ""}`}
+                aria-label={`Pagina ${page}`}
+              >
+                {page}
+              </button>
+            ) : (
+              <button
+                class="join-item btn btn-disabled cursor-default"
+                aria-label="Páginas omitidas"
+                disabled
+              >
+                ...
+              </button>
+            )
+          )
+        }
+      </nav>
+
+      {/* Botón Siguiente */}
+      <button
+        id="paginator__next"
+        class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit"
+        type="button"
+      >
+        Next
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1.1665 6.99996H12.8332M12.8332 6.99996L6.99984 1.16663M12.8332 6.99996L6.99984 12.8333"
+            stroke="black"
+            stroke-width="1.67"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </div>
+  </footer>
+</Layout>
+
+<script>
+  import { actions, isActionError, isInputError } from "astro:actions";
+
+  const paginator = document.querySelectorAll("#paginator__container > *")!;
+  const container = document.getElementById("products__container")!;
+  const loader = document.getElementById("products__loader")!;
+  const btnPrev = document.getElementById("paginator__prev")!;
+  const btnNext = document.getElementById("paginator__next")!;
+  const info = document.getElementById("products__info")!;
+
+  let lastSelectedPage: HTMLElement | null = null;
+
+  const getCurrentPage = () =>
+    parseInt(new URL(location.href).searchParams.get("page") || "1");
+
+  // Eventos de los botones de navegación
+  btnPrev.addEventListener("click", () => handleNavigation("prev"));
+  btnNext.addEventListener("click", () => handleNavigation("next"));
+
+  // Eventos de los botones de paginación
+  paginator.forEach((page) => {
+    if (page.classList.contains("active"))
+      lastSelectedPage = page as HTMLElement;
+    page.addEventListener("click", () => {
+      const currentPage = getCurrentPage();
+      const pageNumber = parseInt(page.textContent!);
+
+      // Evitar recargar la página si ya está seleccionada
+      if (currentPage === pageNumber) return;
+
+      // Actualizar la página seleccionada
+      selectPaginatorPage(pageNumber);
+      fetchProducts(pageNumber);
+    });
+  });
+
+  // Evento del botón del navegador a página anterior
+  window.addEventListener("popstate", async (e) => {
+    const currentPage = getCurrentPage();
+    selectPaginatorPage(currentPage);
+    fetchProducts(currentPage, true);
+  });
+
+  // ===================== FUNCIONES ===================== //
+
+  type IsLoadingProps = {
+    isLoading?: boolean;
+    beforeEnd?: (loader: HTMLElement) => void;
+    afterEnd?: (loader: HTMLElement) => void;
+  };
+
+  function isLoading(props: IsLoadingProps) {
+    const { isLoading = true, beforeEnd, afterEnd } = props;
+
+    afterEnd && afterEnd(loader);
+
+    if (isLoading) {
+      container.classList.replace("grid", "flex");
+      container.classList.add("h-full");
+      loader.classList.remove("hidden");
+    } else {
+      container.classList.replace("flex", "grid");
+      container.classList.remove("h-full");
+      loader.classList.add("hidden");
+    }
+
+    beforeEnd && beforeEnd(loader);
+  }
+
+  async function fetchProducts(page: number, isPopState = false) {
+    // Scroll al inicio de la página
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Esperar a que la página se desplace al inicio
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    // Mostrar el loader y limpiar los productos actuales
+    isLoading({
+      afterEnd: (loader) => {
+        Array.from(container.childNodes).forEach((node) => {
+          if ((node as HTMLElement).id !== loader.id) node.remove();
+        });
+      }
+    });
+
+    // Obtener los productos de la página seleccionada
+    const { data, error } = await actions.getProducts({ page, size: 12 });
+    !isPopState && window.history.pushState({}, "", `?page=${page}`);
+    // Manejar errores de la petición
+    if (isActionError(error)) alert(error.message);
+    else if (isInputError(data)) alert(data.message);
+
+    // Insertar los productos en el contenedor
+    isLoading({
+      isLoading: false,
+      beforeEnd: (loader) => {
+        loader.insertAdjacentHTML("afterend", data!.html);
+        info.textContent = `Showing ${page}-${data!.totalPages} of ${data!.total} Products`;
+      }
+    });
+  }
+
+  function selectPaginatorPage(page: number) {
+    if (!lastSelectedPage)
+      return console.error("No se ha encontrado la página seleccionada");
+
+    lastSelectedPage.classList.remove("active");
+    lastSelectedPage = paginator[page - 1] as HTMLElement;
+    lastSelectedPage.classList.add("active");
+  }
+
+  function handleNavigation(to: "next" | "prev") {
+    const currentPage = getCurrentPage();
+    const nextPage = to === "next" ? currentPage + 1 : currentPage - 1;
+
+    if (nextPage < 1 || nextPage > paginator.length) return;
+
+    selectPaginatorPage(nextPage);
+    fetchProducts(nextPage);
+  }
+</script>
