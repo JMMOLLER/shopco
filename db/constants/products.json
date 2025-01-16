@@ -1,0 +1,473 @@
+[
+  {
+    "title": "T-shirt with Tape Details",
+    "thumbnailUrl": "/imgs/t-shirt.webp",
+    "rating": 4.5,
+    "price": 120
+  },
+  {
+    "title": "Skinny Fit Jeans",
+    "thumbnailUrl": "/imgs/fit-jeans.webp",
+    "rating": 3.5,
+    "discount": 20,
+    "price": 240
+  },
+  {
+    "title": "Checkered Shirt",
+    "thumbnailUrl": "/imgs/checkered-shirt.webp",
+    "rating": 4.5,
+    "price": 180
+  },
+  {
+    "title": "Sleeve Striped T-shirt",
+    "thumbnailUrl": "/imgs/striped-t-shirt.webp",
+    "rating": 4.5,
+    "discount": 30,
+    "price": 130
+  },
+  {
+    "title": "Vertical Striped Shirt",
+    "thumbnailUrl": "/imgs/striped-shirt.webp",
+    "rating": 5,
+    "discount": 20,
+    "price": 212
+  },
+  {
+    "title": "Courage Graphic T-shirt",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4,
+    "price": 145
+  },
+  {
+    "title": "Loose Fit Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3,
+    "price": 80
+  },
+  {
+    "title": "Faded Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.5,
+    "price": 210
+  },
+  {
+    "title": "Courage Graphic T-shirt",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4,
+    "price": 145
+  },
+  {
+    "title": "Loose Fit Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3,
+    "price": 80
+  },
+  {
+    "title": "Faded Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.5,
+    "price": 210
+  },
+  {
+    "title": "Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.3,
+    "price": 155
+  },
+  {
+    "title": "Ripped Skinny Jeans",
+    "thumbnailUrl": "/imgs/fit-jeans.webp",
+    "rating": 3.8,
+    "discount": 10,
+    "price": 250
+  },
+  {
+    "title": "Plaid Shirt",
+    "thumbnailUrl": "/imgs/checkered-shirt.webp",
+    "rating": 4.6,
+    "price": 190
+  },
+  {
+    "title": "Striped Polo Shirt",
+    "thumbnailUrl": "/imgs/striped-t-shirt.webp",
+    "rating": 4.7,
+    "discount": 25,
+    "price": 140
+  },
+  {
+    "title": "Patterned Shirt",
+    "thumbnailUrl": "/imgs/striped-shirt.webp",
+    "rating": 5,
+    "discount": 15,
+    "price": 22
+  },
+  {
+    "title": "Motivational Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.2,
+    "price": 150
+  },
+  {
+    "title": "Comfy Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.5,
+    "price": 85
+  },
+  {
+    "title": "Classic Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.4,
+    "price": 220
+  },
+  {
+    "title": "Inspirational Graphic T-shirt",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.1,
+    "price": 150
+  },
+  {
+    "title": "Relaxed Fit Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.2,
+    "price": 75
+  },
+  {
+    "title": "Vintage Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.7,
+    "price": 215
+  },
+  {
+    "title": "Positive Vibes Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.3,
+    "price": 150
+  },
+  {
+    "title": "Casual Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.4,
+    "price": 70
+  },
+  {
+    "title": "Denim Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.8,
+    "price": 225
+  },
+  {
+    "title": "Cool Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4,
+    "price": 155
+  },
+  {
+    "title": "Comfortable Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.1,
+    "price": 85
+  },
+  {
+    "title": "Stretch Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.6,
+    "price": 230
+  },
+  {
+    "title": "Stay Positive Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.4,
+    "price": 160
+  },
+  {
+    "title": "Summer Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.3,
+    "price": 90
+  },
+  {
+    "title": "Ultimate Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.9,
+    "price": 220
+  },
+  {
+    "title": "Positive Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.3,
+    "price": 160
+  },
+  {
+    "title": "Chill Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.6,
+    "price": 95
+  },
+  {
+    "title": "Innovative Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.3,
+    "price": 158
+  },
+  {
+    "title": "Trendy Skinny Jeans",
+    "thumbnailUrl": "/imgs/fit-jeans.webp",
+    "rating": 3.9,
+    "discount": 18,
+    "price": 235
+  },
+  {
+    "title": "Elegant Checkered Shirt",
+    "thumbnailUrl": "/imgs/checkered-shirt.webp",
+    "rating": 4.8,
+    "price": 185
+  },
+  {
+    "title": "Modern Striped T-shirt",
+    "thumbnailUrl": "/imgs/striped-t-shirt.webp",
+    "rating": 4.6,
+    "discount": 28,
+    "price": 125
+  },
+  {
+    "title": "Classic Striped Shirt",
+    "thumbnailUrl": "/imgs/striped-shirt.webp",
+    "rating": 5,
+    "discount": 22,
+    "price": 218
+  },
+  {
+    "title": "Bold Graphic T-shirt",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.1,
+    "price": 142
+  },
+  {
+    "title": "Sporty Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.3,
+    "price": 78
+  },
+  {
+    "title": "Stylish Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.4,
+    "price": 205
+  },
+  {
+    "title": "Heroic Graphic T-shirt",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.5,
+    "price": 150
+  },
+  {
+    "title": "Casual Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.1,
+    "price": 82
+  },
+  {
+    "title": "Comfort Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.9,
+    "price": 212
+  },
+  {
+    "title": "Graphic Tee Deluxe",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.3,
+    "price": 152
+  },
+  {
+    "title": "Relaxed Fit Jeans",
+    "thumbnailUrl": "/imgs/fit-jeans.webp",
+    "rating": 4,
+    "discount": 15,
+    "price": 245
+  },
+  {
+    "title": "Premium Checkered Shirt",
+    "thumbnailUrl": "/imgs/checkered-shirt.webp",
+    "rating": 4.7,
+    "price": 195
+  },
+  {
+    "title": "Striped Tee",
+    "thumbnailUrl": "/imgs/striped-t-shirt.webp",
+    "rating": 4.5,
+    "discount": 20,
+    "price": 135
+  },
+  {
+    "title": "Vertical Striped Tee",
+    "thumbnailUrl": "/imgs/striped-shirt.webp",
+    "rating": 5,
+    "discount": 17,
+    "price": 225
+  },
+  {
+    "title": "Courageous Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.2,
+    "price": 148
+  },
+  {
+    "title": "Bermuda Comfort Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.4,
+    "price": 77
+  },
+  {
+    "title": "Classic Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.8,
+    "price": 230
+  },
+  {
+    "title": "Stylish Graphic T-shirt",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.3,
+    "price": 145
+  },
+  {
+    "title": "Bermuda Fit Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.2,
+    "price": 83
+  },
+  {
+    "title": "Faded Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.7,
+    "price": 220
+  },
+  {
+    "title": "Courageous Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.4,
+    "price": 160
+  },
+  {
+    "title": "Summer Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.5,
+    "price": 90
+  },
+  {
+    "title": "Vintage Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.8,
+    "price": 215
+  },
+  {
+    "title": "Bold Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.5,
+    "price": 150
+  },
+  {
+    "title": "Chill Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.1,
+    "price": 72
+  },
+  {
+    "title": "Ultimate Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.9,
+    "price": 240
+  },
+  {
+    "title": "Positive Vibes Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.3,
+    "price": 160
+  },
+  {
+    "title": "Chill Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.6,
+    "price": 88
+  },
+  {
+    "title": "Stretch Skinny Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.6,
+    "price": 230
+  },
+  {
+    "title": "Cool Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.4,
+    "price": 154
+  },
+  {
+    "title": "Light Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.4,
+    "price": 95
+  },
+  {
+    "title": "Fashionable Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.2,
+    "price": 150
+  },
+  {
+    "title": "Slim Fit Jeans",
+    "thumbnailUrl": "/imgs/fit-jeans.webp",
+    "rating": 4.1,
+    "discount": 15,
+    "price": 240
+  },
+  {
+    "title": "Stylish Checkered Shirt",
+    "thumbnailUrl": "/imgs/checkered-shirt.webp",
+    "rating": 4.6,
+    "price": 190
+  },
+  {
+    "title": "Striped Long Sleeve T-shirt",
+    "thumbnailUrl": "/imgs/striped-t-shirt.webp",
+    "rating": 4.8,
+    "discount": 30,
+    "price": 135
+  },
+  {
+    "title": "Casual Striped Shirt",
+    "thumbnailUrl": "/imgs/striped-shirt.webp",
+    "rating": 5,
+    "discount": 25,
+    "price": 210
+  },
+  {
+    "title": "Courage Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.5,
+    "price": 155
+  },
+  {
+    "title": "Bermuda Denim Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.7,
+    "price": 80
+  },
+  {
+    "title": "Skinny Fit Denim Jeans",
+    "thumbnailUrl": "/imgs/skinny-jeans.webp",
+    "rating": 4.6,
+    "price": 210
+  },
+  {
+    "title": "Inspirational Graphic Tee",
+    "thumbnailUrl": "/imgs/courage-t-shirt.webp",
+    "rating": 4.4,
+    "price": 145
+  },
+  {
+    "title": "Comfy Bermuda Shorts",
+    "thumbnailUrl": "/imgs/bermuda-shorts.webp",
+    "rating": 3.4,
+    "price": 85
+  }
+]

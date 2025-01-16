@@ -9,7 +9,10 @@
       "@layouts/*": ["src/layouts/*"],
       "@styles/*": ["src/styles/*"],
       "@assets/*": ["src/assets/*"],
-      "@icons/*": ["src/icons/*"]
+      "@models/*": ["db/models/*"],
+      "@icons/*": ["src/icons/*"],
+      "@utils/*": ["src/utils/*"],
+      "@db/*": ["db/*"],
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"

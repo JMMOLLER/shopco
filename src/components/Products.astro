@@ -1,5 +1,5 @@
 ---
-import CardProduct from "@components/react-components/CardProduct.tsx";
+import CardProduct from "@components/CardProduct.astro";
 import { Image } from "astro:assets";
 
 const newArrivals = [
@@ -97,7 +97,6 @@ const topSellings = [
                 title={product.title}
                 price={product.price}
                 id={product.id}
-                client:load
               />
             </li>
           ))
@@ -140,7 +139,6 @@ const topSellings = [
                 title={product.title}
                 price={product.price}
                 id={product.id}
-                client:load
               />
             </li>
           ))
