@@ -5,7 +5,7 @@ import ColorSelector from "@components/ColorSelector.astro";
 import DualRangeSlider from "@components/react-components/DualRangeSlider";
 ---
 
-<aside class="row-span-4 row-start-2 py-5 px-6 border rounded-3xl h-fit">
+<aside class="row-span-4 row-start-2 py-5 px-6 border rounded-3xl h-fit max-nav:hidden">
   <!-- HEADER -->
   <div class="inline-flex justify-between items-center w-full">
     <h4 class="font-bold text-xl">Filters</h4>
@@ -153,7 +153,7 @@ import DualRangeSlider from "@components/react-components/DualRangeSlider";
   </div>
 
   <button
-    class="py-4 px-14 bg-black text-white rounded-full w-full"
+    class="max-2lg:py-2 py-4 px-4 bg-black text-white rounded-full w-full"
     type="button">Apply Filter</button
   >
 </aside>
