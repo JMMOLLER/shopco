@@ -1,11 +1,19 @@
 ---
 interface ColorSelectorProps {
+  type?: "checkbox" | "radio";
+  checked?: boolean;
   content?: string;
   name?: string;
   id?: string;
 }
 
-const { id, name, content } = Astro.props as ColorSelectorProps;
+const {
+  id,
+  name,
+  content,
+  type = "checkbox",
+  checked = false
+} = Astro.props as ColorSelectorProps;
 ---
 
 <label
@@ -14,7 +22,8 @@ const { id, name, content } = Astro.props as ColorSelectorProps;
 >
   <input
     class="absolute z-20 w-full h-full left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 opacity-0 cursor-pointer"
-    type="checkbox"
+    checked={checked}
+    type={type}
     name={name}
     id={id}
   />
