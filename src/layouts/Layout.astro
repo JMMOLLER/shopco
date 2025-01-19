@@ -17,6 +17,7 @@ const { className, title = "Shop.Co" } = Astro.props as MainLayoutProps;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preload" href="/imgs/hero-pattern.webp" as="image">
     <title>{title}</title>
     <ClientRouter fallback="animate" />
   </head>
