@@ -46,3 +46,17 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Important
+
+To preview the project built locally you must use the following command: <br/><br/>
+*bash*:
+```bash
+  NODE_ENV=development bun run build; NODE_ENV=development bun run preview
+```
+*windows*:
+```win
+  $env:NODE_ENV="development"; bun run build; bun run preview;
+```
+
+Remember that when you finish you must return the value of `NODE_ENV` to its initial value

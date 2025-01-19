@@ -16,6 +16,7 @@
     "@astrojs/node": "^9.0.1",
     "@astrojs/react": "^4.1.2",
     "@astrojs/tailwind": "^5.1.4",
+    "@astrojs/vercel": "^8.0.2",
     "@libsql/client": "^0.14.0",
     "@splidejs/splide": "^4.1.4",
     "@types/react": "^19.0.6",
