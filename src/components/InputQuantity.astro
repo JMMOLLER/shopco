@@ -1,0 +1,54 @@
+---
+
+const { className } = Astro.props
+
+---
+
+<div class="bg-primary rounded-full h-full text-2xl px-3 py-2">
+  <label for="quantity" class="sr-only"> Quantity </label>
+  <div class="flex items-center gap-2">
+    <button class="min-w-5 text-black" aria-label="Decrease quantity">
+      -
+    </button>
+    <input
+      type="number"
+      id="quantity"
+      name="quantity"
+      class=`text-center bg-transparent rounded-md text-base ${className}`
+      value="1"
+    />
+    <button class="min-w-5 text-black" aria-label="Increase quantity">
+      +
+    </button>
+  </div>
+</div>
+
+<style>
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+</style>
+
+<script>
+  const quantity = document.getElementById("quantity") as HTMLInputElement;
+  const decrease = quantity.previousElementSibling!;
+  const increase = quantity.nextElementSibling!;
+
+  decrease.addEventListener("click", () => {
+    if (Number(quantity.value) > 1) {
+      quantity.value = String(parseInt(quantity.value) - 1);
+    }
+  });
+
+  increase.addEventListener("click", () => {
+    quantity.value = String(parseInt(quantity.value) + 1);
+  });
+</script>

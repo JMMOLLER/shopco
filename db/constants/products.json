@@ -469,5 +469,12 @@
     "thumbnailUrl": "/imgs/bermuda-shorts.webp",
     "rating": 3.4,
     "price": 85
+  },
+  {
+    "title": "One Life Graphic T-shirt",
+    "thumbnailUrl": "/imgs/one-life.webp",
+    "rating": 4.5,
+    "price": 260,
+    "discount": 40
   }
 ]

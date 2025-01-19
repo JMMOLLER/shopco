@@ -23,7 +23,7 @@ export const prerender = false;
 
 <Layout
   title="Shop"
-  className="grid grid-cols-[0.5fr_1fr_1fr] grid-rows-[auto_1fr_1fr_1fr_auto] gap-x-5 gap-y-6 px-24 pb-20"
+  className="nav:grid nav:grid-cols-[0.5fr_1fr_1fr] nav:grid-rows-[auto_1fr_1fr_1fr_auto] gap-x-5 gap-y-6 px-24 max-2lg:px-4 max-nav:px-4 pb-20"
 >
   <!-- BREADCRUMB -->
   <nav aria-label="breadcrumb" class="col-span-3 breadcrumbs text-sm py-0">
@@ -47,7 +47,15 @@ export const prerender = false;
         aria-current=`${!category ? 'page' : 'false'}`
         itemscope
       >
-        {category ? (<a aria-label="Go to Home" href="/shop">Shop</a>) : 'Shop'}
+        {
+          category ? (
+            <a aria-label="Go to Home" href="/shop">
+              Shop
+            </a>
+          ) : (
+            "Shop"
+          )
+        }
       </li>
       {
         category && (
@@ -69,10 +77,13 @@ export const prerender = false;
   <Filters />
 
   <!-- PRODUCTS CONTENT -->
-  <section aria-label="main" class="col-span-2 row-span-3 row-start-2">
+  <section
+    aria-label="main"
+    class="col-span-2 row-span-3 row-start-2 max-nav:mt-4"
+  >
     <!-- HEADER -->
     <header aria-label="header" class="flex justify-between items-end">
-      <h3 class="font-bold text-2xl capitalize">{category || 'All'}</h3>
+      <h3 class="font-bold text-2xl capitalize">{category || "All"}</h3>
       <div class="inline-flex gap-x-3 text-primary">
         <p aria-label="show count of products" id="products__info">
           Showing {currentPage}-{rest.totalPages} of {total} Products
@@ -195,120 +206,122 @@ export const prerender = false;
 <script>
   import { actions, isActionError, isInputError } from "astro:actions";
 
-  const paginator = document.querySelectorAll("#paginator__container > *")!;
-  const container = document.getElementById("products__container")!;
-  const loader = document.getElementById("products__loader")!;
-  const btnPrev = document.getElementById("paginator__prev")!;
-  const btnNext = document.getElementById("paginator__next")!;
-  const info = document.getElementById("products__info")!;
+  document.addEventListener("astro:page-load", () => {
+    const paginator = document.querySelectorAll("#paginator__container > *")!;
+    const container = document.getElementById("products__container")!;
+    const loader = document.getElementById("products__loader")!;
+    const btnPrev = document.getElementById("paginator__prev")!;
+    const btnNext = document.getElementById("paginator__next")!;
+    const info = document.getElementById("products__info")!;
 
-  let lastSelectedPage: HTMLElement | null = null;
+    let lastSelectedPage: HTMLElement | null = null;
 
-  const getCurrentPage = () =>
-    parseInt(new URL(location.href).searchParams.get("page") || "1");
+    const getCurrentPage = () =>
+      parseInt(new URL(location.href).searchParams.get("page") || "1");
 
-  // Eventos de los botones de navegación
-  btnPrev.addEventListener("click", () => handleNavigation("prev"));
-  btnNext.addEventListener("click", () => handleNavigation("next"));
+    // Eventos de los botones de navegación
+    btnPrev.addEventListener("click", () => handleNavigation("prev"));
+    btnNext.addEventListener("click", () => handleNavigation("next"));
 
-  // Eventos de los botones de paginación
-  paginator.forEach((page) => {
-    if (page.classList.contains("active"))
-      lastSelectedPage = page as HTMLElement;
-    page.addEventListener("click", () => {
-      const currentPage = getCurrentPage();
-      const pageNumber = parseInt(page.textContent!);
+    // Eventos de los botones de paginación
+    paginator.forEach((page) => {
+      if (page.classList.contains("active"))
+        lastSelectedPage = page as HTMLElement;
+      page.addEventListener("click", () => {
+        const currentPage = getCurrentPage();
+        const pageNumber = parseInt(page.textContent!);
 
-      // Evitar recargar la página si ya está seleccionada
-      if (currentPage === pageNumber) return;
+        // Evitar recargar la página si ya está seleccionada
+        if (currentPage === pageNumber) return;
 
-      // Actualizar la página seleccionada
-      selectPaginatorPage(pageNumber);
-      fetchProducts(pageNumber);
+        // Actualizar la página seleccionada
+        selectPaginatorPage(pageNumber);
+        fetchProducts(pageNumber);
+      });
     });
-  });
 
-  // Evento del botón del navegador a página anterior
-  window.addEventListener("popstate", async (e) => {
-    const currentPage = getCurrentPage();
-    selectPaginatorPage(currentPage);
-    fetchProducts(currentPage, true);
-  });
+    // Evento del botón del navegador a página anterior
+    window.addEventListener("popstate", async (e) => {
+      const currentPage = getCurrentPage();
+      selectPaginatorPage(currentPage);
+      fetchProducts(currentPage, true);
+    });
 
-  // ===================== FUNCIONES ===================== //
+    // ===================== FUNCIONES ===================== //
 
-  type IsLoadingProps = {
-    isLoading?: boolean;
-    beforeEnd?: (loader: HTMLElement) => void;
-    afterEnd?: (loader: HTMLElement) => void;
-  };
+    type IsLoadingProps = {
+      isLoading?: boolean;
+      beforeEnd?: (loader: HTMLElement) => void;
+      afterEnd?: (loader: HTMLElement) => void;
+    };
 
-  function isLoading(props: IsLoadingProps) {
-    const { isLoading = true, beforeEnd, afterEnd } = props;
+    function isLoading(props: IsLoadingProps) {
+      const { isLoading = true, beforeEnd, afterEnd } = props;
 
-    afterEnd && afterEnd(loader);
+      afterEnd && afterEnd(loader);
 
-    if (isLoading) {
-      container.classList.replace("grid", "flex");
-      container.classList.add("h-full");
-      loader.classList.remove("hidden");
-    } else {
-      container.classList.replace("flex", "grid");
-      container.classList.remove("h-full");
-      loader.classList.add("hidden");
+      if (isLoading) {
+        container.classList.replace("grid", "flex");
+        container.classList.add("h-full");
+        loader.classList.remove("hidden");
+      } else {
+        container.classList.replace("flex", "grid");
+        container.classList.remove("h-full");
+        loader.classList.add("hidden");
+      }
+
+      beforeEnd && beforeEnd(loader);
     }
 
-    beforeEnd && beforeEnd(loader);
-  }
+    async function fetchProducts(page: number, isPopState = false) {
+      // Scroll al inicio de la página
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      // Esperar a que la página se desplace al inicio
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
-  async function fetchProducts(page: number, isPopState = false) {
-    // Scroll al inicio de la página
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    // Esperar a que la página se desplace al inicio
-    await new Promise((resolve) => setTimeout(resolve, 200));
+      // Mostrar el loader y limpiar los productos actuales
+      isLoading({
+        afterEnd: (loader) => {
+          Array.from(container.childNodes).forEach((node) => {
+            if ((node as HTMLElement).id !== loader.id) node.remove();
+          });
+        }
+      });
 
-    // Mostrar el loader y limpiar los productos actuales
-    isLoading({
-      afterEnd: (loader) => {
-        Array.from(container.childNodes).forEach((node) => {
-          if ((node as HTMLElement).id !== loader.id) node.remove();
-        });
-      }
-    });
+      // Obtener los productos de la página seleccionada
+      const { data, error } = await actions.getProducts({ page, size: 12 });
+      !isPopState && window.history.pushState({}, "", `?page=${page}`);
+      // Manejar errores de la petición
+      if (isActionError(error)) alert(error.message);
+      else if (isInputError(data)) alert(data.message);
 
-    // Obtener los productos de la página seleccionada
-    const { data, error } = await actions.getProducts({ page, size: 12 });
-    !isPopState && window.history.pushState({}, "", `?page=${page}`);
-    // Manejar errores de la petición
-    if (isActionError(error)) alert(error.message);
-    else if (isInputError(data)) alert(data.message);
+      // Insertar los productos en el contenedor
+      isLoading({
+        isLoading: false,
+        beforeEnd: (loader) => {
+          loader.insertAdjacentHTML("afterend", data!.html);
+          info.textContent = `Showing ${page}-${data!.totalPages} of ${data!.total} Products`;
+        }
+      });
+    }
 
-    // Insertar los productos en el contenedor
-    isLoading({
-      isLoading: false,
-      beforeEnd: (loader) => {
-        loader.insertAdjacentHTML("afterend", data!.html);
-        info.textContent = `Showing ${page}-${data!.totalPages} of ${data!.total} Products`;
-      }
-    });
-  }
+    function selectPaginatorPage(page: number) {
+      if (!lastSelectedPage)
+        return console.error("No se ha encontrado la página seleccionada");
 
-  function selectPaginatorPage(page: number) {
-    if (!lastSelectedPage)
-      return console.error("No se ha encontrado la página seleccionada");
+      lastSelectedPage.classList.remove("active");
+      lastSelectedPage = paginator[page - 1] as HTMLElement;
+      lastSelectedPage.classList.add("active");
+    }
 
-    lastSelectedPage.classList.remove("active");
-    lastSelectedPage = paginator[page - 1] as HTMLElement;
-    lastSelectedPage.classList.add("active");
-  }
+    function handleNavigation(to: "next" | "prev") {
+      const currentPage = getCurrentPage();
+      const nextPage = to === "next" ? currentPage + 1 : currentPage - 1;
 
-  function handleNavigation(to: "next" | "prev") {
-    const currentPage = getCurrentPage();
-    const nextPage = to === "next" ? currentPage + 1 : currentPage - 1;
+      if (nextPage < 1 || nextPage > paginator.length) return;
 
-    if (nextPage < 1 || nextPage > paginator.length) return;
-
-    selectPaginatorPage(nextPage);
-    fetchProducts(nextPage);
-  }
+      selectPaginatorPage(nextPage);
+      fetchProducts(nextPage);
+    }
+  });
 </script>

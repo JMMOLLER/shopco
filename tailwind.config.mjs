@@ -13,7 +13,11 @@ export default {
 		extend: {
       screens: {
         'nav': '905px',
-        'min': '537px'
+        'min': '537px',
+        'main':  '1350px',
+        'lg': '1024px',
+        '2lg': '1281px',
+        'xl': '1921px',
       },
       backgroundImage: {
         'mobile-nav-gradient': 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,1) 15%)'

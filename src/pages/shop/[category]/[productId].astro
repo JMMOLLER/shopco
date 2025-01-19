@@ -1,16 +1,180 @@
 ---
+import ColorSelector from "@components/ColorSelector.astro";
+import InputQuantity from "@components/InputQuantity.astro";
+import CarruselProduct from "@components/Products/CarruselProduct.astro";
+import SizeSelector from "@components/SizeSelector.astro";
 import Layout from "@layouts/Layout.astro";
+import { actions } from "astro:actions";
+
+const { productId, category } = Astro.params;
+
+if (!productId) {
+  return Astro.redirect(`/404`);
+}
+
+const result = await Astro.callAction(actions.getProductById, {
+  id: productId
+});
+if (!result || result.error) {
+  return Astro.redirect(`/404`);
+}
+
+const product = result.data;
+
+export const prerender = false;
+
+const previousPrice = product.discount
+  ? (product.price / (1 - product.discount / 100)).toFixed(2)
+  : null;
 ---
 
-<Layout title="Product">
-  <section class="border-t mx-auto py-6 max-w-7xl">
-    <div class="breadcrumbs text-sm">
-      <ul class="text-primary">
-        <li><a aria-label="Go to Home" href="/">Home</a></li>
-        <li><a aria-label="Go to Shop" href="/">Shop</a></li>
-        <li><a aria-label="Go to Men" href="/">Men</a></li>
-        <li class="text-black">T-shirts</li>
-      </ul>
+<Layout title="Product" className="w-full max-w-screen-2xl px-4 mx-auto">
+  <!-- BREADCRUMB -->
+  <nav aria-label="breadcrumb" class="col-span-3 breadcrumbs text-sm py-0">
+    <ol
+      aria-label="breadcrumb"
+      itemtype="https://schema.org/BreadcrumbList"
+      class="text-primary"
+      itemscope
+    >
+      <li
+        itemprop="itemListElement"
+        itemtype="https://schema.org/ListItem"
+        itemscope
+      >
+        <a aria-label="Go to Home" href="/">Home</a>
+      </li>
+      <li
+        itemprop="itemListElement"
+        itemtype="https://schema.org/ListItem"
+        class=`${!category ? 'text-black cursor-default' : ''}`
+        aria-current=`${!category ? 'page' : 'false'}`
+        itemscope
+      >
+        {
+          category ? (
+            <a aria-label="Go to Home" href="/shop">
+              Shop
+            </a>
+          ) : (
+            "Shop"
+          )
+        }
+      </li>
+      {
+        category && (
+          <li
+            itemprop="itemListElement"
+            itemtype="https://schema.org/ListItem"
+            aria-current="page"
+            class="text-black capitalize cursor-default"
+            itemscope
+          >
+            {category}
+          </li>
+        )
+      }
+    </ol>
+  </nav>
+
+  <section class="mt-9 max-nav:mt-5 mb-10 flex max-nav:flex-col gap-10 max-md:gap-5">
+    <!-- IMAGENES DEL PRODUCTO -->
+    <CarruselProduct product={product} />
+
+    <!-- DETALLES DEL PRODUCTO -->
+    <div aria-label="Product Details" class="flex-grow nav:min-w-[400px]">
+      <div class="flex flex-col gap-3">
+        <h1
+          class="font-integral text-[clamp(2rem,1.4286rem+1.1905vw,2.5rem)] font-extrabold uppercase text-black"
+        >
+          {product.title}
+        </h1>
+
+        <!-- Calificación -->
+        <div class="inline-flex justify-start gap-1">
+          <!-- Estrellas de Calificación -->
+          <span
+            class={`text-2xl -my-[6px] inline-flex rating-star rating-star-[${product.rating}]`}
+            aria-label={`Calificación de ${product.rating} de 5`}
+            role="img"></span>
+          <p aria-label="rating" class="text-sm">
+            {product.rating}/<span class="opacity-60">5</span>
+          </p>
+        </div>
+
+        <!-- PRECIO -->
+        <div class="inline-flex items-center gap-3">
+          <!-- Precio Actual -->
+          <data
+            aria-label="current price"
+            class="font-bold text-2xl"
+            value="120"
+          >
+            ${product.price ?? "$"}
+          </data>
+
+          <!-- Precio Anterior con Descuento -->
+          {
+            product.discount && previousPrice && (
+              <>
+                <s aria-label="old price" class="font-bold text-2xl opacity-40">
+                  ${previousPrice}
+                </s>
+                <span
+                  aria-label="discount"
+                  class="bg-[#FF333310] text-[#FF3333] rounded-full py-[6px] px-[14px]"
+                >
+                  -{product.discount}%
+                </span>
+              </>
+            )
+          }
+        </div>
+
+        <!-- DESCRIPCION -->
+        <p class="text-base text-primary mt-1">
+          This graphic t-shirt which is perfect for any occasion. Crafted from a
+          soft and breathable fabric, it offers superior comfort and style.
+        </p>
+      </div>
+
+      <hr class="my-6" />
+
+      <!-- COLORES -->
+      <div class="flex flex-col gap-4">
+        <span class="text-primary">Select Colors</span>
+        <div class="inline-flex gap-4">
+          <ColorSelector type="radio" name="color" className="bg-[#4F4631]" checked />
+          <ColorSelector type="radio" name="color" className="bg-[#314F4A]" />
+          <ColorSelector type="radio" name="color" className="bg-[#31344F]" />
+        </div>
+      </div>
+
+      <hr class="my-6" />
+
+      <!-- TALLAS -->
+      <div class="flex flex-col gap-4">
+        <span class="text-primary">Choose Size</span>
+        <div class="inline-flex flex-wrap gap-4">
+          <SizeSelector type="radio" content="Smal" name="size" id="small-size" checked />
+          <SizeSelector type="radio" content="Medium" name="size" id="medium-size" />
+          <SizeSelector type="radio" content="Large" name="size" id="large-size" />
+          <SizeSelector type="radio" content="X-Large" name="size" id="x-large-size" />
+        </div>
+      </div>
+
+      <hr class="my-6" />
+
+      <!-- CANTIDAD Y CARRITO -->
+      <div class="inline-flex gap-5 w-full">
+        <InputQuantity className="max-w-20 max-nav:w-12" />
+        <button
+          class="bg-black text-white py-3 rounded-full w-full grow"
+          aria-label="Add to Cart"
+        >
+          Add to Cart
+        </button>
+      </div>
     </div>
   </section>
 </Layout>

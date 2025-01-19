@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+
+const { product } = Astro.props as { product: Product };
+
+const thumbs = [
+  product.thumbnailUrl,
+  "/imgs/striped-shirt.webp",
+  "/imgs/one-life.webp"
+];
+---
+
+<div class="flex max-main:flex-col-reverse gap-x-3.5 gap-y-3.5 nav:max-h-[600px] overflow-hidden">
+  <!-- THUMBNAILS -->
+  <div
+    id="thumbnails__cards"
+    class="flex main:flex-col justify-evenly main:max-w-[23.5%] gap-3.5"
+  >
+    {
+      new Array(3).fill(null).map((_, i) => (
+        <label class="relative bg-primary flex justify-center items-center w-full max-main:w-[calc(100%/5)] aspect-[0.91_/_1] max-main:aspect-[1.05_/_1] min-w-20 rounded-[20px] overflow-hidden">
+          <input
+            class="absolute w-full h-full opacity-0 cursor-pointer"
+            type="radio"
+            name="image"
+            id="image-1"
+          />
+          <img src={thumbs[i]} alt={product.title} />
+          <span class="sr-only">{product.title} image 1</span>
+        </label>
+      ))
+    }
+  </div>
+
+  <!-- IMAGEN SELECCIONADA -->
+  <div class="flex-grow h-full mx-auto max-w-full max-nav:max-h-[400px] aspect-[0.84_/_1] max-main:aspect-[1.23_/_1]">
+    <Image
+      transition:name={`img-transition-${product.id}`}
+      decoding="sync"
+      loading="eager"
+      id="selected__image"
+      class="rounded-3xl h-full mx-auto"
+      src={product.thumbnailUrl!}
+      alt={product.title}
+      height={500}
+      width={500}
+    />
+  </div>
+</div>
+
+<style>
+  #thumbnails__cards label:has(input:checked) {
+    border: 1px solid #000;
+  }
+</style>
+
+<script>
+  function handleThumbnailChange(event: Event) {
+    const selectedImage = document.getElementById("selected__image") as HTMLImageElement;
+    const input = event.target as HTMLInputElement;
+    selectedImage.src = (input.nextElementSibling as HTMLImageElement).src;
+  }
+
+  document.querySelectorAll("#thumbnails__cards input").forEach((input) => {
+    input.addEventListener("change", handleThumbnailChange);
+  });
+</script>

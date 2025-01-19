@@ -10,6 +10,7 @@ type CardProduct = {
   rating: number;
   thumbnailUrl: string;
   loading: "lazy" | "eager";
+  imgStyle?: string;
 };
 
 const { title, className, id, price, discount, ...props } = Astro.props as CardProduct;
@@ -23,10 +24,12 @@ const previousPrice = discount
 <article aria-label={`product-title-${title.replaceAll(' ', '-')}`} class={className}>
   <figure aria-label="Product Thumbnail">
     <Image
+      transition:name={`img-transition-${id}`}
       onerror={`this.src='/imgs/not-found.webp'`}
       class="aspect-[99/100] w-[295px] rounded-[20px]"
       src={props.thumbnailUrl ?? "/imgs/not-found.webp"}
       loading={props.loading ?? "lazy"}
+      style={props.imgStyle}
       height={295}
       width={295}
       alt={title}
@@ -38,7 +41,7 @@ const previousPrice = discount
       <a
         class="hover:underline"
         aria-label={`Go to ${title}`}
-        href={`/product/${id}`}
+        href={`/shop/product/${id}`}
       >
         {title}
       </a>

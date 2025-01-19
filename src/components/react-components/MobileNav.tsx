@@ -146,8 +146,8 @@ function MobileNav() {
                 data-content
               >
                 <li>
-                  <a aria-label="Ir a Item 1" className="text-nowrap" href="/">
-                    Item 1
+                  <a aria-label="Ir a Item 1" className="text-nowrap" href="/shop">
+                    All
                   </a>
                 </li>
                 <li>
