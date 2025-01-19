@@ -207,6 +207,10 @@ export const prerender = false;
   import { actions, isActionError, isInputError } from "astro:actions";
 
   document.addEventListener("astro:page-load", () => {
+    // Evitar que el script se ejecute en otras páginas
+    // esto sucede cuando se usa client-side navigation
+    if(window.location.pathname !== "/shop") return
+
     const paginator = document.querySelectorAll("#paginator__container > *")!;
     const container = document.getElementById("products__container")!;
     const loader = document.getElementById("products__loader")!;
