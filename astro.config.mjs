@@ -5,8 +5,6 @@ import vercel from "@astrojs/vercel";
 import react from "@astrojs/react";
 import node from "@astrojs/node";
 
-console.log(process.env.NODE_ENV);
-
 const adapter =
   process.env.NODE_ENV === "production"
     ? vercel()
@@ -30,6 +28,26 @@ export default defineConfig({
         optional: false,
         context: "server",
         access: "secret"
+      }),
+      REDIS_USER: envField.string({
+        optional: true,
+        context: 'server',
+        access: 'secret'
+      }),
+      REDIS_PASSWORD: envField.string({
+        optional: true,
+        context: 'server',
+        access: 'secret'
+      }),
+      REDIS_SOCKET_HOST: envField.string({
+        optional: true,
+        context: 'server',
+        access: 'secret'
+      }),
+      REDIS_SOCKET_PORT:envField.number({
+        optional: true,
+        context: 'server',
+        access: 'secret'
       })
     }
   },
