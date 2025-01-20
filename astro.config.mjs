@@ -29,6 +29,12 @@ export default defineConfig({
         context: "server",
         access: "secret"
       }),
+      REDIS_NAME: envField.string({
+        optional: true,
+        context: 'server',
+        access: 'secret',
+        default: 'node-server'
+      }),
       REDIS_USER: envField.string({
         optional: true,
         context: 'server',

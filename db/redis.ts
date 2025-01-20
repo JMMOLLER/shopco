@@ -1,5 +1,5 @@
+import { REDIS_USER, REDIS_PASSWORD, REDIS_NAME } from "astro:env/server";
 import { REDIS_SOCKET_HOST, REDIS_SOCKET_PORT } from "astro:env/server";
-import { REDIS_USER, REDIS_PASSWORD } from "astro:env/server";
 import { createClient } from "redis";
 
 export class RedisConnection {
@@ -7,8 +7,9 @@ export class RedisConnection {
   private client;
 
   private constructor() {
-    console.log('Connecting to Redis');
+    console.log("Connecting to Redis");
     this.client = createClient({
+      name: REDIS_NAME,
       username: REDIS_USER,
       password: REDIS_PASSWORD,
       socket: {
