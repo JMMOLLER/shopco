@@ -1,14 +1,22 @@
-import products from "./constants/products.json" assert { type: "json" };
-import Product from "@models/Product"
+import productsDetails from "./constants/products-details.ts";
+import ProductDetailsModel from "@models/ProductDetails.ts";
+import products from "./constants/products.ts";
+import ProductModel from "@models/Product.ts";
 import db from ".";
 
 export default async function seed() {
-  console.log("Seeding database...");
-  await db.insert(Product).values(products);
+  console.log("\x1b[33m%s\x1b[0m", "Seeding database...");
+  // Seed products
+  await db.insert(ProductModel).values(products);
+  console.log("\x1b[36m%s\x1b[0m", "Products seeded correctly.");
 
-  console.log("Base de datos sembrada correctamente.");
+  // Seed product details
+  await db.insert(ProductDetailsModel).values(productsDetails);
+  console.log("\x1b[36m%s\x1b[0m", "Product details seeded correctly.");
+
+  console.log("\x1b[32m%s\x1b[0m", "Database seeded successfully.");
 }
 
 seed().catch((error) => {
-  console.error("Error al sembrar la base de datos:", error);
+  console.error("Error seeding database:", error);
 });

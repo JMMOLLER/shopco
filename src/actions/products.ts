@@ -1,6 +1,6 @@
 import db from "@db/index";
 import { z } from "astro/zod";
-import Product from "@models/Product";
+import ProductModel from "@models/Product";
 import CardProduct from "@components/Products/CardProduct.astro";
 import { ActionError, defineAction } from "astro:actions";
 import { experimental_AstroContainer } from "astro/container";
@@ -27,7 +27,7 @@ export const products = {
         // Obtener los productos paginados
         const data = await db
           .select()
-          .from(Product)
+          .from(ProductModel)
           .limit(input.size)
           .offset((input.page - 1) * input.size)
           .all();
@@ -59,7 +59,7 @@ export const products = {
         }
 
         // Calcular el número total de páginas
-        const total = await db.select({ count: count() }).from(Product);
+        const total = await db.select({ count: count() }).from(ProductModel);
         // Calcular el número total de páginas
         const totalPages = Math.ceil(total[0].count / input.size);
 
@@ -101,7 +101,7 @@ export const products = {
 
         const product = await db
           .select()
-          .from(Product)
+          .from(ProductModel)
           .where(sql`id = ${input.id}`)
           .get();
 

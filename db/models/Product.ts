@@ -1,8 +1,8 @@
 import { text, integer, sqliteTable } from "drizzle-orm/sqlite-core";
-import { decimal } from "@db/types";
+import { category, decimal, suitStyle } from "@db/types";
 import { sql } from "drizzle-orm";
 
-const productTable = sqliteTable("product", {
+const ProductModel = sqliteTable("product", {
   id: text("id")
     .notNull()
     .primaryKey()
@@ -12,9 +12,13 @@ const productTable = sqliteTable("product", {
   rating: integer("rating", { mode: "number" }).notNull().default(0),
   discount: integer("discount"),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  category: category("category").notNull(),
+  suitStyle: suitStyle("suitStyle").notNull(),
   timestamp: text("timestamp")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`)
 });
 
-export default productTable;
+export type ProductType = typeof ProductModel.$inferInsert;
+
+export default ProductModel;
