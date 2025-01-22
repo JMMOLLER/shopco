@@ -3,6 +3,7 @@ import Layout from "@layouts/Layout.astro";
 import Filters from "@components/Filters.astro";
 import getPageNumbers from "@utils/getPageNumbers";
 import { Breadcrumb } from "@components/Breadcrumb";
+import { Paginator } from "@components/Paginator";
 import { actions } from "astro:actions";
 
 const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
@@ -15,9 +16,7 @@ if (!result || result.error) {
 }
 
 const { html, total, ...rest } = result.data;
-/**
- * @todo Crear un componente para el paginador
- */
+
 const pages = getPageNumbers({ ...rest });
 
 const { category } = Astro.params;
@@ -84,82 +83,7 @@ export const prerender = false;
     </div>
   </section>
 
-  <footer class="col-span-2 col-start-2 row-start-5">
-    <hr class="mt-8" />
-    <div class="inline-flex w-full items-center mt-5">
-      {/* Botón Anterior */}
-      <button
-        id="paginator__prev"
-        class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit"
-        type="button"
-      >
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12.8332 6.99996H1.1665M1.1665 6.99996L6.99984 12.8333M1.1665 6.99996L6.99984 1.16663"
-            stroke="black"
-            stroke-width="1.67"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-        Previous
-      </button>
-
-      {/* Botones de Páginas */}
-      <nav
-        id="paginator__container"
-        aria-label="page paginator"
-        class="join mx-auto"
-      >
-        {
-          pages.map((page, index) =>
-            typeof page === "number" ? (
-              <button
-                class={`join-item btn ${currentPage === page ? "active" : ""}`}
-                aria-label={`Pagina ${page}`}
-              >
-                {page}
-              </button>
-            ) : (
-              <button
-                class="join-item btn btn-disabled cursor-default"
-                aria-label="Páginas omitidas"
-                disabled
-              >
-                ...
-              </button>
-            )
-          )
-        }
-      </nav>
-
-      {/* Botón Siguiente */}
-      <button
-        id="paginator__next"
-        class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit"
-        type="button"
-      >
-        Next
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1.1665 6.99996H12.8332M12.8332 6.99996L6.99984 1.16663M12.8332 6.99996L6.99984 12.8333"
-            stroke="black"
-            stroke-width="1.67"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-      </button>
-    </div>
-  </footer>
+  <Paginator currentPage={currentPage} pages={pages} />
 </Layout>
 
 <script>
@@ -170,45 +94,14 @@ export const prerender = false;
     // esto sucede cuando se usa client-side navigation
     if(window.location.pathname !== "/shop") return
 
-    const paginator = document.querySelectorAll("#paginator__container > *")!;
+    document.addEventListener("paginate", (event) => {
+      const e = event as CustomEvent<{ page: number, popState: boolean }>;
+      fetchProducts(e.detail.page, e.detail.popState);
+    })
+
     const container = document.getElementById("products__container")!;
     const loader = document.getElementById("products__loader")!;
-    const btnPrev = document.getElementById("paginator__prev")!;
-    const btnNext = document.getElementById("paginator__next")!;
     const info = document.getElementById("products__info")!;
-
-    let lastSelectedPage: HTMLElement | null = null;
-
-    const getCurrentPage = () =>
-      parseInt(new URL(location.href).searchParams.get("page") || "1");
-
-    // Eventos de los botones de navegación
-    btnPrev.addEventListener("click", () => handleNavigation("prev"));
-    btnNext.addEventListener("click", () => handleNavigation("next"));
-
-    // Eventos de los botones de paginación
-    paginator.forEach((page) => {
-      if (page.classList.contains("active"))
-        lastSelectedPage = page as HTMLElement;
-      page.addEventListener("click", () => {
-        const currentPage = getCurrentPage();
-        const pageNumber = parseInt(page.textContent!);
-
-        // Evitar recargar la página si ya está seleccionada
-        if (currentPage === pageNumber) return;
-
-        // Actualizar la página seleccionada
-        selectPaginatorPage(pageNumber);
-        fetchProducts(pageNumber);
-      });
-    });
-
-    // Evento del botón del navegador a página anterior
-    window.addEventListener("popstate", async (e) => {
-      const currentPage = getCurrentPage();
-      selectPaginatorPage(currentPage);
-      fetchProducts(currentPage, true);
-    });
 
     // ===================== FUNCIONES ===================== //
 
@@ -266,25 +159,6 @@ export const prerender = false;
           info.textContent = `Showing ${page}-${data!.totalPages} of ${data!.total} Products`;
         }
       });
-    }
-
-    function selectPaginatorPage(page: number) {
-      if (!lastSelectedPage)
-        return console.error("No se ha encontrado la página seleccionada");
-
-      lastSelectedPage.classList.remove("active");
-      lastSelectedPage = paginator[page - 1] as HTMLElement;
-      lastSelectedPage.classList.add("active");
-    }
-
-    function handleNavigation(to: "next" | "prev") {
-      const currentPage = getCurrentPage();
-      const nextPage = to === "next" ? currentPage + 1 : currentPage - 1;
-
-      if (nextPage < 1 || nextPage > paginator.length) return;
-
-      selectPaginatorPage(nextPage);
-      fetchProducts(nextPage);
     }
   });
 </script>

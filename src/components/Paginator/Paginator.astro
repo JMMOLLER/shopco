@@ -1,0 +1,156 @@
+---
+export interface PaginatorProps {
+  pages: (number | string)[];
+  currentPage: number;
+}
+
+const { pages, currentPage } = Astro.props as PaginatorProps;
+---
+
+<footer class="col-span-2 col-start-2 row-start-5">
+  <hr class="mt-8" />
+  <div class="inline-flex w-full items-center mt-5">
+    {/* Botón Anterior */}
+    <button
+      id="paginator__prev"
+      class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit"
+      type="button"
+    >
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.8332 6.99996H1.1665M1.1665 6.99996L6.99984 12.8333M1.1665 6.99996L6.99984 1.16663"
+          stroke="black"
+          stroke-width="1.67"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+      Previous
+    </button>
+
+    {/* Botones de Páginas */}
+    <nav
+      id="paginator__container"
+      aria-label="page paginator"
+      class="join mx-auto"
+    >
+      {
+        pages.map((page, index) =>
+          typeof page === "number" ? (
+            <button
+              class={`join-item btn ${currentPage === page ? "active" : ""}`}
+              aria-label={`Pagina ${page}`}
+            >
+              {page}
+            </button>
+          ) : (
+            <button
+              class="join-item btn btn-disabled cursor-default"
+              aria-label="Páginas omitidas"
+              disabled
+            >
+              ...
+            </button>
+          )
+        )
+      }
+    </nav>
+
+    {/* Botón Siguiente */}
+    <button
+      id="paginator__next"
+      class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit"
+      type="button"
+    >
+      Next
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1.1665 6.99996H12.8332M12.8332 6.99996L6.99984 1.16663M12.8332 6.99996L6.99984 12.8333"
+          stroke="black"
+          stroke-width="1.67"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </button>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const paginator = document.querySelectorAll("#paginator__container > *")!;
+    const btnPrev = document.getElementById("paginator__prev")!;
+    const btnNext = document.getElementById("paginator__next")!;
+
+    let lastSelectedPage: HTMLElement | null = null;
+
+    const getCurrentPage = () =>
+      parseInt(new URL(location.href).searchParams.get("page") || "1");
+
+    // Eventos de los botones de navegación
+    btnPrev.addEventListener("click", () => handleNavigation("prev"));
+    btnNext.addEventListener("click", () => handleNavigation("next"));
+
+    // Eventos de los botones de paginación
+    paginator.forEach((page) => {
+      if (page.classList.contains("active"))
+        lastSelectedPage = page as HTMLElement;
+      page.addEventListener("click", () => {
+        const currentPage = getCurrentPage();
+        const pageNumber = parseInt(page.textContent!);
+
+        // Evitar recargar la página si ya está seleccionada
+        if (currentPage === pageNumber) return;
+
+        // Actualizar la página seleccionada
+        selectPaginatorPage(pageNumber);
+        dispatchPaginatorEvent(pageNumber);
+      });
+    });
+
+    // Evento del botón del navegador a página anterior
+    window.addEventListener("popstate", async (e) => {
+      const currentPage = getCurrentPage();
+      selectPaginatorPage(currentPage);
+      dispatchPaginatorEvent(currentPage, true);
+    });
+
+    // ===================== FUNCIONES ===================== //
+
+    function dispatchPaginatorEvent(page: number, popState = false) {
+      const paginatorEvent = new CustomEvent("paginate", {
+        bubbles: false,
+        cancelable: true,
+        detail: { page, popState }
+      });
+      document.dispatchEvent(paginatorEvent);
+    }
+
+    function selectPaginatorPage(page: number) {
+      if (!lastSelectedPage)
+        return console.error("No se ha encontrado la página seleccionada");
+
+      lastSelectedPage.classList.remove("active");
+      lastSelectedPage = paginator[page - 1] as HTMLElement;
+      lastSelectedPage.classList.add("active");
+    }
+
+    function handleNavigation(to: "next" | "prev") {
+      const currentPage = getCurrentPage();
+      const nextPage = to === "next" ? currentPage + 1 : currentPage - 1;
+
+      if (nextPage < 1 || nextPage > paginator.length) return;
+
+      selectPaginatorPage(nextPage);
+      dispatchPaginatorEvent(nextPage);
+    }
+  })
+</script>
