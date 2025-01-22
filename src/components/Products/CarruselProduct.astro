@@ -61,7 +61,9 @@ const thumbs = [
     selectedImage.src = (input.nextElementSibling as HTMLImageElement).src;
   }
 
-  document.querySelectorAll("#thumbnails__cards input").forEach((input) => {
-    input.addEventListener("change", handleThumbnailChange);
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll("#thumbnails__cards input").forEach((input) => {
+      input.addEventListener("change", handleThumbnailChange);
+    });
   });
 </script>
