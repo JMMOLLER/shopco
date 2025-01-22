@@ -1,0 +1,23 @@
+---
+const { class: className, active } = Astro.props;
+export interface BItemProps {
+  class?: string;
+  active?: boolean;
+  children?: any;
+}
+const ariaCurrent = active ? "page" : undefined;
+---
+
+<li
+  class:list={[
+    active && "text-black",
+    "capitalize cursor-default",
+    className,
+  ]}
+  itemtype="https://schema.org/ListItem"
+  itemprop="itemListElement"
+  aria-current={ariaCurrent}
+  itemscope
+>
+  <slot />
+</li>

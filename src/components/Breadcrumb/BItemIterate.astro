@@ -1,0 +1,31 @@
+---
+import createParts from "@utils/createParts";
+import Breadcrumb from "./Breadcrumb";
+
+const { class: className } = Astro.props;
+export interface BItemIterateProps {
+  class?: string;
+}
+
+const path: string = Astro.url.pathname;
+const parts = createParts(path);
+---
+
+{
+  parts.map(({ text, href }, index) => {
+    const active: boolean = path === href;
+    const link = active ? undefined : href;
+    const isLast = index === parts.length - 1;
+    return (
+      <Breadcrumb.Item class={className} active={active || isLast}>
+        {isLast ? (
+          text
+        ) : (
+          <a href={link} class={className}>
+            {text}
+          </a>
+        )}
+      </Breadcrumb.Item>
+    );
+  })
+}

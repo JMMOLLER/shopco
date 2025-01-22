@@ -1,0 +1,26 @@
+---
+import BreadcrumbItemIterate from "./BItemIterate.astro";
+
+export interface BreadcrumbProps {
+  class?: string;
+  itemClass?: string;
+}
+
+const { class: className, itemClass } = Astro.props;
+---
+
+<nav
+  aria-label="breadcrumb"
+  class:list={["breadcrumbs text-sm py-0", className]}
+>
+  <ol
+    aria-label="breadcrumb"
+    itemtype="https://schema.org/BreadcrumbList"
+    class="text-primary"
+    itemscope
+  >
+    <slot>
+      <BreadcrumbItemIterate class={itemClass} />
+    </slot>
+  </ol>
+</nav>

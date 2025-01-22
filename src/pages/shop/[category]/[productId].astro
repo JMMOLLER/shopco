@@ -3,6 +3,7 @@ import ColorSelector from "@components/ColorSelector.astro";
 import InputQuantity from "@components/InputQuantity.astro";
 import CarruselProduct from "@components/Products/CarruselProduct.astro";
 import SizeSelector from "@components/SizeSelector.astro";
+import { Breadcrumb } from "@components/Breadcrumb";
 import Layout from "@layouts/Layout.astro";
 import { actions } from "astro:actions";
 
@@ -30,54 +31,21 @@ const previousPrice = product.discount
 
 <Layout title="Product" className="w-full max-w-screen-2xl px-4 mx-auto">
   <!-- BREADCRUMB -->
-  <nav aria-label="breadcrumb" class="col-span-3 breadcrumbs text-sm py-0">
-    <ol
-      aria-label="breadcrumb"
-      itemtype="https://schema.org/BreadcrumbList"
-      class="text-primary"
-      itemscope
-    >
-      <li
-        itemprop="itemListElement"
-        itemtype="https://schema.org/ListItem"
-        itemscope
-      >
-        <a aria-label="Go to Home" href="/">Home</a>
-      </li>
-      <li
-        itemprop="itemListElement"
-        itemtype="https://schema.org/ListItem"
-        class=`${!category ? 'text-black cursor-default' : ''}`
-        aria-current=`${!category ? 'page' : 'false'}`
-        itemscope
-      >
-        {
-          category ? (
-            <a aria-label="Go to Home" href="/shop">
-              Shop
-            </a>
-          ) : (
-            "Shop"
-          )
-        }
-      </li>
-      {
-        category && (
-          <li
-            itemprop="itemListElement"
-            itemtype="https://schema.org/ListItem"
-            aria-current="page"
-            class="text-black capitalize cursor-default"
-            itemscope
-          >
-            {category}
-          </li>
-        )
-      }
-    </ol>
-  </nav>
+  <Breadcrumb>
+    <Breadcrumb.Item>
+      <a href="/">Home</a>
+    </Breadcrumb.Item>
+    <Breadcrumb.Item>
+      <a href="/shop">Shop</a>
+    </Breadcrumb.Item>
+    <Breadcrumb.Item active>
+      {category}
+    </Breadcrumb.Item>
+  </Breadcrumb>
 
-  <section class="mt-9 max-nav:mt-5 mb-10 flex max-nav:flex-col gap-10 max-md:gap-5">
+  <section
+    class="mt-9 max-nav:mt-5 mb-10 flex max-nav:flex-col gap-10 max-md:gap-5"
+  >
     <!-- IMAGENES DEL PRODUCTO -->
     <CarruselProduct product={product} />
 
@@ -144,7 +112,12 @@ const previousPrice = product.discount
       <div class="flex flex-col gap-4">
         <span class="text-primary">Select Colors</span>
         <div class="inline-flex gap-4">
-          <ColorSelector type="radio" name="color" className="bg-[#4F4631]" checked />
+          <ColorSelector
+            type="radio"
+            name="color"
+            className="bg-[#4F4631]"
+            checked
+          />
           <ColorSelector type="radio" name="color" className="bg-[#314F4A]" />
           <ColorSelector type="radio" name="color" className="bg-[#31344F]" />
         </div>
@@ -156,10 +129,31 @@ const previousPrice = product.discount
       <div class="flex flex-col gap-4">
         <span class="text-primary">Choose Size</span>
         <div class="inline-flex flex-wrap gap-4">
-          <SizeSelector type="radio" content="Smal" name="size" id="small-size" checked />
-          <SizeSelector type="radio" content="Medium" name="size" id="medium-size" />
-          <SizeSelector type="radio" content="Large" name="size" id="large-size" />
-          <SizeSelector type="radio" content="X-Large" name="size" id="x-large-size" />
+          <SizeSelector
+            type="radio"
+            content="Smal"
+            name="size"
+            id="small-size"
+            checked
+          />
+          <SizeSelector
+            type="radio"
+            content="Medium"
+            name="size"
+            id="medium-size"
+          />
+          <SizeSelector
+            type="radio"
+            content="Large"
+            name="size"
+            id="large-size"
+          />
+          <SizeSelector
+            type="radio"
+            content="X-Large"
+            name="size"
+            id="x-large-size"
+          />
         </div>
       </div>
 

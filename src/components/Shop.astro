@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import Filters from "@components/Filters.astro";
 import getPageNumbers from "@utils/getPageNumbers";
+import { Breadcrumb } from "@components/Breadcrumb";
 import { actions } from "astro:actions";
 
 const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
@@ -26,52 +27,7 @@ export const prerender = false;
   className="nav:grid nav:grid-cols-[0.5fr_1fr_1fr] nav:grid-rows-[auto_1fr_1fr_1fr_auto] gap-x-5 gap-y-6 px-24 max-2lg:px-4 max-nav:px-4 pb-20"
 >
   <!-- BREADCRUMB -->
-  <nav aria-label="breadcrumb" class="col-span-3 breadcrumbs text-sm py-0">
-    <ol
-      aria-label="breadcrumb"
-      itemtype="https://schema.org/BreadcrumbList"
-      class="text-primary"
-      itemscope
-    >
-      <li
-        itemprop="itemListElement"
-        itemtype="https://schema.org/ListItem"
-        itemscope
-      >
-        <a aria-label="Go to Home" href="/">Home</a>
-      </li>
-      <li
-        itemprop="itemListElement"
-        itemtype="https://schema.org/ListItem"
-        class=`${!category ? 'text-black cursor-default' : ''}`
-        aria-current=`${!category ? 'page' : 'false'}`
-        itemscope
-      >
-        {
-          category ? (
-            <a aria-label="Go to Home" href="/shop">
-              Shop
-            </a>
-          ) : (
-            "Shop"
-          )
-        }
-      </li>
-      {
-        category && (
-          <li
-            itemprop="itemListElement"
-            itemtype="https://schema.org/ListItem"
-            aria-current="page"
-            class="text-black capitalize cursor-default"
-            itemscope
-          >
-            {category}
-          </li>
-        )
-      }
-    </ol>
-  </nav>
+  <Breadcrumb />
 
   <!-- ASIDE -->
   <Filters />
