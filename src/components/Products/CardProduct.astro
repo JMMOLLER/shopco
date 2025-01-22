@@ -60,7 +60,7 @@ const previousPrice = discount
 
     <div class="inline-flex items-center gap-3">
       {/* Precio Actual */}
-      <data aria-label="current price" class="font-bold text-2xl" value="120">
+      <data aria-label="current price" class="font-bold text-[clamp(1.25rem,1.1257rem+0.4678vw,1.5rem)]" value="120">
         ${price ?? "$"}
       </data>
 
@@ -68,7 +68,7 @@ const previousPrice = discount
       {
         discount && previousPrice && (
           <>
-            <s aria-label="old price" class="font-bold text-2xl opacity-40">${previousPrice}</s>
+            <s aria-label="old price" class="font-bold text-[clamp(1.25rem,1.1257rem+0.4678vw,1.5rem)] opacity-40">${previousPrice}</s>
             <span aria-label="discount" class="bg-[#FF333310] text-[#FF3333] rounded-full py-[6px] px-[14px]">
               -{discount}%
             </span>

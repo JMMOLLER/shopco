@@ -15,6 +15,9 @@ if (!result || result.error) {
 }
 
 const { html, total, ...rest } = result.data;
+/**
+ * @todo Crear un componente para el paginador
+ */
 const pages = getPageNumbers({ ...rest });
 
 const { category } = Astro.params;
@@ -62,7 +65,7 @@ export const prerender = false;
     <!-- CONTENEDOR DE LOS PRODUCTOS -->
     <div
       id="products__container"
-      class="grid gap-5 grid-cols-[repeat(auto-fit,minmax(295px,1fr))]"
+      class="grid gap-5 grid-cols-[repeat(auto-fit,minmax(234px,1fr))]"
       aria-labelledby="products__info"
       role="region"
     >
