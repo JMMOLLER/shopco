@@ -1,10 +1,9 @@
-import { TURSO_DATABASE_URL, TURSO_AUTH_TOKEN } from "astro:env/server";
-import { createClient } from "@libsql/client/web";
 import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client/web";
 
 const turso = createClient({
-  url: TURSO_DATABASE_URL,
-  authToken: TURSO_AUTH_TOKEN
+  url: import.meta.env.TURSO_DATABASE_URL!,
+  authToken: import.meta.env.TURSO_AUTH_TOKEN,
 });
 
 export default drizzle(turso);
