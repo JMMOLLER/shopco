@@ -86,6 +86,10 @@ const { pages, currentPage } = Astro.props as PaginatorProps;
 
 <script>
   document.addEventListener('astro:page-load', () => {
+    // Evitar que el script se ejecute en otras páginas
+    // esto sucede cuando se usa client-side navigation
+    if(window.location.pathname !== "/shop") return
+
     const paginator = document.querySelectorAll("#paginator__container > *")!;
     const btnPrev = document.getElementById("paginator__prev")!;
     const btnNext = document.getElementById("paginator__next")!;
