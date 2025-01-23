@@ -7,7 +7,7 @@ export class RedisConnection {
   private client;
 
   private constructor() {
-    console.log("Connecting to Redis");
+    console.info('\x1b[33m%s\x1b[0m', "[Redis] Connecting to Redis...");
     this.client = createClient({
       name: REDIS_NAME,
       username: REDIS_USER,
@@ -19,11 +19,11 @@ export class RedisConnection {
     });
 
     this.client.on("error", (error) => {
-      console.error("Redis Client Error", error);
+      console.error('\x1b[31m%s\x1b[0m', "[Redis] Client Error", error);
     });
 
     this.connect().then(() => {
-      console.log("Connection suscessful!");
+      console.info('\x1b[32m%s\x1b[0m', "[Redis] Connection suscessful!");
     });
   }
 
