@@ -1,0 +1,80 @@
+---
+import TabPanel from "./TabPanel.astro";
+
+export interface TabProps {
+  class?: string;
+}
+
+const { class: className } = Astro.props as TabProps;
+---
+
+<div role="tablist" class:list={["tabs tabs-bordered", className]}>
+  <slot>
+    <TabPanel name="tab_1" ariaLabel="Tab 1" checked>
+      <h3>
+        Por favor, proporcione un contenido con el componente <code
+          >{`<Tab.Panel>`}</code
+        >
+      </h3>
+    </TabPanel>
+  </slot>
+</div>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const tabs = document.querySelectorAll(
+      ".tab"
+    ) as NodeListOf<HTMLInputElement>;
+    const container = document.querySelector(".tabs") as HTMLDivElement | null;
+
+    if (!container) return;
+
+    // Set the number of columns based on the number of tabs
+    container.style.setProperty("--cols", String(tabs.length));
+
+    // Highlight the clicked tab
+    const highlightTab = (tab: HTMLInputElement) => {
+      // Get the tab's bounding rectangle
+      const tabRect = tab.getBoundingClientRect(); // Coordenadas absolutas del input
+      // Get the container's bounding rectangle
+      const containerRect = container.getBoundingClientRect(); // Coordenadas absolutas del contenedor
+      // Get the relative X coordinate of the tab
+      const relativeX = tabRect.left - containerRect.left; // Coordenada X relativa al contenedor
+      // Get the relative Bottom coordinate of the tab
+      const relativeBottom = tabRect.bottom - containerRect.top; // Coordenada del Bottom relativa al contenedor
+
+      // Set the --active-tab CSS variable to the relative X coordinate
+      container.style.setProperty("--active-tab", `${relativeX}px`);
+      // Set the --tab-bottom CSS variable to the relative Y coordinate
+      container.style.setProperty("--tab-bottom", `${relativeBottom - 2}px`);
+    };
+
+    // Add event listeners to each tab
+    tabs.forEach((tab) => {
+      // Add click event listener to each tab
+      tab.addEventListener("click", () => {
+        // Uncheck all tabs
+        tabs.forEach((tab) => (tab.checked = false));
+        // Check the clicked tab
+        tab.checked = true;
+        // Highlight the clicked tab
+        highlightTab(tab);
+      });
+
+      // Highlight the checked tab
+      if (tab.checked) {
+        highlightTab(tab);
+      }
+    });
+
+    // Update the bounding rectangle on resize
+    window.addEventListener("resize", () => {
+      // Highlight the checked tab
+      tabs.forEach((tab) => {
+        if (tab.checked) {
+          highlightTab(tab);
+        }
+      });
+    });
+  });
+</script>

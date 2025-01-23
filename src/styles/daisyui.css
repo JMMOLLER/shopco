@@ -8,6 +8,8 @@
   }
 }
 
+/* BREADCRUMBS */
+
 .breadcrumbs {
   & ul li {
     cursor: default;
@@ -48,11 +50,55 @@
   & > .btn-disabled {
     @apply bg-transparent text-gray-400;
   }
-  
+
   & > .btn {
-    @apply font-medium
+    @apply font-medium;
   }
 }
+
+/* TABS */
+
+.tabs {
+  --cols: 1; /* Número de columnas */
+  --active-tab: 0px; /* Selector de pestaña */
+  --tab-bottom: 30px; /* Espacio entre pestañas y borde inferior */
+  grid-template-columns: repeat(var(--cols), 1fr);
+  position: relative;
+}
+
+.tabs::before {
+  content: "";
+  left: 0;
+  right: 0;
+  height: 2px;
+  position: absolute;
+  top: var(--tab-bottom);
+  transition: transform 0.3s;
+  width: calc(100% / var(--cols));
+  background-color: oklch(var(--bc));
+  transform: translateX(var(--active-tab));
+}
+
+.tab {
+  height: 100%;
+  line-height: 1.15rem;
+  padding-bottom: .5rem;
+}
+
+.tab:is(.tab-active, [aria-selected="true"]):not(.tab-disabled):not([disabled]),
+.tab:is(input:checked) {
+  --tw-border-opacity: 0.2;
+  --tw-text-opacity: 1;
+}
+
+.tab:is(.tab-active, [aria-selected="true"]):not(.tab-disabled):not(
+    [disabled]
+  )::after,
+.tab:is(input:checked)::after {
+  @apply font-medium;
+}
+
+/* COLLAPSE */
 
 .collapse-title,
 :where(.collapse > input[type="checkbox"]),

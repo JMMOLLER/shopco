@@ -1,0 +1,29 @@
+---
+export interface TabPanelProps {
+  class?: string;
+  children?: any;
+  checked?: boolean;
+  ariaLabel?: string;
+  inputClass?: string;
+  name?: string;
+}
+const {
+  ariaLabel = "Tab",
+  class: className,
+  checked = false,
+  inputClass,
+  name
+} = Astro.props as TabPanelProps;
+---
+
+<input
+  class:list={["tab", inputClass]}
+  aria-label={ariaLabel}
+  checked={checked}
+  type="radio"
+  name={name}
+  role="tab"
+/>
+<div role="tabpanel" class:list={["tab-content p-10", className]}>
+  <slot />
+</div>
