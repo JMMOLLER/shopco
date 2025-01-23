@@ -30,7 +30,7 @@ export default {
       },
       fontFamily: {
         sans: ['Satoshi', 'sans-serif'],
-        integral: ['IntegralCF-Regular', 'sans-serif'],
+        integral: ['IntegralCF', 'sans-serif'],
       },
       colors: {
         primary: "#00000060",

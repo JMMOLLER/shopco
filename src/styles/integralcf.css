@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'IntegralCF-Regular';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-regular.ttf') format('truetype');
   font-weight: 400;
   font-display: swap;
@@ -7,7 +7,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-Bold';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-bold.ttf') format('truetype');
   font-weight: 700;
   font-display: swap;
@@ -15,7 +15,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-BoldOblique';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-boldoblique.ttf') format('truetype');
   font-weight: 700;
   font-display: swap;
@@ -23,7 +23,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-DemiBold';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-demibold.ttf') format('truetype');
   font-weight: 600;
   font-display: swap;
@@ -31,7 +31,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-DemiBoldOblique';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-demiboldoblique.ttf') format('truetype');
   font-weight: 600;
   font-display: swap;
@@ -39,7 +39,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-ExtraBold';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-extrabold.ttf') format('truetype');
   font-weight: 800;
   font-display: swap;
@@ -47,7 +47,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-ExtraBoldOblique';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-extraboldoblique.ttf') format('truetype');
   font-weight: 800;
   font-display: swap;
@@ -55,7 +55,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-Heavy';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-heavy.ttf') format('truetype');
   font-weight: 900;
   font-display: swap;
@@ -63,7 +63,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-HeavyOblique';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-heavyoblique.ttf') format('truetype');
   font-weight: 900;
   font-display: swap;
@@ -71,7 +71,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-Medium';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-medium.ttf') format('truetype');
   font-weight: 500;
   font-display: swap;
@@ -79,7 +79,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-MediumOblique';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-mediumoblique.ttf') format('truetype');
   font-weight: 500;
   font-display: swap;
@@ -87,7 +87,7 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF-RegularOblique';
+  font-family: 'IntegralCF';
   src: url('/fonts/Integralcf/Integralcf-regularoblique.ttf') format('truetype');
   font-weight: 400;
   font-display: swap;
