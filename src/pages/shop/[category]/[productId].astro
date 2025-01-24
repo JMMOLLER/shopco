@@ -2,10 +2,12 @@
 import ColorSelector from "@components/ColorSelector.astro";
 import InputQuantity from "@components/InputQuantity.astro";
 import CarruselProduct from "@components/Products/CarruselProduct.astro";
+import CardReviews from "@components/Reviews/CardReviews.astro";
 import SizeSelector from "@components/SizeSelector.astro";
 import { Breadcrumb } from "@components/Breadcrumb";
 import Layout from "@layouts/Layout.astro";
 import { actions } from "astro:actions";
+import { Tab } from "@components/Tab";
 
 const { productId, category } = Astro.params;
 
@@ -171,4 +173,107 @@ const previousPrice = product.discount
       </div>
     </div>
   </section>
+
+  <Tab>
+    <Tab.Panel name="tab_1" ariaLabel="Product Details" class="py-6 px-0">
+      <h3>Description</h3>
+      <p>
+        This graphic t-shirt which is perfect for any occasion. Crafted from a
+        soft and breathable fabric, it offers superior comfort and style.
+      </p>
+    </Tab.Panel>
+    <Tab.Panel
+      name="tab_2"
+      ariaLabel="Rating & Reviews"
+      checked
+      class="py-6 px-0"
+    >
+      <!-- HEADER -->
+      <div class="inline-flex justify-between w-full mb-6 max-nav:mb-5">
+        <h3 class="font-medium text-[clamp(1.25rem,0.6467rem+1.0667vw,1.5rem)]">
+          All Reviews
+          <span
+            aria-label="cantidad de comentarios"
+            class="text-primary text-base">(451)</span
+          >
+        </h3>
+
+        <div class="inline-flex gap-x-2.5">
+          <span class="bg-primary rounded-full p-3 max-nav:p-2.5 h-fit">
+            <svg
+              class="w-6 max-nav:w-5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.125 11.625v8.625a1.125 1.125 0 1 1-2.25 0v-8.625a1.125 1.125 0 1 1 2.25 0ZM18.75 18a1.125 1.125 0 0 0-1.125 1.125v1.125a1.125 1.125 0 1 0 2.25 0v-1.125A1.125 1.125 0 0 0 18.75 18ZM21 14.25h-1.125V3.75a1.125 1.125 0 1 0-2.25 0v10.5H16.5a1.125 1.125 0 1 0 0 2.25H21a1.125 1.125 0 1 0 0-2.25ZM5.25 15a1.125 1.125 0 0 0-1.125 1.125v4.125a1.125 1.125 0 0 0 2.25 0v-4.125A1.125 1.125 0 0 0 5.25 15Zm2.25-3.75H6.375v-7.5a1.125 1.125 0 0 0-2.25 0v7.5H3a1.125 1.125 0 1 0 0 2.25h4.5a1.125 1.125 0 1 0 0-2.25Zm6.75-4.5h-1.125v-3a1.125 1.125 0 1 0-2.25 0v3H9.75a1.125 1.125 0 0 0 0 2.25h4.5a1.125 1.125 0 0 0 0-2.25Z"
+                fill="#000"
+              >
+              </path>
+            </svg>
+          </span>
+
+          <select
+            class="bg-primary py-3 px-5 rounded-[60px] text-black font-medium cursor-pointer h-12 max-nav:hidden"
+            name="order_by"
+            id=""
+          >
+            <option value="latest">Latest</option>
+            <option value="1">2</option>
+          </select>
+          <button
+            class="bg-black text-white max-nav:text-sm font-medium rounded-[60px] border-none py-3 max-nav:py-2.5 px-5 hover:bg-opacity-60 transition-all"
+            >Write a Review</button
+          >
+        </div>
+      </div>
+
+      <!-- COMENTARIOS -->
+      <div
+        id="products__container"
+        class="grid gap-5 grid-cols-[repeat(auto-fit,minmax(358px,1fr))]"
+        aria-labelledby="products__info"
+        role="region"
+      >
+        <!-- LOADER -->
+        <span
+          id="products__loader"
+          class="mx-auto loading loading-infinity loading-lg hidden"
+          aria-label="Loading products"
+          aria-live="polite"
+          role="status"
+        >
+        </span>
+
+        <!-- LISTA DE PRODUCTOS -->
+        <CardReviews
+          username="Jonh D."
+          rating="4.4"
+          comment="I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable. As a fellow designer, I appreciate the attention to detail. It's become my favorite go-to shirt."
+        />
+        <CardReviews
+          username="Alex M."
+          rating="4"
+          comment="The t-shirt exceeded my expectations! The colors are vibrant and the print quality is top-notch. Being a UI/UX designer myself, I'm quite picky about aesthetics, and this t-shirt definitely gets a thumbs up from me."
+        />
+        <CardReviews
+          username="Ethan R."
+          rating="3.4"
+          comment="This t-shirt is a must-have for anyone who appreciates good design. The minimalistic yet stylish pattern caught my eye, and the fit is perfect. I can see the designer's touch in every aspect of this shirt."
+        />
+      </div>
+    </Tab.Panel>
+    <Tab.Panel
+      name="tab_3"
+      ariaLabel="FAQs"
+      inputClass="w-full"
+      class="py-6 px-0"
+    >
+      <h3>Faqs</h3>
+      <p>
+        This graphic t-shirt which is perfect for any occasion. Crafted from a
+        soft and breathable fabric, it offers superior comfort and style.
+      </p>
+    </Tab.Panel>
+  </Tab>
 </Layout>
