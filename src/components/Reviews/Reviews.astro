@@ -1,5 +1,5 @@
 ---
-import CardReviews from "./CardReviews.astro";
+import CardReview from "./CardReview.astro";
 import "@splidejs/splide/css";
 
 const reviews = [
@@ -86,7 +86,7 @@ const reviews = [
         {
           reviews.map((review) => (
             <li class="splide__slide">
-              <CardReviews
+              <CardReview
                 className="max-w-[400px] h-full"
                 type="summary"
                 comment={review.comment}

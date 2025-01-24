@@ -1,17 +1,22 @@
 ---
 import VerifiedIcon from "@assets/verified.svg?raw";
 
+/**
+ * @todo Se debe usar el paquete `momentJs` para formatear la fecha de publicación
+ */
 type CardReviews = {
   rating: string;
   username: string;
   comment: string;
   className?: string;
+  postDate?: string;
   type?: "summary" | "full";
 };
 
 const {
   comment,
   username,
+  postDate,
   className,
   type = "full",
   rating: r
@@ -27,7 +32,7 @@ const typeFullStyle = type === "full" ? "pr-6" : "pr-0";
   <div class={`relative ${typeFullStyle}`}>
     <!-- Estrellas de Calificación -->
     <span
-      class={`text-2xl -my-2 inline-flex rating-star rating-star-[${rating}]`}
+      class={`text-2xl max-nav:text-xl -my-2 max-nav:-my-3 inline-flex rating-star rating-star-[${rating}]`}
       aria-label={`Calificación de ${rating} de 5`}
       role="img"
     >
@@ -53,7 +58,7 @@ const typeFullStyle = type === "full" ? "pr-6" : "pr-0";
               d="M14.625 12a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0ZM4.5 9.375a2.625 2.625 0 1 0 0 5.25 2.625 2.625 0 0 0 0-5.25Zm15 0a2.625 2.625 0 1 0 0 5.25 2.625 2.625 0 0 0 0-5.25Z"
               fill="#000"
               fill-opacity=".4"
-            ></path>
+            />
           </svg>
         </button>
       )
@@ -62,12 +67,14 @@ const typeFullStyle = type === "full" ? "pr-6" : "pr-0";
 
   <!-- Nombre de Usuario -->
   <div class={`inline-flex gap-x-1 items-center mt-2 ${typeFullStyle}`}>
-    <h3 class="font-bold text-black text-xl">{username}</h3>
+    <h3 class="font-bold text-black text-xl max-nav:text-base mr-1">{username}</h3>
     <Fragment set:html={VerifiedIcon} />
   </div>
 
   <!-- Comentario -->
-  <p class={`text-primary text-base mt-1 ${typeFullStyle}`}>
+  <p
+    class={`text-primary text-base max-nav:text-sm mt-1 grow ${typeFullStyle}`}
+  >
     "{comment}"
   </p>
 
@@ -75,9 +82,9 @@ const typeFullStyle = type === "full" ? "pr-6" : "pr-0";
   {
     type === "full" && (
       <p
-        class={`text-black text-opacity-60 font-medium text-base mt-6 ${typeFullStyle}`}
+        class={`text-primary text-opacity-60 font-medium text-base max-nav:text-sm mt-6 ${typeFullStyle}`}
       >
-        Posted on August 18, 2023
+        {postDate || "Posted on August 18, 2023"}
       </p>
     )
   }

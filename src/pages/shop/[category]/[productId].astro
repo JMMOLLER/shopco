@@ -2,7 +2,7 @@
 import ColorSelector from "@components/ColorSelector.astro";
 import InputQuantity from "@components/InputQuantity.astro";
 import CarruselProduct from "@components/Products/CarruselProduct.astro";
-import CardReviews from "@components/Reviews/CardReviews.astro";
+import CardReview from "@components/Reviews/CardReview.astro";
 import SizeSelector from "@components/SizeSelector.astro";
 import { Breadcrumb } from "@components/Breadcrumb";
 import Layout from "@layouts/Layout.astro";
@@ -246,17 +246,17 @@ const previousPrice = product.discount
         </span>
 
         <!-- LISTA DE PRODUCTOS -->
-        <CardReviews
+        <CardReview
           username="Jonh D."
           rating="4.4"
           comment="I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable. As a fellow designer, I appreciate the attention to detail. It's become my favorite go-to shirt."
         />
-        <CardReviews
+        <CardReview
           username="Alex M."
           rating="4"
           comment="The t-shirt exceeded my expectations! The colors are vibrant and the print quality is top-notch. Being a UI/UX designer myself, I'm quite picky about aesthetics, and this t-shirt definitely gets a thumbs up from me."
         />
-        <CardReviews
+        <CardReview
           username="Ethan R."
           rating="3.4"
           comment="This t-shirt is a must-have for anyone who appreciates good design. The minimalistic yet stylish pattern caught my eye, and the fit is perfect. I can see the designer's touch in every aspect of this shirt."
