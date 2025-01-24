@@ -61,7 +61,7 @@
 .tabs {
   --cols: 1; /* Número de columnas */
   --active-tab: 0px; /* Selector de pestaña */
-  --tab-bottom: 30px; /* Espacio entre pestañas y borde inferior */
+  --tab-bottom: 26px; /* Espacio entre pestañas y borde inferior */
   grid-template-columns: repeat(var(--cols), 1fr);
   position: relative;
 }
