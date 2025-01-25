@@ -1,9 +1,7 @@
 ---
 import VerifiedIcon from "@assets/verified.svg?raw";
+import moment from "moment";
 
-/**
- * @todo Se debe usar el paquete `momentJs` para formatear la fecha de publicación
- */
 type CardReviews = {
   rating: string;
   username: string;
@@ -16,14 +14,15 @@ type CardReviews = {
 const {
   comment,
   username,
-  postDate,
   className,
+  postDate: pD,
   type = "full",
   rating: r
 } = Astro.props as CardReviews;
 
 const rating = parseFloat(r).toFixed(1);
 const typeFullStyle = type === "full" ? "pr-6" : "pr-0";
+const postDate = moment(pD  || new Date()).format("MMMM DD, YYYY");
 ---
 
 <article
@@ -84,7 +83,7 @@ const typeFullStyle = type === "full" ? "pr-6" : "pr-0";
       <p
         class={`text-primary text-opacity-60 font-medium text-base max-nav:text-sm mt-6 ${typeFullStyle}`}
       >
-        {postDate || "Posted on August 18, 2023"}
+        {`Posted on ${postDate}`}
       </p>
     )
   }
