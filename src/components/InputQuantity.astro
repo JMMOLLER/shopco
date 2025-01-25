@@ -1,23 +1,23 @@
 ---
-
-const { className } = Astro.props
-
+const { className, max, min, id } = Astro.props;
 ---
 
 <div class="bg-primary rounded-full h-full text-2xl px-3 py-2">
   <label for="quantity" class="sr-only"> Quantity </label>
   <div class="flex items-center gap-2">
-    <button class="min-w-5 text-black" aria-label="Decrease quantity">
+    <button type="button" class="min-w-5 text-black" aria-label="Decrease quantity">
       -
     </button>
     <input
       type="number"
-      id="quantity"
-      name="quantity"
+      id={id}
+      name={id || "quantity"}
       class=`text-center bg-transparent rounded-md text-base ${className}`
+      max={max || "99"}
+      min={min || "1"}
       value="1"
     />
-    <button class="min-w-5 text-black" aria-label="Increase quantity">
+    <button type="button" class="min-w-5 text-black" aria-label="Increase quantity">
       +
     </button>
   </div>
@@ -38,17 +38,40 @@ const { className } = Astro.props
 </style>
 
 <script>
-  const quantity = document.getElementById("quantity") as HTMLInputElement;
-  const decrease = quantity.previousElementSibling!;
-  const increase = quantity.nextElementSibling!;
+  document.addEventListener("astro:page-load", async () => {
+    // Wait for the element to be rendered
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
-  decrease.addEventListener("click", () => {
-    if (Number(quantity.value) > 1) {
-      quantity.value = String(parseInt(quantity.value) - 1);
-    }
-  });
+    // Get the elements
+    const quantity = document.getElementById("quantity") as HTMLInputElement;
+    if (!quantity) return;
 
-  increase.addEventListener("click", () => {
-    quantity.value = String(parseInt(quantity.value) + 1);
+    const decrease = quantity.previousElementSibling!;
+    const increase = quantity.nextElementSibling!;
+
+    // Get the max and min values
+    // This is because the values could be changed by other scripts
+    const getMax = () => Number(quantity.max);
+    const getMin = () => Number(quantity.min);
+
+    decrease.addEventListener("click", () => {
+      if (Number(quantity.value) <= getMin()) return;
+      if (Number(quantity.value) > 1) {
+        quantity.value = String(parseInt(quantity.value) - 1);
+      }
+    });
+
+    increase.addEventListener("click", () => {
+      if (Number(quantity.value) >= getMax()) return;
+      quantity.value = String(parseInt(quantity.value) + 1);
+    });
+
+    quantity.addEventListener("change", () => {
+      if (Number(quantity.value) > getMax()) {
+        quantity.value = String(getMax());
+      } else if (Number(quantity.value) < getMin()) {
+        quantity.value = String(getMin());
+      }
+    });
   });
 </script>
