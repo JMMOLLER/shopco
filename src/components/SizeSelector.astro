@@ -1,6 +1,7 @@
 ---
 interface ColorSelectorProps {
   type?: "checkbox" | "radio";
+  disabled?: boolean;
   checked?: boolean;
   content?: string;
   name?: string;
@@ -12,7 +13,8 @@ const {
   name,
   content,
   type = "checkbox",
-  checked = false
+  disabled = false,
+  checked = false,
 } = Astro.props as ColorSelectorProps;
 ---
 
@@ -22,6 +24,7 @@ const {
 >
   <input
     class="absolute z-20 w-full h-full left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 opacity-0 cursor-pointer"
+    disabled={disabled}
     checked={checked}
     type={type}
     name={name}
@@ -35,5 +38,12 @@ const {
   label:has(input:checked) {
     background-color: #000;
     color: #fff;
+  }
+  label:has(input:disabled) {
+    opacity: 0.7;
+
+    & input:hover {
+      cursor: not-allowed;
+    }
   }
 </style>
