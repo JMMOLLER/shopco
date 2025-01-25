@@ -22,6 +22,7 @@
     "@types/react": "^19.0.6",
     "@types/react-dom": "^19.0.3",
     "astro": "^5.1.2",
+    "color": "^4.2.3",
     "drizzle-orm": "^0.38.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
+    "@types/color": "^4.2.0",
     "@types/redis": "^4.0.11",
     "daisyui": "^4.12.23",
     "dotenv": "^16.4.7",

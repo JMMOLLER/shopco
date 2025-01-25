@@ -22,7 +22,16 @@ if (!result || result.error) {
   return Astro.redirect(`/404`);
 }
 
-const product = result.data;
+const product = result.data as Product;
+
+const colors = new Set(product.inventory.map((inventory) => inventory.color));
+const sizes = new Set(product.inventory.map((inventory) => inventory.size));
+
+const filteredByColor = product.inventory.filter(
+  (inventory) => inventory.color === product.inventory[0].color
+);
+
+console.log(product)
 
 export const prerender = false;
 
@@ -31,7 +40,11 @@ const previousPrice = product.discount
   : null;
 ---
 
-<Layout title="Product" className="w-full max-w-screen-2xl px-4 mx-auto">
+<Layout
+  id="product-page"
+  title="Product"
+  className="w-full max-w-screen-2xl px-4 mx-auto"
+>
   <!-- BREADCRUMB -->
   <Breadcrumb>
     <Breadcrumb.Item>
@@ -52,7 +65,12 @@ const previousPrice = product.discount
     <CarruselProduct product={product} />
 
     <!-- DETALLES DEL PRODUCTO -->
-    <div aria-label="Product Details" class="flex-grow nav:min-w-[400px]">
+    <form
+      autocomplete="off"
+      aria-label="Product Details"
+      class="flex-grow nav:min-w-[400px]"
+      action=""
+    >
       <div class="flex flex-col gap-3">
         <h1
           class="font-integral text-[clamp(2rem,1.4286rem+1.1905vw,2.5rem)] font-extrabold uppercase text-black"
@@ -64,11 +82,13 @@ const previousPrice = product.discount
         <div class="inline-flex justify-start gap-1">
           <!-- Estrellas de Calificación -->
           <span
-            class={`text-2xl -my-[6px] inline-flex rating-star rating-star-[${product.rating}]`}
-            aria-label={`Calificación de ${product.rating} de 5`}
-            role="img"></span>
+            class={`text-2xl -my-[6px] inline-flex rating-star rating-star-[${Number(product.rating).toFixed(1)}]`}
+            aria-label={`Calificación de ${Number(product.rating).toFixed(1)} de 5`}
+            role="img"
+          >
+          </span>
           <p aria-label="rating" class="text-sm">
-            {product.rating}/<span class="opacity-60">5</span>
+            {Number(product.rating).toFixed(1)}/<span class="opacity-60">5</span>
           </p>
         </div>
 
@@ -106,7 +126,7 @@ const previousPrice = product.discount
           This graphic t-shirt which is perfect for any occasion. Crafted from a
           soft and breathable fabric, it offers superior comfort and style.
         </p>
-      </div>
+      </form>
 
       <hr class="my-6" />
 
@@ -114,14 +134,17 @@ const previousPrice = product.discount
       <div class="flex flex-col gap-4">
         <span class="text-primary">Select Colors</span>
         <div class="inline-flex gap-4">
-          <ColorSelector
-            type="radio"
-            name="color"
-            className="bg-[#4F4631]"
-            checked
-          />
-          <ColorSelector type="radio" name="color" className="bg-[#314F4A]" />
-          <ColorSelector type="radio" name="color" className="bg-[#31344F]" />
+          {
+            Array.from(colors).map((color, i) => (
+              <ColorSelector
+                id={`${color}-color`}
+                checked={i === 0}
+                color={color}
+                type="radio"
+                name="color"
+              />
+            ))
+          }
         </div>
       </div>
 
@@ -131,31 +154,22 @@ const previousPrice = product.discount
       <div class="flex flex-col gap-4">
         <span class="text-primary">Choose Size</span>
         <div class="inline-flex flex-wrap gap-4">
-          <SizeSelector
-            type="radio"
-            content="Smal"
-            name="size"
-            id="small-size"
-            checked
-          />
-          <SizeSelector
-            type="radio"
-            content="Medium"
-            name="size"
-            id="medium-size"
-          />
-          <SizeSelector
-            type="radio"
-            content="Large"
-            name="size"
-            id="large-size"
-          />
-          <SizeSelector
-            type="radio"
-            content="X-Large"
-            name="size"
-            id="x-large-size"
-          />
+          {
+            Array.from(sizes).map((size, i) => (
+              <SizeSelector
+                disabled={
+                  filteredByColor.find(
+                    (inventory) => inventory.size === size
+                  ) === undefined
+                }
+                {...(i === 0 && { checked: true })}
+                id={`${size}-size`}
+                content={size}
+                type="radio"
+                name="size"
+              />
+            ))
+          }
         </div>
       </div>
 
@@ -163,15 +177,22 @@ const previousPrice = product.discount
 
       <!-- CANTIDAD Y CARRITO -->
       <div class="inline-flex gap-5 w-full">
-        <InputQuantity className="max-w-20 max-nav:w-12" />
+        <InputQuantity
+          max={product.inventory[0]?.stock || 1}
+          className="max-w-20 max-nav:w-12"
+          id="quantity"
+        />
         <button
-          class="bg-black text-white py-3 rounded-full w-full grow"
+          class="bg-black text-white py-3 rounded-full w-full grow disabled:opacity-35 disabled:hover:scale-100 hover:scale-95 transition-all"
+          data-selected-product={product.inventory[0]?.id}
           aria-label="Add to Cart"
+          id="add-to-cart"
+          type="button"
         >
           Add to Cart
         </button>
       </div>
-    </div>
+    </form>
   </section>
 
   <Tab>
@@ -277,3 +298,5 @@ const previousPrice = product.discount
     </Tab.Panel>
   </Tab>
 </Layout>
+
+<script src="@scripts/productId.ts"></script>

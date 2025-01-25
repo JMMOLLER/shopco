@@ -4,6 +4,7 @@ import ProductModel from "@models/Product";
 import CardProduct from "@components/Products/CardProduct.astro";
 import { ActionError, defineAction } from "astro:actions";
 import { experimental_AstroContainer } from "astro/container";
+import ProductDetailsModel from "@models/ProductDetails";
 import { RedisConnection } from "@db/redis";
 import { count, sql } from "drizzle-orm";
 
@@ -111,13 +112,22 @@ export const products = {
             message: "Product not found"
           });
         }
-        
+
+        const product_details = await db
+          .select()
+          .from(ProductDetailsModel)
+          .where(sql`product_id = ${input.id}`)
+          .all();
+
+        // Crear un objeto con los detalles del producto
+        const result = { ...product, inventory: product_details };
+
         // Guardar el producto en caché
-        client.set(`product:${input.id}`, JSON.stringify(product), {
+        client.set(`product:${input.id}`, JSON.stringify(result), {
           EX: 60 * 60 * 24 // 24 horas
         });
 
-        return product;
+        return result;
       } catch (error) {
         console.log(error);
         throw new ActionError({

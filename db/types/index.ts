@@ -17,8 +17,6 @@ const decimal = (name: string, options: DecimalOptions) =>
 
 // CategoryType
 
-type CategoryType = "other" | "t-shirt" | "short" | "shirt" | "jean";
-
 const category = customType<{ data: CategoryType }>({
   dataType() {
     return "text";
@@ -27,17 +25,6 @@ const category = customType<{ data: CategoryType }>({
 
 // SizeType
 
-type SizeType =
-  | "xx-small"
-  | "x-small"
-  | "small"
-  | "medium"
-  | "large"
-  | "x-large"
-  | "xx-large"
-  | "3x-large"
-  | "4x-large";
-
 const size = customType<{ data: SizeType }>({
   dataType() {
     return "text";
@@ -45,8 +32,6 @@ const size = customType<{ data: SizeType }>({
 });
 
 // DressStyleType
-
-type SuitStyleType = ("casual" | "formal" | "party" | "gym")[];
 
 const suitStyle = customType<{ data: SuitStyleType }>({
   dataType() {
