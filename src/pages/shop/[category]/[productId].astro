@@ -86,7 +86,8 @@ const previousPrice = product.discount
           >
           </span>
           <p aria-label="rating" class="text-sm">
-            {Number(product.rating).toFixed(1)}/<span class="opacity-60">5</span>
+            {Number(product.rating).toFixed(1)}/<span class="opacity-60">5</span
+            >
           </p>
         </div>
 
@@ -124,7 +125,7 @@ const previousPrice = product.discount
           This graphic t-shirt which is perfect for any occasion. Crafted from a
           soft and breathable fabric, it offers superior comfort and style.
         </p>
-      </form>
+      </div>
 
       <hr class="my-6" />
 
@@ -233,12 +234,12 @@ const previousPrice = product.discount
           </span>
 
           <select
-            class="bg-primary py-3 px-5 rounded-[60px] text-black font-medium cursor-pointer h-12 max-nav:hidden"
+            class="bg-primary py-3 px-5 pr-11 rounded-[60px] text-black font-medium cursor-pointer h-12 max-nav:hidden"
             name="order_by"
-            id=""
+            id="order_by"
           >
+            <option value="top">Top comments</option>
             <option value="latest">Latest</option>
-            <option value="1">2</option>
           </select>
           <button
             class="bg-black text-white max-nav:text-sm font-medium rounded-[60px] border-none py-3 max-nav:py-2.5 px-5 hover:bg-opacity-60 transition-all"
