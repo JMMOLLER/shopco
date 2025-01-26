@@ -41,22 +41,35 @@ export const prerender = false;
     <!-- HEADER -->
     <header aria-label="header" class="flex justify-between items-end">
       <h3 class="font-bold text-2xl capitalize">{category || "All"}</h3>
-      <div class="inline-flex gap-x-3 text-primary">
-        <p aria-label="show count of products" id="products__info">
+      <div class="inline-flex gap-x-3 max-md:justify-between max-md:items-center max-md:w-full max-md:ml-2 text-primary">
+        <p class="max-md:text-sm max-md:h-fit" aria-label="show count of products" id="products__info">
           Showing {currentPage}-{rest.totalPages} of {total} Products
         </p>
-        <div aria-label="sort products">
+        <div class="max-md:hidden" aria-label="sort products">
           <label for="sort">Sort by:</label>
           <select
             id="sort"
             name="sort"
-            class="bg-transparent font-medium text-black text-center cursor-pointer"
+            class="bg-transparent pr-8 font-medium text-black text-center cursor-pointer"
             aria-label="Sort products"
           >
             <option value="newest">Newest</option>
             <option value="price" selected>Most Popular</option>
           </select>
         </div>
+        <span class="bg-primary rounded-full p-1.5 h-fit md:hidden">
+          <svg
+            class="w-5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.125 11.625v8.625a1.125 1.125 0 1 1-2.25 0v-8.625a1.125 1.125 0 1 1 2.25 0ZM18.75 18a1.125 1.125 0 0 0-1.125 1.125v1.125a1.125 1.125 0 1 0 2.25 0v-1.125A1.125 1.125 0 0 0 18.75 18ZM21 14.25h-1.125V3.75a1.125 1.125 0 1 0-2.25 0v10.5H16.5a1.125 1.125 0 1 0 0 2.25H21a1.125 1.125 0 1 0 0-2.25ZM5.25 15a1.125 1.125 0 0 0-1.125 1.125v4.125a1.125 1.125 0 0 0 2.25 0v-4.125A1.125 1.125 0 0 0 5.25 15Zm2.25-3.75H6.375v-7.5a1.125 1.125 0 0 0-2.25 0v7.5H3a1.125 1.125 0 1 0 0 2.25h4.5a1.125 1.125 0 1 0 0-2.25Zm6.75-4.5h-1.125v-3a1.125 1.125 0 1 0-2.25 0v3H9.75a1.125 1.125 0 0 0 0 2.25h4.5a1.125 1.125 0 0 0 0-2.25Z"
+              fill="#000"
+            >
+            </path>
+          </svg>
+        </span>
       </div>
     </header>
 
