@@ -8,6 +8,18 @@ interface MainLayoutProps {
   className?: string;
 }
 
+interface PaginatorType {
+  currentPage: number;
+  /**
+   * @summary Total de páginas
+   */
+  totalPages: number;
+  /**
+   * @summary Total de items que se muestran en la página
+   */
+  total: number;
+}
+
 // PRODUCT
 type CategoryType = "other" | "t-shirt" | "short" | "shirt" | "jean";
 

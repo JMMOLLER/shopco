@@ -16,8 +16,7 @@ if (!result || result.error) {
 }
 
 const { html, total, ...rest } = result.data;
-
-const pages = getPageNumbers({ ...rest });
+const pagination = rest as PaginatorType
 
 const { category } = Astro.params;
 
@@ -83,7 +82,7 @@ export const prerender = false;
     </div>
   </section>
 
-  <Paginator currentPage={currentPage} pages={pages} />
+  <Paginator {...(pagination)} />
 </Layout>
 
 <script>
@@ -94,6 +93,11 @@ export const prerender = false;
     // esto sucede cuando se usa client-side navigation
     if(window.location.pathname !== "/shop") return
 
+    // ===================== EVENTOS ===================== //
+
+    /**
+     * @description Evento personalizado definido en `Paginator.astro`
+     */
     document.addEventListener("paginate", (event) => {
       const e = event as CustomEvent<{ page: number, popState: boolean }>;
       fetchProducts(e.detail.page, e.detail.popState);

@@ -1,19 +1,19 @@
 ---
-export interface PaginatorProps {
-  pages: (number | string)[];
-  currentPage: number;
-}
+import getPageNumbers from "@utils/getPageNumbers";
 
-const { pages, currentPage } = Astro.props as PaginatorProps;
+export interface PaginatorProps extends PaginatorType {}
+
+const pagination = Astro.props as PaginatorProps;
+const pages = getPageNumbers({ ...pagination });
 ---
 
 <footer class="col-span-2 col-start-2 row-start-5">
   <hr class="mt-8" />
-  <div class="inline-flex w-full items-center mt-5">
-    {/* Botón Anterior */}
+  <div class="inline-flex w-full items-center justify-between mt-5">
+    <!-- Botón Anterior -->
     <button
       id="paginator__prev"
-      class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit"
+      class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit max-md:text-sm max-md:px-2 max-md:py-1.5"
       type="button"
     >
       <svg
@@ -21,6 +21,7 @@ const { pages, currentPage } = Astro.props as PaginatorProps;
         height="14"
         viewBox="0 0 14 14"
         xmlns="http://www.w3.org/2000/svg"
+        class="max-md:hidden"
       >
         <path
           d="M12.8332 6.99996H1.1665M1.1665 6.99996L6.99984 12.8333M1.1665 6.99996L6.99984 1.16663"
@@ -32,24 +33,36 @@ const { pages, currentPage } = Astro.props as PaginatorProps;
       Previous
     </button>
 
-    {/* Botones de Páginas */}
+    <!-- Botones de Páginas -->
     <nav
+      data-current={pagination.currentPage}
+      data-total={pagination.totalPages}
       id="paginator__container"
       aria-label="page paginator"
-      class="join mx-auto"
+      class="inline-flex mx-auto gap-1.5"
+      aria-hidden="true"
     >
       {
         pages.map((page, index) =>
           typeof page === "number" ? (
             <button
-              class={`join-item btn ${currentPage === page ? "active" : ""}`}
+              class:list={[
+                { active: pagination.currentPage === page },
+                "shadow-md",
+                "w-10",
+                "h-10",
+                "max-md:w-[34px]",
+                "max-md:h-[34px]",
+                "max-md:text-sm",
+                "rounded-md"
+              ]}
               aria-label={`Pagina ${page}`}
             >
               {page}
             </button>
           ) : (
             <button
-              class="join-item btn btn-disabled cursor-default"
+              class="btn-disabled cursor-default"
               aria-label="Páginas omitidas"
               disabled
             >
@@ -60,10 +73,10 @@ const { pages, currentPage } = Astro.props as PaginatorProps;
       }
     </nav>
 
-    {/* Botón Siguiente */}
+    <!-- Botón Siguiente -->
     <button
       id="paginator__next"
-      class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit"
+      class="py-2 px-4 border rounded-lg inline-flex gap-x-2 items-center h-fit max-md:text-sm max-md:px-2 max-md:py-1.5"
       type="button"
     >
       Next
@@ -72,6 +85,7 @@ const { pages, currentPage } = Astro.props as PaginatorProps;
         height="14"
         viewBox="0 0 14 14"
         xmlns="http://www.w3.org/2000/svg"
+        class="max-md:hidden"
       >
         <path
           d="M1.1665 6.99996H12.8332M12.8332 6.99996L6.99984 1.16663M12.8332 6.99996L6.99984 12.8333"
@@ -84,77 +98,4 @@ const { pages, currentPage } = Astro.props as PaginatorProps;
   </div>
 </footer>
 
-<script>
-  document.addEventListener('astro:page-load', () => {
-    // Evitar que el script se ejecute en otras páginas
-    // esto sucede cuando se usa client-side navigation
-    if(window.location.pathname !== "/shop") return
-
-    const paginator = document.querySelectorAll("#paginator__container > *")!;
-    const btnPrev = document.getElementById("paginator__prev")!;
-    const btnNext = document.getElementById("paginator__next")!;
-
-    let lastSelectedPage: HTMLElement | null = null;
-
-    const getCurrentPage = () =>
-      parseInt(new URL(location.href).searchParams.get("page") || "1");
-
-    // Eventos de los botones de navegación
-    btnPrev.addEventListener("click", () => handleNavigation("prev"));
-    btnNext.addEventListener("click", () => handleNavigation("next"));
-
-    // Eventos de los botones de paginación
-    paginator.forEach((page) => {
-      if (page.classList.contains("active"))
-        lastSelectedPage = page as HTMLElement;
-      page.addEventListener("click", () => {
-        const currentPage = getCurrentPage();
-        const pageNumber = parseInt(page.textContent!);
-
-        // Evitar recargar la página si ya está seleccionada
-        if (currentPage === pageNumber) return;
-
-        // Actualizar la página seleccionada
-        selectPaginatorPage(pageNumber);
-        dispatchPaginatorEvent(pageNumber);
-      });
-    });
-
-    // Evento del botón del navegador a página anterior
-    window.addEventListener("popstate", async (e) => {
-      const currentPage = getCurrentPage();
-      selectPaginatorPage(currentPage);
-      dispatchPaginatorEvent(currentPage, true);
-    });
-
-    // ===================== FUNCIONES ===================== //
-
-    function dispatchPaginatorEvent(page: number, popState = false) {
-      const paginatorEvent = new CustomEvent("paginate", {
-        bubbles: false,
-        cancelable: true,
-        detail: { page, popState }
-      });
-      document.dispatchEvent(paginatorEvent);
-    }
-
-    function selectPaginatorPage(page: number) {
-      if (!lastSelectedPage)
-        return console.error("No se ha encontrado la página seleccionada");
-
-      lastSelectedPage.classList.remove("active");
-      lastSelectedPage = paginator[page - 1] as HTMLElement;
-      lastSelectedPage.classList.add("active");
-    }
-
-    function handleNavigation(to: "next" | "prev") {
-      const currentPage = getCurrentPage();
-      const nextPage = to === "next" ? currentPage + 1 : currentPage - 1;
-
-      if (nextPage < 1 || nextPage > paginator.length) return;
-
-      selectPaginatorPage(nextPage);
-      dispatchPaginatorEvent(nextPage);
-    }
-  })
-</script>
+<script src="@scripts/paginator.ts"></script>
