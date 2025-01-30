@@ -1,8 +1,8 @@
 ---
-const { className, max, min, id } = Astro.props;
+const { class: className, itemClass, max, min, id } = Astro.props;
 ---
 
-<div class="bg-primary rounded-full h-full text-2xl px-3 py-2">
+<div class:list={["bg-primary rounded-full h-full text-2xl px-3 py-2", className]}>
   <label for="quantity" class="sr-only"> Quantity </label>
   <div class="flex items-center gap-2">
     <button type="button" class="min-w-5 text-black" aria-label="Decrease quantity">
@@ -12,7 +12,7 @@ const { className, max, min, id } = Astro.props;
       type="number"
       id={id}
       name={id || "quantity"}
-      class=`text-center bg-transparent rounded-md text-base ${className}`
+      class:list={["text-center bg-transparent rounded-md text-base", itemClass]}
       max={max || "99"}
       min={min || "1"}
       value="1"
