@@ -1,3 +1,4 @@
+import Arrow from "./Arrow.astro";
 import ApplePay from "./ApplePay.astro";
 import CalvinKleinLogo from "./CalvinKleinLogo.astro";
 import Cart from "./Cart.astro";
@@ -13,6 +14,8 @@ import PayPal from "./PayPal.astro";
 import PradaLogo from "./PradaLogo.astro";
 import Search from "./Search.astro";
 import Starlight from "./Starlight.astro";
+import Tag from "./Tag.astro";
+import Trash from "./Trash.astro";
 import Twitter from "./Twitter.astro";
 import User from "./User.astro";
 import VersageLogo from "./VersageLogo.astro";
@@ -23,6 +26,7 @@ import ZaraLogo from "./ZaraLogo.astro";
 export default Object.assign(
   {},
   {
+    Arrow,
     ApplePay,
     CalvinKleinLogo,
     Cart,
@@ -38,6 +42,8 @@ export default Object.assign(
     PradaLogo,
     Search,
     Starlight,
+    Tag,
+    Trash,
     Twitter,
     User,
     VersageLogo,
