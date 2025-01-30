@@ -17,10 +17,13 @@ export default {
         'main':  '1350px',
         'lg': '1024px',
         '2lg': '1281px',
-        'xl': '1921px',
+        '8xl': '1770px',
       },
       backgroundImage: {
         'mobile-nav-gradient': 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,1) 15%)'
+      },
+      borderColor: {
+        'primary': '#00000010'
       },
       fontSize: {
         clamp: "clamp(1rem, 5vw, 3rem)",

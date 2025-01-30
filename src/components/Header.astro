@@ -8,7 +8,7 @@ import MobileNav from "@components/react-components/MobileNav";
 ---
 
 <header
-  class="mx-auto my-6 max-w-screen-xl w-full inline-flex gap-x-10 items-center max-nav:justify-between px-5 relative nav:h-12 max-nav:h-6 transition-all"
+  class="mx-auto my-6 max-w-screen-8xl w-full inline-flex gap-x-10 items-center max-nav:justify-between px-5 relative nav:h-12 max-nav:h-6 transition-all"
 >
   <!-- MOBILE MENU -->
   <MobileNav client:media="(max-width: 905px)" />
@@ -89,7 +89,7 @@ import MobileNav from "@components/react-components/MobileNav";
   <!-- ICONOS DE ACCIÓN -->
   <nav class="inline-flex gap-x-[14px]">
     <button
-      class="nav:absolute nav:opacity-0 opacity-100 nav:transition-opacity duration-1000"
+      class="nav:absolute nav:opacity-0 opacity-100 nav:transition-opacity duration-1000 nav:-z-10"
       aria-label="Abrir el buscador"
       type="button"
     >
