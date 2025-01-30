@@ -15,7 +15,7 @@ const { class: className, itemClass, max, min, id } = Astro.props;
       class:list={["text-center bg-transparent rounded-md text-base", itemClass]}
       max={max || "99"}
       min={min || "1"}
-      value="1"
+      value={min || "1"}
     />
     <button type="button" class="min-w-5 text-black" aria-label="Increase quantity">
       +
@@ -43,8 +43,8 @@ const { class: className, itemClass, max, min, id } = Astro.props;
     await new Promise((resolve) => setTimeout(resolve, 50));
 
     // Get the elements
-    const quantity = document.getElementById("quantity") as HTMLInputElement;
-    if (!quantity) return;
+    const quantity = document.querySelector('input[name="quantity"]') as HTMLInputElement;
+    if (!quantity) return console.error("Element not found");
 
     const decrease = quantity.previousElementSibling!;
     const increase = quantity.nextElementSibling!;
