@@ -2,22 +2,36 @@
 const { class: className, itemClass, max, min, id } = Astro.props;
 ---
 
-<div class:list={["bg-primary rounded-full h-full text-2xl px-3 py-2", className]}>
+<div
+  class:list={["bg-primary rounded-full h-full text-2xl px-3 py-2", className]}
+>
   <label for="quantity" class="sr-only"> Quantity </label>
   <div class="flex items-center gap-2">
-    <button type="button" class="min-w-5 text-black" aria-label="Decrease quantity">
+    <button
+      type="button"
+      class="min-w-5 text-black"
+      aria-label="Decrease quantity"
+    >
       -
     </button>
     <input
-      type="number"
       id={id}
+      type="number"
+      autocomplete="off"
       name={id || "quantity"}
-      class:list={["text-center bg-transparent rounded-md text-base", itemClass]}
+      class:list={[
+        "text-center bg-transparent rounded-md text-base",
+        itemClass
+      ]}
       max={max || "99"}
       min={min || "1"}
       value={min || "1"}
     />
-    <button type="button" class="min-w-5 text-black" aria-label="Increase quantity">
+    <button
+      type="button"
+      class="min-w-5 text-black"
+      aria-label="Increase quantity"
+    >
       +
     </button>
   </div>
