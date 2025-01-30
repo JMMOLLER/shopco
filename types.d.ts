@@ -1,5 +1,5 @@
 interface IconProps {
-  className: string;
+  class?: string;
 }
 
 interface MainLayoutProps {

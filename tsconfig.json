@@ -6,12 +6,12 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/*"],
+      "@icons": ["src/icons/index.ts"],
       "@layouts/*": ["src/layouts/*"],
       "@scripts/*": ["src/scripts/*"],
       "@styles/*": ["src/styles/*"],
       "@assets/*": ["src/assets/*"],
       "@models/*": ["db/models/*"],
-      "@icons/*": ["src/icons/*"],
       "@utils/*": ["src/utils/*"],
       "@db/*": ["db/*"],
     },

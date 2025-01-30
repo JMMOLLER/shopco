@@ -1,15 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import FacebookIcon from "@icons/Facebook.astro";
-import InstagramIcon from "@icons/Instagram.astro";
-import TwitterIcon from "@icons/Twitter.astro";
-import GitHubIcon from "@icons/GitHub.astro";
-import VisaIcon from "@icons/Visa.astro";
-import MasterCardIcon from "@icons/MasterCard.astro";
-import PayPalIcon from "@icons/PayPal.astro";
-import ApplePayIcon from "@icons/ApplePay.astro";
-import GooglePayIcon from "@icons/GooglePay.astro";
-import Mail from "@icons/Mail.astro";
+import Icon from "@icons";
 ---
 
 <footer class="bg-primary mt-[90px] max-md:mt-[20%] max-sm:mt-[min(31%,135px)] max-min:mt-[clamp(0px,60%,190px)]">
@@ -26,7 +17,7 @@ import Mail from "@icons/Mail.astro";
         <span
           class="inline-flex gap-3 items-center bg-white rounded-full px-4 py-3"
         >
-          <Mail className="text-[#00000080]" />
+          <Icon.Mail class="text-[#00000080]" />
           <input
             class="focus:outline-none bg-transparent text-black grow"
             placeholder="Enter your email address"
@@ -60,28 +51,28 @@ import Mail from "@icons/Mail.astro";
             aria-label="Ir a Twitter"
             href="/"
           >
-            <TwitterIcon />
+            <Icon.Twitter />
           </a>
           <a
             class="w-[28px] h-[28px] flex items-center justify-center rounded-full bg-black text-white border border-[#D6DCE5]"
             aria-label="Ir a Facebook"
             href="/"
           >
-            <FacebookIcon />
+            <Icon.Facebook />
           </a>
           <a
             class="w-[28px] h-[28px] flex items-center justify-center rounded-full bg-white border border-[#D6DCE5]"
             aria-label="Ir a Instagram"
             href="/"
           >
-            <InstagramIcon />
+            <Icon.Instagram />
           </a>
           <a
             class="w-[28px] h-[28px] flex items-center justify-center rounded-full bg-white border border-[#D6DCE5]"
             aria-label="Ir a GitHub"
             href="/"
           >
-            <GitHubIcon />
+            <Icon.GitHub />
           </a>
         </span>
       </div>
@@ -163,27 +154,27 @@ import Mail from "@icons/Mail.astro";
         <span
           class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
         >
-          <VisaIcon />
+          <Icon.Visa />
         </span>
         <span
           class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
         >
-          <MasterCardIcon />
+          <Icon.MasterCard />
         </span>
         <span
           class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
         >
-          <PayPalIcon />
+          <Icon.PayPal />
         </span>
         <span
           class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
         >
-          <ApplePayIcon />
+          <Icon.ApplePay />
         </span>
         <span
           class="flex justify-center items-center rounded-md w-[46px] h-[30px] bg-white border border-[#D6DCE5]"
         >
-          <GooglePayIcon />
+          <Icon.GooglePay />
         </span>
       </section>
     </footer>
