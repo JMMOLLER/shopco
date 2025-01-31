@@ -56,3 +56,19 @@ interface ProductDetail {
   readonly color: string;
   readonly stock: number;
 }
+
+// CART
+
+interface Cart {
+  readonly id: string;
+  readonly items: CartItem[];
+}
+
+type LocalCart = Map<string, CartItem>
+
+interface CartItem {
+  readonly id: string;
+  readonly productId: string | number;
+  readonly productDetailId: string;
+  readonly quantity: number;
+}

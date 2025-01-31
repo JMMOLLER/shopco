@@ -182,13 +182,16 @@ const previousPrice = product.discount
           id="quantity"
         />
         <button
-          class="bg-black text-white py-3 rounded-full w-full grow disabled:opacity-35 disabled:hover:scale-100 hover:scale-95 transition-all"
+          class="bg-black text-white py-3 rounded-full w-full grow disabled:opacity-35 disabled:hover:scale-100 hover:scale-95 transition-all group"
           data-selected-product={product.inventory[0]?.id}
           aria-label="Add to Cart"
           id="add-to-cart"
           type="button"
         >
-          Add to Cart
+          <span class="group-[.load]:hidden">Add to Cart</span>
+          <span
+            class="loading loading-infinity loading-lg -my-3 hidden group-[.load]:inline-block"
+          ></span>
         </button>
       </div>
     </form>

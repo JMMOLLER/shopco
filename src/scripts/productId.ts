@@ -1,14 +1,17 @@
 import { actions, isActionError, isInputError } from "astro:actions";
+import type { MessageInstance } from "antd/es/message/interface";
+import ToastMessage from "@utils/ToastMessage";
+import addToCart from "@utils/addToCart";
 
-document.addEventListener("astro:page-load", () => {
+document.addEventListener("astro:page-load", async () => {
+  const message = await ToastMessage.getInstance();
   // Al cargar una nueva página, verifica si es la página de producto
   if (document.querySelector("#product-page")) {
-    initializeProductPage();
+    initializeProductPage(message);
   }
 });
 
-async function initializeProductPage() {
-  console.log("Product page initialized");
+async function initializeProductPage(message: MessageInstance) {
   const productId = window.location.pathname.split("/").pop();
   if (!productId || !UUIDValidator(productId)) return;
 
@@ -25,6 +28,11 @@ async function initializeProductPage() {
   document.querySelectorAll('input[name="color"]')?.forEach((input) => {
     input.addEventListener("click", () => handleChange(product));
   });
+  document
+    .getElementById("add-to-cart")
+    ?.addEventListener("click", (e) =>
+      handleAddToCart({ event: e, product, message })
+    );
 }
 
 function handleChange(product: Product) {
@@ -54,6 +62,9 @@ function handleChange(product: Product) {
     input.setAttribute("disabled", "true");
   });
 
+  /**
+   * @summary Contiene el primer detalle de producto disponible que coincida con la talla seleccionada
+   */
   let firstAvailable: ProductDetail | null = null;
 
   // Filtrar inventario por color
@@ -97,6 +108,46 @@ function handleChange(product: Product) {
   } else {
     console.error("No se encontró el detalle seleccionado");
   }
+}
+
+type addToCartProps = {
+  event: Event;
+  product: Product;
+  message: MessageInstance;
+};
+
+function handleAddToCart(props: addToCartProps) {
+  const { event: e, product, message } = props;
+  // Evitar que el formulario se envíe y obtener los datos del producto
+  const el = e.target as HTMLButtonElement;
+  const form = el.form || (el.closest("form") as HTMLFormElement);
+
+  // Obtener cantidad y detalles del producto seleccionado
+  const quantity = form.elements.namedItem("quantity") as HTMLInputElement;
+  const productDetailId = el.getAttribute("data-selected-product") as string;
+  const productId = product.id;
+
+  // Agregar producto al carrito
+  el.classList.add("load");
+  el.setAttribute("disabled", "true");
+  addToCart({
+    productDetailId,
+    productId,
+    quantity: parseInt(quantity.value, 10)
+  })
+    .then(() => {
+      message.success("Producto agregado al carrito");
+    })
+    .catch(() => {
+      message.error("Error al agregar el producto al carrito");
+    })
+    .finally(() => {
+      el.classList.remove("load");
+      el.removeAttribute("disabled");
+      form.reset();
+      // Se llama a la función handleChange porque el form reset no dispara el evento change
+      handleChange(product);
+    });
 }
 
 /**
