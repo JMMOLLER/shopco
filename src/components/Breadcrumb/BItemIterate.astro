@@ -1,6 +1,6 @@
 ---
 import createParts from "@utils/createParts";
-import Breadcrumb from "./Breadcrumb";
+import Item from './BItem.astro';
 
 const { class: className } = Astro.props;
 export interface BItemIterateProps {
@@ -17,7 +17,7 @@ const parts = createParts(path);
     const link = active ? undefined : href;
     const isLast = index === parts.length - 1;
     return (
-      <Breadcrumb.Item class={className} active={active || isLast}>
+      <Item class={className} active={active || isLast}>
         {isLast ? (
           text
         ) : (
@@ -25,7 +25,7 @@ const parts = createParts(path);
             {text}
           </a>
         )}
-      </Breadcrumb.Item>
+      </Item>
     );
   })
 }
