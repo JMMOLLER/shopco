@@ -14,6 +14,8 @@ const cartItems = [
     image: "/imgs/bermuda-shorts.webp"
   }
 ];
+
+export const prerender = true;
 ---
 
 <Layout
@@ -47,7 +49,10 @@ const cartItems = [
                   />
                 </figure>
                 <div class="inline-flex gap-x-2 justify-between w-full">
-                  <div aria-label="Product details" class="flex flex-col justify-between">
+                  <div
+                    aria-label="Product details"
+                    class="flex flex-col justify-between"
+                  >
                     <span>
                       <h4 class="font-bold text-lg max-nav:text-base max-nav:w-48 max-sm:w-24 truncate">
                         {product.name}
@@ -68,7 +73,11 @@ const cartItems = [
                     </data>
                   </div>
                   <div class="flex flex-col justify-between">
-                    <button aria-label="Delete cart product" class="w-fit self-end" type="button">
+                    <button
+                      aria-label="Delete cart product"
+                      class="w-fit self-end"
+                      type="button"
+                    >
                       <Icon.Trash class="w-6 max-nav:w-5" />
                     </button>
                     <InputQuantity
