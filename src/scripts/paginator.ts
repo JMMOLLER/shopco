@@ -3,7 +3,7 @@ import getPageNumbers from "@utils/getPageNumbers";
 document.addEventListener("astro:page-load", () => {
   // Evitar que el script se ejecute en otras páginas
   // esto sucede cuando se usa client-side navigation
-  if (window.location.pathname !== "/shop") return;
+  if (!document.querySelector("main#shop")) return;
 
   const getPaginator = () => document.querySelectorAll("#paginator__container > *")!;
   const btnPrev = document.getElementById("paginator__prev")!;

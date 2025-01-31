@@ -24,6 +24,7 @@ export const prerender = false;
 ---
 
 <Layout
+  id="shop"
   title="Shop"
   className="max-w-screen-8xl mx-auto w-full nav:grid nav:grid-cols-[0.5fr_1fr_1fr] nav:grid-rows-[auto_1fr_1fr_1fr_auto] gap-x-5 gap-y-6 px-4 pb-20 pt-6 border-primary border-t"
 >
@@ -104,7 +105,7 @@ export const prerender = false;
   document.addEventListener("astro:page-load", () => {
     // Evitar que el script se ejecute en otras páginas
     // esto sucede cuando se usa client-side navigation
-    if(window.location.pathname !== "/shop") return
+    if(!document.querySelector("main#shop")) return
 
     // ===================== EVENTOS ===================== //
 
