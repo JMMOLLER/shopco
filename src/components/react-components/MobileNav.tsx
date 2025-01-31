@@ -159,13 +159,13 @@ function MobileNav() {
             </div>
           </li>
           <li>
-            <a href="/">On Sale</a>
+            <a href="/shop/On%20Sale">On Sale</a>
           </li>
           <li>
-            <a href="/">New Arrivals</a>
+            <a href="/shop/New%20Arrivals">New Arrivals</a>
           </li>
           <li>
-            <a href="/">Brands</a>
+            <a href="/shop/Brands">Brands</a>
           </li>
         </ul>
       </nav>
