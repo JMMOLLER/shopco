@@ -19,10 +19,18 @@ export const products = {
       try {
         // Obtener el cliente de Redis para verificar si hay datos en caché
         const client = RedisConnection.getInstance().getClient();
-        const cached = await client.get(`products-page:${input.page}`);
-        if (cached) {
-          console.log('\x1b[36m%s\x1b[0m', `Page [${input.page}] loaded from cache`);
-          return JSON.parse(cached);
+
+        try {
+          const cached = await client.get(`products-page:${input.page}`);
+          if (cached) {
+            console.log(
+              "\x1b[36m%s\x1b[0m",
+              `Page [${input.page}] loaded from cache`
+            );
+            return JSON.parse(cached);
+          }
+        } catch (error) {
+          console.error(error);
         }
 
         // Obtener los productos paginados
@@ -71,9 +79,10 @@ export const products = {
           totalPages
         };
 
-        client.set(`products-page:${input.page}`, JSON.stringify(result), {
-          EX: 60 * 60 * 24 // 24 horas
-        });
+        client.isOpen &&
+          client.set(`products-page:${input.page}`, JSON.stringify(result), {
+            EX: 60 * 60 * 24 // 24 horas
+          });
 
         return result;
       } catch (error) {
@@ -94,10 +103,18 @@ export const products = {
       try {
         // Obtener el cliente de Redis para verificar si hay datos en caché
         const client = RedisConnection.getInstance().getClient();
-        const cached = await client.get(`product:${input.id}`);
-        if (cached) {
-          console.log('\x1b[36m%s\x1b[0m', `Product [${input.id}] loaded from cache`);
-          return JSON.parse(cached);
+
+        try {
+          const cached = await client.get(`product:${input.id}`);
+          if (cached) {
+            console.log(
+              "\x1b[36m%s\x1b[0m",
+              `Product [${input.id}] loaded from cache`
+            );
+            return JSON.parse(cached);
+          }
+        } catch (error) {
+          console.error(error);
         }
 
         const product = await db
@@ -123,9 +140,10 @@ export const products = {
         const result = { ...product, inventory: product_details };
 
         // Guardar el producto en caché
-        client.set(`product:${input.id}`, JSON.stringify(result), {
-          EX: 60 * 60 * 24 // 24 horas
-        });
+        client.isOpen &&
+          client.set(`product:${input.id}`, JSON.stringify(result), {
+            EX: 60 * 60 * 24 // 24 horas
+          });
 
         return result;
       } catch (error) {
