@@ -3,6 +3,7 @@ import "@styles/integralcf.css";
 import "@styles/satoshi.css";
 import "@styles/daisyui.css";
 
+import ToastMessage from "@components/react-components/ToastMessage";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import { ClientRouter } from "astro:transitions";
@@ -23,6 +24,7 @@ const { className, id, title = "Shop.Co" } = Astro.props as MainLayoutProps;
   </head>
   <body>
     <Header />
+    <ToastMessage client:load />
     <main class={className} {...({id})} >
       <slot />
     </main>
