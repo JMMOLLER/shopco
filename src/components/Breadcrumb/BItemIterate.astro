@@ -19,7 +19,7 @@ const parts = createParts(path);
     return (
       <Item class={className} active={active || isLast}>
         {isLast ? (
-          text
+          decodeURI(text)
         ) : (
           <a href={link} class={className}>
             {text}
