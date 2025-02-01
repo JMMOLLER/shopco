@@ -24,7 +24,7 @@ const { className, id, title = "Shop.Co" } = Astro.props as MainLayoutProps;
   </head>
   <body>
     <Header />
-    <ToastMessage client:load />
+    <ToastMessage client:only="react" />
     <main class={className} {...({id})} >
       <slot />
     </main>
