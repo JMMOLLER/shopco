@@ -8,7 +8,7 @@ const UserModel = sqliteTable("user", {
     .default(sql`(uuid7())`),
   name: text("name").notNull(),
   lastName: text("lastName").notNull(),
-  email: text("email").notNull(),
+  email: text("email").notNull().unique(),
   password: text("password").notNull(),
   timestamp: text("timestamp")
     .notNull()
