@@ -47,7 +47,7 @@ interface Product {
   readonly suitStyle: SuitStyleType;
   readonly inventory: ProductDetail[];
   readonly timestamp: Date;
-};
+}
 
 interface ProductDetail {
   readonly id: string;
@@ -64,11 +64,21 @@ interface Cart {
   readonly items: CartItem[];
 }
 
-type LocalCart = Map<string, CartItem>
+type LocalCart = Map<string, CartItem>;
 
 interface CartItem {
   readonly id: string;
   readonly productId: string | number;
   readonly productDetailId: string;
   readonly quantity: number;
+}
+
+// LUCIA
+
+/// <reference types="astro/client" />
+declare namespace App {
+  interface Locals {
+    session: import("lucia").Session | null;
+    user: import("lucia").User | null;
+  }
 }
