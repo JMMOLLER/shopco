@@ -11,23 +11,26 @@ if(Astro.locals.session) {
   <div class="container mx-auto mb-5 max-w-96 border border-gray-300 p-5 rounded-lg">
     <h1 class="text-2xl text-center font-bold">Sign Up</h1>
     <form class="flex flex-col gap-y-4 mt-5" action="/api/signup" method="POST">
-      <label class="inline-flex gap-x-3" for="name">
+      <label class="inline-flex items-center gap-x-3" for="name">
         <span>Name:</span>
         <input class="input input-bordered grow" type="text" id="name" name="name" value="test" required />
       </label>
-      <label class="inline-flex gap-x-3" for="lastName">
+      <label class="inline-flex items-center gap-x-3" for="lastName">
         <span>Last Name:</span>
         <input class="input input-bordered grow" type="text" id="lastName" name="lastName" value="test" required />
       </label>
-      <label class="inline-flex gap-x-3" for="email">
+      <label class="inline-flex items-center gap-x-3" for="email">
         <span>Email:</span>
         <input class="input input-bordered grow" type="email" id="email" name="email" value="test@test.com" required />
       </label>
-      <label class="inline-flex gap-x-3" for="password"
+      <label class="inline-flex items-center gap-x-3" for="password"
         ><span>Password:</span>
         <input class="input input-bordered grow" type="password" id="password" name="password" value="admin123" required />
       </label>
-      <button class="btn" type="submit">Login</button>
+      <button class="btn" type="submit">Register</button>
     </form>
+    <p class="text-center mt-5">
+      Already have an account? <a class="text-cyan-600 underline hover:no-underline" href="/auth/login">Login</a>
+    </p>
   </div>
 </Layout>
