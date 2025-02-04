@@ -7,10 +7,10 @@ const UserModel = sqliteTable("user", {
     .primaryKey()
     .default(sql`(uuid7())`),
   name: text("name").notNull(),
-  lastName: text("lastName").notNull(),
+  lastName: text("last_name").notNull(),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
-  createdAt: text("createdAt")
+  createdAt: text("created_at")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`)
 });

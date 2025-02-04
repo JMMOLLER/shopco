@@ -8,12 +8,12 @@ const ProductModel = sqliteTable("product", {
     .primaryKey()
     .default(sql`(uuid7())`),
   title: text("title").notNull(),
-  thumbnailUrl: text("thumbnailUrl"),
+  thumbnailUrl: text("thumbnail_url"),
   rating: integer("rating", { mode: "number" }).notNull().default(0),
   discount: integer("discount"),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   category: category("category").notNull(),
-  suitStyle: suitStyle("suitStyle").notNull(),
+  suitStyle: suitStyle("suit_style").notNull(),
   timestamp: text("timestamp")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`)
