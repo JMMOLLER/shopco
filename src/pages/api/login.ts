@@ -3,6 +3,7 @@ import UserModel from "@models/Users";
 import type { APIRoute } from "astro";
 import { eq } from "drizzle-orm";
 import lucia from "@config/auth";
+import bcrypt from "bcrypt";
 import db from "@db/index";
 
 export const POST: APIRoute = async ({ cookies, request, redirect }) => {
@@ -10,7 +11,7 @@ export const POST: APIRoute = async ({ cookies, request, redirect }) => {
     // Parsear los datos del formulario
     const form = await request.formData();
     const data = Object.fromEntries(form.entries());
-    const parsedData = UserLogin.parse(data);
+    const parsedData = await UserLogin.parseAsync(data);
 
     // Buscar al usuario por su correo electrónico
     const user = await db.select().from(UserModel).where(eq(UserModel.email, parsedData.email)).get();
@@ -21,7 +22,7 @@ export const POST: APIRoute = async ({ cookies, request, redirect }) => {
     }
 
     // Verificar la contraseña
-    const validPassword = user.password === parsedData.password;
+    const validPassword = bcrypt.compareSync(parsedData.password, user.password);
 
     if (!validPassword) {
       return redirect(

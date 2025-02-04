@@ -10,7 +10,7 @@ export const POST: APIRoute = async ({ cookies, request, redirect }) => {
     // Parsear los datos del formulario
     const form = await request.formData();
     const data = Object.fromEntries(form.entries());
-    const parsedData = UserRegistration.parse(data);
+    const parsedData = await UserRegistration.parseAsync(data);
 
     // Verificar si el email ya está en uso
     const isAvailable = await db
