@@ -1,7 +1,7 @@
 import UserLogin from "./schemas/UserLogin";
-import { eq } from "drizzle-orm";
 import UserModel from "@models/Users";
 import type { APIRoute } from "astro";
+import { eq } from "drizzle-orm";
 import lucia from "@config/auth";
 import db from "@db/index";
 
@@ -45,7 +45,7 @@ export const POST: APIRoute = async ({ cookies, request, redirect }) => {
   } catch (error) {
     console.error(error);
     return redirect(
-      `/auth/signup?error=${encodeURIComponent("Internal error")}`
+      `/auth/login?error=${encodeURIComponent("Internal error")}`
     );
   }
 };
