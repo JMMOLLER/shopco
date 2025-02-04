@@ -1,6 +1,6 @@
 import { actions, isActionError, isInputError } from "astro:actions";
 import type { MessageInstance } from "antd/es/message/interface";
-import ToastMessage from "@utils/ToastMessage";
+import ToastMessage from "@libs/ToastMessage";
 import addToCart from "@utils/addToCart";
 
 document.addEventListener("astro:page-load", async () => {
