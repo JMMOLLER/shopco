@@ -1,6 +1,6 @@
 import RedisAdapter from "@libs/RedisAdapter";
 import { RedisConnection } from "@db/redis";
-import { Lucia } from "lucia";
+import { Lucia, TimeSpan } from "lucia";
 
 // Obtener el cliente de Redis
 const client = RedisConnection.getInstance().getClient();
@@ -14,7 +14,8 @@ const lucia = new Lucia(adapter, {
     attributes: {
       secure: import.meta.env.PROD
     }
-  }
+  },
+  sessionExpiresIn: new TimeSpan(7, "h")
 });
 
 export default lucia;
