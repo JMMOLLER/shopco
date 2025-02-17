@@ -1,21 +1,18 @@
 ---
 import Breadcrumb from "@components/Breadcrumb/Breadcrumb.astro";
 import InputQuantity from "@components/InputQuantity.astro";
+import { isActionError, actions } from "astro:actions";
 import Layout from "@layouts/Layout.astro";
 import Icon from "@icons";
 
-const cartItems = [
-  {
-    id: 1,
-    name: "Gradient Graphic T-shirt",
-    size: "M",
-    color: "Black",
-    price: 145,
-    image: "/imgs/bermuda-shorts.webp"
-  }
-];
+const res = await Astro.callAction(actions.getCart, null);
+if (isActionError(res)) {
+  console.error(res.error);
+}
 
-export const prerender = true;
+const joinItems = res.data ?? [];
+
+export const prerender = false;
 ---
 
 <Layout
@@ -36,15 +33,15 @@ export const prerender = true;
     >
       <ul aria-label="product items" class="space-y-6">
         {
-          cartItems.map((product, index) => (
+          joinItems.map((item, index) => (
             <li aria-label="item">
               <article aria-label="Product" class="inline-flex gap-x-4 w-full">
                 <figure aria-label="Product Thumbnail">
                   <img
                     class="aspect-square max-w-28 max-nav:max-w-24 h-fit"
                     onerror={`this.src='/imgs/not-found.webp'`}
-                    src="/imgs/bermuda-shorts.webp"
-                    alt={product.name}
+                    src={item.product.thumbnailUrl}
+                    alt={item.product.title}
                     decoding="async"
                   />
                 </figure>
@@ -54,14 +51,16 @@ export const prerender = true;
                     class="flex flex-col justify-between"
                   >
                     <span>
-                      <h4 class="font-bold text-lg max-nav:text-base max-nav:w-48 max-sm:w-24 truncate">
-                        {product.name}
-                      </h4>
+                      <a href={`shop/product/${item.product.id}`} class="hover:underline">
+                        <h4 class="font-bold text-lg max-nav:text-base max-nav:w-48 max-sm:w-24 truncate cursor-pointer">
+                          {item.product.title}
+                        </h4>
+                      </a>
                       <p class="font-light text-sm">
-                        <strong>Size:</strong> {product.size}
+                        <strong>Size:</strong> {item.product_details.size}
                       </p>
                       <p class="font-light text-sm">
-                        <strong>Color:</strong> {product.color}
+                        <strong>Color:</strong> {item.product_details.color}
                       </p>
                     </span>
                     <data
@@ -69,7 +68,7 @@ export const prerender = true;
                       class="font-bold text-xl max-nav:text-lg"
                       value="120"
                     >
-                      ${product.price ?? "$"}
+                      ${item.product.price ?? "$"}
                     </data>
                   </div>
                   <div class="flex flex-col justify-between">
@@ -81,13 +80,14 @@ export const prerender = true;
                       <Icon.Trash class="w-6 max-nav:w-5" />
                     </button>
                     <InputQuantity
+                      defaultValue={item.cart.quantity}
                       class="!h-fit max-nav:text-base"
                       itemClass="max-nav:text-sm"
                     />
                   </div>
                 </div>
               </article>
-              {cartItems.length === index && <hr class="mt-6 border-primary" />}
+              {joinItems.length === index && <hr class="mt-6 border-primary" />}
             </li>
           ))
         }
