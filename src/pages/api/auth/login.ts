@@ -1,4 +1,4 @@
-import UserLogin from "./schemas/UserLogin";
+import UserLogin from "../schemas/UserLogin";
 import UserModel from "@models/Users";
 import type { APIRoute } from "astro";
 import { eq } from "drizzle-orm";

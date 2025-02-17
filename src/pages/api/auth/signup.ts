@@ -1,4 +1,4 @@
-import UserRegistration from "./schemas/UserRegistration";
+import UserRegistration from "../schemas/UserRegistration";
 import { count, sql } from "drizzle-orm";
 import UserModel from "@models/Users";
 import type { APIRoute } from "astro";

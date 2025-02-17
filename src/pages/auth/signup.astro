@@ -10,7 +10,7 @@ if(Astro.locals.session) {
 <Layout title="Sign Up">
   <div class="container mx-auto mb-5 max-w-96 border border-gray-300 p-5 rounded-lg">
     <h1 class="text-2xl text-center font-bold">Sign Up</h1>
-    <form class="flex flex-col gap-y-4 mt-5" action="/api/signup" method="POST">
+    <form class="flex flex-col gap-y-4 mt-5" action="/api/auth/signup" method="POST">
       <label class="inline-flex items-center gap-x-3" for="name">
         <span>Name:</span>
         <input class="input input-bordered grow" type="text" id="name" name="name" value="test" required />
