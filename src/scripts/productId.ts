@@ -132,7 +132,7 @@ function handleAddToCart(props: addToCartProps) {
   el.setAttribute("disabled", "true");
   addToCart({
     productDetailId,
-    productId,
+    userId: window.user,
     quantity: parseInt(quantity.value, 10)
   })
     .then(() => {

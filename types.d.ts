@@ -64,13 +64,18 @@ interface Cart {
   readonly items: CartItem[];
 }
 
-type LocalCart = Map<string, CartItem>;
+type LocalCart = Map<
+  string,
+  Omit<CartItem, "userId" | "timestamp"> &
+    Partial<Pick<CartItem, "userId" | "timestamp">>
+>;
 
 interface CartItem {
   readonly id: string;
-  readonly productId: string | number;
   readonly productDetailId: string;
   readonly quantity: number;
+  readonly userId: string;
+  readonly timestamp: Date;
 }
 
 // LUCIA
@@ -79,6 +84,13 @@ interface CartItem {
 declare namespace App {
   interface Locals {
     session: import("lucia").Session | null;
+    user: import("lucia").User | null;
+  }
+}
+
+// GLOBAL
+declare namespace globalThis {
+  interface Window {
     user: import("lucia").User | null;
   }
 }
