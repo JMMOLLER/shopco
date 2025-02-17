@@ -32,6 +32,7 @@ const filteredByColor = product.inventory.filter(
 );
 
 export const prerender = false;
+const user = Astro.locals.user;
 
 const previousPrice = product.discount
   ? (product.price / (1 - product.discount / 100)).toFixed(2)
@@ -301,4 +302,5 @@ const previousPrice = product.discount
   </Tab>
 </Layout>
 
+<script set:html={`window.user = ${JSON.stringify(user)}`}></script>
 <script src="@scripts/productId.ts"></script>
