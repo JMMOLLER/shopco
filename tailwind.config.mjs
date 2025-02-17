@@ -80,6 +80,8 @@ export default {
           position: 'relative',
           unicodeBidi: 'bidi-override',
           width: 'fit-content',
+          lineHeight: '1rem',
+          '--tw-color': '#FFC633'
         },
         '.rating-star::before': {
           display: 'block',
@@ -91,7 +93,7 @@ export default {
           top: '0',
           content: '"★★★★★"',
           width: '0', // Ancho inicial
-          color: '#FFC633',
+          color: 'var(--tw-color)',
           overflow: 'hidden',
           height: '100%',
           display: 'flex',
