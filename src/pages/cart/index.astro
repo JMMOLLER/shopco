@@ -5,12 +5,20 @@ import { isActionError, actions } from "astro:actions";
 import Layout from "@layouts/Layout.astro";
 import Icon from "@icons";
 
-const res = await Astro.callAction(actions.getCart, null);
-if (isActionError(res)) {
-  console.error(res.error);
-}
+type CartResult = Awaited<ReturnType<typeof actions.getCart>>;
+type CartItem = NonNullable<Extract<CartResult, { data: any }>["data"]>[number];
 
-const joinItems = res.data ?? [];
+const isAuth = Astro.locals.session;
+let joinItems: CartItem[] = [];
+
+if (isAuth) {
+  const res = await Astro.callAction(actions.getCart, null);
+  if (isActionError(res)) {
+    console.error(res.error);
+  }
+
+  joinItems = res.data ?? [];
+}
 
 export const prerender = false;
 ---
@@ -29,69 +37,94 @@ export const prerender = false;
     <!-- ITEMS -->
     <section
       aria-labelledby="cart-items"
-      class="border border-primary rounded-3xl nav:px-6 nav:py-5 p-3.5 grow max-h-[calc(100vh-20rem)] overflow-y-auto"
+      class="border border-primary rounded-3xl nav:px-6 nav:py-5 p-3.5 grow max-h-[calc(100vh-20rem)] overflow-y-auto relative"
     >
-      <ul aria-label="product items" class="space-y-6">
-        {
-          joinItems.map((item, index) => (
-            <li aria-label="item">
-              <article aria-label="Product" class="inline-flex gap-x-4 w-full">
-                <figure aria-label="Product Thumbnail">
-                  <img
-                    class="aspect-square max-w-28 max-nav:max-w-24 h-fit"
-                    onerror={`this.src='/imgs/not-found.webp'`}
-                    src={item.product.thumbnailUrl}
-                    alt={item.product.title}
-                    decoding="async"
-                  />
-                </figure>
-                <div class="inline-flex gap-x-2 justify-between w-full">
-                  <div
-                    aria-label="Product details"
-                    class="flex flex-col justify-between"
-                  >
-                    <span>
-                      <a href={`shop/product/${item.product.id}`} class="hover:underline">
-                        <h4 class="font-bold text-lg max-nav:text-base max-nav:w-48 max-sm:w-24 truncate cursor-pointer">
-                          {item.product.title}
-                        </h4>
-                      </a>
-                      <p class="font-light text-sm">
-                        <strong>Size:</strong> {item.product_details.size}
-                      </p>
-                      <p class="font-light text-sm">
-                        <strong>Color:</strong> {item.product_details.color}
-                      </p>
-                    </span>
-                    <data
-                      aria-label="current price"
-                      class="font-bold text-xl max-nav:text-lg"
-                      value="120"
-                    >
-                      ${item.product.price ?? "$"}
-                    </data>
-                  </div>
-                  <div class="flex flex-col justify-between">
-                    <button
-                      aria-label="Delete cart product"
-                      class="w-fit self-end"
-                      type="button"
-                    >
-                      <Icon.Trash class="w-6 max-nav:w-5" />
-                    </button>
-                    <InputQuantity
-                      defaultValue={item.cart.quantity}
-                      class="!h-fit max-nav:text-base"
-                      itemClass="max-nav:text-sm"
+      {
+        joinItems.length < 1 ? (
+          <div class="text-center text-lg opacity-50 cursor-default absolute inset-0 flex flex-col items-center justify-center">
+            <p>Your cart is empty. Don't miss out on our amazing products!</p>
+            <div class="inline-flex gap-x-1">
+              <p>Head over to the</p>
+              <a
+                class="hover:underline font-bold"
+                aria-label="Shop page"
+                href="/shop"
+              >
+                Shop
+              </a>
+              <p>and start adding your favorites now.</p>
+            </div>
+          </div>
+        ) : (
+          <ul aria-label="product items" class="space-y-6">
+            {joinItems.map((item, index) => (
+              <li aria-label="item">
+                <article
+                  aria-label="Product"
+                  class="inline-flex gap-x-4 w-full"
+                >
+                  <figure aria-label="Product Thumbnail">
+                    <img
+                      class="aspect-square max-w-28 max-nav:max-w-24 h-fit"
+                      onerror={`this.src='/imgs/not-found.webp'`}
+                      src={item.product.thumbnailUrl}
+                      alt={item.product.title}
+                      decoding="async"
                     />
+                  </figure>
+                  <div class="inline-flex gap-x-2 justify-between w-full">
+                    <div
+                      aria-label="Product details"
+                      class="flex flex-col justify-between"
+                    >
+                      <span>
+                        <a
+                          href={`shop/product/${item.product.id}`}
+                          class="hover:underline"
+                        >
+                          <h4 class="font-bold text-lg max-nav:text-base max-nav:w-48 max-sm:w-24 truncate cursor-pointer">
+                            {item.product.title}
+                          </h4>
+                        </a>
+                        <p class="font-light text-sm">
+                          <strong>Size:</strong> {item.product_details.size}
+                        </p>
+                        <p class="font-light text-sm">
+                          <strong>Color:</strong> {item.product_details.color}
+                        </p>
+                      </span>
+                      <data
+                        aria-label="current price"
+                        class="font-bold text-xl max-nav:text-lg"
+                        value="120"
+                      >
+                        ${item.product.price ?? "$"}
+                      </data>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                      <button
+                        aria-label="Delete cart product"
+                        class="w-fit self-end"
+                        type="button"
+                      >
+                        <Icon.Trash class="w-6 max-nav:w-5" />
+                      </button>
+                      <InputQuantity
+                        defaultValue={item.cart.quantity}
+                        class="!h-fit max-nav:text-base"
+                        itemClass="max-nav:text-sm"
+                      />
+                    </div>
                   </div>
-                </div>
-              </article>
-              {joinItems.length === index && <hr class="mt-6 border-primary" />}
-            </li>
-          ))
-        }
-      </ul>
+                </article>
+                {joinItems.length === index && (
+                  <hr class="mt-6 border-primary" />
+                )}
+              </li>
+            ))}
+          </ul>
+        )
+      }
     </section>
 
     <!-- RESUMEN DE LA ORDEN -->
