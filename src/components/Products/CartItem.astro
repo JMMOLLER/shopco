@@ -1,0 +1,66 @@
+---
+import InputQuantity from "@components/InputQuantity.astro";
+import Icon from "@icons";
+
+interface Props {
+  product: Omit<Product, "inventory"> & { inventory?: Product["inventory"] };
+  product_details: ProductDetail;
+  cart: CartItem;
+}
+
+const { cart, product, product_details } = Astro.props as Props;
+---
+
+<article aria-label="Product" class="inline-flex gap-x-4 w-full">
+  <figure aria-label="Product Thumbnail">
+    <img
+      class="aspect-square max-w-28 max-nav:max-w-24 h-fit"
+      onerror={`this.src='/imgs/not-found.webp'`}
+      src={product.thumbnailUrl}
+      alt={product.title}
+      decoding="async"
+    />
+  </figure>
+  <div class="inline-flex gap-x-2 justify-between w-full">
+    <div aria-label="Product details" class="flex flex-col justify-between">
+      <span>
+        <a href={`shop/product/${product.id}`} class="hover:underline">
+          <h4
+            class="font-bold text-lg max-nav:text-base max-nav:w-48 max-sm:w-24 truncate cursor-pointer"
+          >
+            {product.title}
+          </h4>
+        </a>
+        <p class="font-light text-sm">
+          <strong>Size:</strong>
+          {product_details.size}
+        </p>
+        <p class="font-light text-sm">
+          <strong>Color:</strong>
+          {product_details.color}
+        </p>
+      </span>
+      <data
+        class="font-bold text-xl max-nav:text-lg"
+        aria-label="current price"
+        value="120"
+      >
+        ${product.price ?? "$"}
+      </data>
+    </div>
+    <div class="flex flex-col justify-between">
+      <button
+        aria-label="Delete cart product"
+        class="w-fit self-end"
+        type="button"
+      >
+        <Icon.Trash class="w-6 max-nav:w-5" />
+      </button>
+      <InputQuantity
+        class="!h-fit max-nav:text-base"
+        defaultValue={cart.quantity}
+        itemClass="max-nav:text-sm"
+      />
+    </div>
+  </div>
+</article>

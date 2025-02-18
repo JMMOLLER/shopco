@@ -46,7 +46,7 @@ interface Product {
   readonly category: CategoryType;
   readonly suitStyle: SuitStyleType;
   readonly inventory: ProductDetail[];
-  readonly timestamp: Date;
+  readonly timestamp: Date | string;
 }
 
 interface ProductDetail {
@@ -75,7 +75,7 @@ interface CartItem {
   readonly productDetailId: string;
   readonly quantity: number;
   readonly userId: string;
-  readonly timestamp: Date;
+  readonly timestamp: Date | string;
 }
 
 // LUCIA
