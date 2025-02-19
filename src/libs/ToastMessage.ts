@@ -2,6 +2,14 @@ import type { ToastEventType } from "@components/react-components/ToastMessage";
 import type { MessageInstance } from "antd/es/message/interface";
 import { message } from "antd";
 
+/**
+ * @summary Clase para obtener la instancia de mensaje de Ant Design
+ *
+ * @example
+ * ```js
+ * const toast = await ToastMessage.getInstance();
+ * ``` 
+ */
 export default class ToastMessage {
   private constructor() {}
 
