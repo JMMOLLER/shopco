@@ -1,6 +1,6 @@
 ---
 import ColorSelector from "@components/ColorSelector.astro";
-import InputQuantity from "@components/InputQuantity.astro";
+import InputQuantity from "@components/react-components/InputQuantity";
 import CarruselProduct from "@components/Products/CarruselProduct.astro";
 import CardReview from "@components/Reviews/CardReview.astro";
 import SizeSelector from "@components/SizeSelector.astro";
@@ -181,6 +181,7 @@ const previousPrice = product.discount
           max={product.inventory[0]?.stock || 1}
           itemClass="max-w-20 max-nav:w-12"
           id="quantity"
+          client:load
         />
         <button
           class="bg-black text-white py-3 rounded-full w-full grow disabled:opacity-35 disabled:hover:scale-100 hover:scale-95 transition-all group"

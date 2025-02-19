@@ -1,5 +1,5 @@
 ---
-import InputQuantity from "@components/InputQuantity.astro";
+import InputQuantity from "@components/react-components/InputQuantity";
 import Icon from "@icons";
 
 interface Props {
@@ -62,10 +62,11 @@ const { cart, product, product_details } = Astro.props as Props;
         <Icon.Trash class="w-6 max-nav:w-5" />
       </button>
       <InputQuantity
-        class="!h-fit max-nav:text-base"
+        className="!h-fit max-nav:text-base"
         defaultValue={cart.quantity}
         itemClass="max-nav:text-sm"
         max={product_details.stock}
+        client:load
       />
     </div>
   </div>
