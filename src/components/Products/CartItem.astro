@@ -65,6 +65,7 @@ const { cart, product, product_details } = Astro.props as Props;
         class="!h-fit max-nav:text-base"
         defaultValue={cart.quantity}
         itemClass="max-nav:text-sm"
+        max={product_details.stock}
       />
     </div>
   </div>
