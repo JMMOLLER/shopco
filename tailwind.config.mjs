@@ -43,6 +43,11 @@ export default {
         primary: "#F0F0F0"
       },
       keyframes: {
+        shine: {
+          to: {
+            'background-position-x': '200%',
+          }
+        },
         'fade-out-down': {
           '0%': {
             opacity: '1',
@@ -67,10 +72,21 @@ export default {
       animation: {
         'fade-out-down': 'fade-out-down 0.3s ease',
         'fade-in-down': 'fade-in-down 0.3s ease',
+        'shine': 'shine 1.5s linear infinite'
       },
     },
 	},
-	plugins: [require('daisyui'),
+	plugins: [
+    require('daisyui'),
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.animate-shine': {
+          background: 'linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%)',
+          animation: 'shine 1.5s linear infinite',
+          'background-size': '200% 100%',
+        },
+      })
+    }),
     plugin(function ({ addComponents, addUtilities }) {
       // Estilos base para las estrellas
       addComponents({
