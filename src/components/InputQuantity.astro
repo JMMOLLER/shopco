@@ -1,9 +1,21 @@
 ---
-const { class: className, itemClass, max, min, id, defaultValue } = Astro.props;
+import { uuidv7 } from "uuidv7";
+
+interface QuantityInputProps {
+  defaultValue?: string;
+  itemClass?: string;
+  class?: string;
+  max?: string;
+  min?: string;
+  id?: string;
+}
+
+const { class: className, itemClass, id } = Astro.props as QuantityInputProps;
 ---
 
-<div
+<quantity-input
   class:list={["bg-primary rounded-full h-full text-2xl px-3 py-2", className]}
+  data-component-id={uuidv7()}
 >
   <label for="quantity" class="sr-only"> Quantity </label>
   <div class="flex items-center gap-2">
@@ -23,9 +35,9 @@ const { class: className, itemClass, max, min, id, defaultValue } = Astro.props;
         "text-center bg-transparent rounded-md text-base",
         itemClass
       ]}
-      max={max || "99"}
-      min={min || "1"}
-      value={defaultValue || "1"}
+      value={Astro.props.defaultValue || "1"}
+      max={Astro.props.max || "99"}
+      min={Astro.props.min || "1"}
       aria-label="Quantity"
     />
     <button
@@ -36,7 +48,7 @@ const { class: className, itemClass, max, min, id, defaultValue } = Astro.props;
       +
     </button>
   </div>
-</div>
+</quantity-input>
 
 <style>
   /* Chrome, Safari, Edge, Opera */
@@ -53,40 +65,53 @@ const { class: className, itemClass, max, min, id, defaultValue } = Astro.props;
 </style>
 
 <script>
-  document.addEventListener("astro:page-load", async () => {
-    // Wait for the element to be rendered
-    await new Promise((resolve) => setTimeout(resolve, 50));
+  class QuantityInput extends HTMLElement {
+    quantity: HTMLInputElement;
+    decrease: HTMLButtonElement;
+    increase: HTMLButtonElement;
 
-    // Get the elements
-    const quantity = document.querySelector('input[name="quantity"]') as HTMLInputElement;
-    if (!quantity) return console.error("Element not found");
+    constructor() {
+      super();
+      // Inicializar los elementos
+      this.quantity = this.querySelector("input") as HTMLInputElement;
+      this.decrease = this.quantity.previousElementSibling as HTMLButtonElement;
+      this.increase = this.quantity.nextElementSibling as HTMLButtonElement;
+    }
 
-    const decrease = quantity.previousElementSibling!;
-    const increase = quantity.nextElementSibling!;
+    connectedCallback() {
+      this.decrease.addEventListener("click", () => {
+        if (this.getCurrentValue() <= this.getMin()) return;
+        if (this.getCurrentValue() > 1) {
+          this.quantity.value = String(this.getCurrentValue() - 1);
+        }
+      });
 
-    // Get the max and min values
-    // This is because the values could be changed by other scripts
-    const getMax = () => Number(quantity.max);
-    const getMin = () => Number(quantity.min);
+      this.increase.addEventListener("click", () => {
+        if (this.getCurrentValue() >= this.getMax()) return;
+        this.quantity.value = String(this.getCurrentValue() + 1);
+      });
 
-    decrease.addEventListener("click", () => {
-      if (Number(quantity.value) <= getMin()) return;
-      if (Number(quantity.value) > 1) {
-        quantity.value = String(parseInt(quantity.value) - 1);
-      }
-    });
+      this.quantity.addEventListener("change", () => {
+        if (Number(this.getCurrentValue()) > this.getMax()) {
+          this.quantity.value = String(this.getMax());
+        } else if (Number(this.getCurrentValue()) < this.getMin()) {
+          this.quantity.value = String(this.getMin());
+        }
+      });
+    }
 
-    increase.addEventListener("click", () => {
-      if (Number(quantity.value) >= getMax()) return;
-      quantity.value = String(parseInt(quantity.value) + 1);
-    });
+    getCurrentValue() {
+      return Number(this.quantity.value);
+    }
 
-    quantity.addEventListener("change", () => {
-      if (Number(quantity.value) > getMax()) {
-        quantity.value = String(getMax());
-      } else if (Number(quantity.value) < getMin()) {
-        quantity.value = String(getMin());
-      }
-    });
-  });
+    getMax() {
+      return Number(this.quantity.max);
+    }
+
+    getMin() {
+      return Number(this.quantity.min);
+    }
+  }
+
+  customElements.define("quantity-input", QuantityInput);
 </script>
