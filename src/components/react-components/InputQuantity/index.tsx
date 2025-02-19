@@ -2,6 +2,8 @@ import React, { useCallback, useMemo, useState } from "react";
 import styles from "./styles.module.css";
 
 interface InputQuantityProps {
+  onEncrease?: (e: HTMLInputElement) => void;
+  onDecrease?: (e: HTMLInputElement) => void;
   defaultValue?: string | number;
   max?: string | number;
   min?: string | number;
@@ -11,10 +13,11 @@ interface InputQuantityProps {
 }
 
 function InputQuantity(props: InputQuantityProps) {
-  const { className, min = "1", max = "99" } = props;
+  const { className = "", min = "1", max = "99" } = props;
   const [currentValue, setCurrentValue] = useState<number>(
     Number(props.defaultValue) || 1
   );
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const maxValue = useMemo(() => {
     return Number(max);
@@ -26,37 +29,34 @@ function InputQuantity(props: InputQuantityProps) {
 
   const handleDecrease = useCallback(() => {
     if (currentValue <= minValue) return;
-    if (currentValue > 1) {
-      setCurrentValue(currentValue - 1);
-    }
-  }, [currentValue]);
+    setCurrentValue(currentValue - 1);
+    props.onDecrease?.(inputRef.current!);
+  }, [currentValue, minValue]);
 
   const handleIncrease = useCallback(() => {
     if (currentValue >= maxValue) return;
     setCurrentValue(currentValue + 1);
+    props.onEncrease?.(inputRef.current!);
   }, [currentValue]);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = Number(e.target.value);
-      setCurrentValue(() => {
-        if (value > maxValue) {
-          return maxValue;
-        } else if (value < minValue) {
-          return minValue;
-        } else {
-          return value;
-        }
-      });
+      const newValue = Math.max(minValue, Math.min(maxValue, value));
+      setCurrentValue(newValue);
+
+      if (newValue > currentValue) {
+        props.onEncrease?.(e.target);
+      } else if (newValue < currentValue) {
+        props.onDecrease?.(e.target);
+      }
     },
-    [maxValue, minValue]
+    [maxValue, minValue, currentValue]
   );
 
   return (
     <div
-      className={`bg-primary rounded-full h-full text-2xl px-3 py-2 ${styles.isolated} ${
-        className || ""
-      }`}
+      className={`bg-primary rounded-full h-full text-2xl px-3 py-2 ${styles.isolated} ${className}`}
     >
       <label htmlFor="quantity" className="sr-only">
         Quantity
@@ -80,9 +80,10 @@ function InputQuantity(props: InputQuantityProps) {
           }`}
           value={currentValue}
           max={props.max || "99"}
+          onChange={handleChange}
           min={props.min || "1"}
           aria-label="Quantity"
-          onChange={handleChange}
+          ref={inputRef}
         />
         <button
           type="button"
