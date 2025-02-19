@@ -13,6 +13,7 @@ const { cart, product, product_details } = Astro.props as Props;
 
 <article
   class="inline-flex gap-x-4 w-full transition-opacity duration-200"
+  data-id={product_details.id}
   aria-label="Product"
 >
   <figure aria-label="Product Thumbnail">
@@ -53,7 +54,7 @@ const { cart, product, product_details } = Astro.props as Props;
     </div>
     <div class="flex flex-col justify-between">
       <button
-        class="w-fit self-end aria-busy:cursor-not-allowed"
+        class="w-fit self-end aria-busy:cursor-not-allowed delete-btn"
         aria-label="Delete cart product"
         aria-busy="false"
         type="button"
@@ -69,130 +70,4 @@ const { cart, product, product_details } = Astro.props as Props;
   </div>
 </article>
 
-<script>
-  import { gsap } from "gsap";
-
-  const deleteBtns = document.querySelectorAll(
-    "article button[aria-label='Delete cart product']"
-  );
-  if (deleteBtns) {
-    deleteBtns.forEach((btn) =>
-      btn.addEventListener("click", () => {
-        deleteBtns.forEach((b) => {
-          if (b !== btn) b.ariaBusy = "true";
-        });
-        if (btn.ariaBusy === "true") return;
-
-        // Evita múltiples clicks
-        btn.ariaBusy = "true";
-
-        const article = btn.closest("article");
-        const container = article?.parentElement;
-        const parent = container?.closest("section");
-        if (!container || !parent || !article) return;
-
-        article.style.opacity = "0.5";
-        container.classList.add("animate-shine");
-
-        setTimeout(() => {
-          // Calcula el ancho del elemento padre y añade 15px
-          const toTranslate = container.offsetWidth + 15;
-
-          // Desplaza el contenedor hacia la derecha
-          gsap.to(container, {
-            duration: 0.3,
-            x: toTranslate,
-            onComplete: (c, p) => {
-              slideRightAndUp(c, p);
-              deleteBtns.forEach((b) => (b.ariaBusy = "false"));
-            },
-            onCompleteParams: [container, parent]
-          });
-        }, 2000);
-      })
-    );
-  }
-
-  function slideRightAndUp(element: HTMLElement, parent: HTMLElement) {
-    var nextAll = [];
-    var sibling = element.nextElementSibling;
-
-    // Valida si el carrito estaría vacío
-    validateEmptyCart(parent);
-
-    gsap.to(sibling, {
-      duration: 0.3,
-      marginTop: 0,
-      ease: "power1.out"
-    });
-
-    while (sibling) {
-      nextAll.push(sibling);
-      sibling = sibling.nextElementSibling;
-    }
-
-    var listH = element.offsetHeight;
-    var listMargin = parseInt(
-      window.getComputedStyle(element).marginBottom,
-      10
-    );
-
-    gsap.to(nextAll, {
-      duration: 0.5,
-      y: -(listH + listMargin),
-      onComplete: fadeOut,
-      onCompleteParams: [element, nextAll, parent]
-    });
-  }
-
-  function fadeOut(
-    element: HTMLElement,
-    nextElements: HTMLElement[],
-    parent: HTMLElement
-  ) {
-    // Altura inicial de <section> antes de eliminar el <li>
-    const initialHeight = parent.offsetHeight;
-
-    // Simula la eliminación del <li> para calcular la nueva altura
-    element.style.display = "none";
-    const finalHeight = parent.offsetHeight;
-    element.style.display = ""; // Revertimos para que siga visible hasta la animación
-
-    // Evita saltos visuales bloqueando la altura antes de animar
-    gsap.set(parent, { height: initialHeight, overflow: "hidden" });
-
-    gsap.to(element, {
-      duration: 0.1,
-      autoAlpha: 0,
-      transformOrigin: "0 50%",
-      onComplete: () => {
-        element.remove(); // Elimina el <li>
-        gsap.set(nextElements, { clearProps: "all" });
-
-        // Anima la altura de <section>
-        gsap.to(parent, {
-          duration: 0.3,
-          height: finalHeight,
-          ease: "power2.out",
-          onComplete: () => {
-            gsap.set(parent, { clearProps: "all" });
-          }
-        });
-      }
-    });
-  }
-
-  function validateEmptyCart(parent: HTMLElement) {
-    const ul = parent.querySelector("ul");
-    if (ul && ul.childElementCount === 1) {
-      const text = parent.querySelector("#empty_cart") as HTMLElement | null;
-      if (!text) return;
-
-      text.style.removeProperty("display");
-      setTimeout(() => {
-        text.style.removeProperty("opacity");
-      }, 1);
-      text.setAttribute("aria-hidden", "false");
-    }
-  }
-</script>
+<script src="@scripts/cartItem.ts"></script>

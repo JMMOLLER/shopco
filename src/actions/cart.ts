@@ -105,10 +105,50 @@ export const cart = {
         return join;
       } catch (error) {
         console.error(error);
-        throw new ActionError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to get cart"
-        });
+        if (isActionError(error)) throw error;
+        else {
+          throw new ActionError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to add product to cart"
+          });
+        }
+      }
+    }
+  }),
+  /**
+   * @summary Elimina un producto del carrito del usuario autenticado
+   */
+  deleteFromCart: defineAction({
+    accept: "json",
+    input: z.object({
+      productDetailId: z.string()
+    }),
+    handler: async (input, context) => {
+      try {
+        // Obtener el ID de la sesión del usuario
+        const sessionId = context.locals.session?.id;
+        if (!sessionId) {
+          throw new ActionError({
+            code: "FORBIDDEN",
+            message: "You must be authenticated to perform this action"
+          });
+        }
+
+        await db
+          .delete(CartModel)
+          .where(eq(CartModel.productDetailId, input.productDetailId))
+          .execute();
+
+        return true;
+      } catch (error) {
+        console.error(error);
+        if (isActionError(error)) throw error;
+        else {
+          throw new ActionError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to add product to cart"
+          });
+        }
       }
     }
   })
