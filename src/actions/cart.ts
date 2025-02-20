@@ -8,14 +8,18 @@ import db from "@db/index";
 
 export const cart = {
   /**
-   * @summary Agrega un producto al carrito del usuario autenticado
+   * @summary Agrega un producto al carrito del usuario autenticado o actualiza la cantidad
    */
-  addToCart: defineAction({
+  putProductInCart: defineAction({
     accept: "json",
     input: z.object({
       userId: z.string(),
       productDetailId: z.string(),
-      quantity: z.number().int().positive()
+      quantity: z.number().int().positive(),
+      /**
+       * @summary Indica si el valor de `quantity` debe ser sumado al valor actual en el carrito
+       */
+      increase: z.boolean().default(false)
     }),
     handler: async (input, context) => {
       try {
@@ -41,7 +45,10 @@ export const cart = {
           .get();
 
         if (join) {
-          const totalQuantity = join.cart.quantity + input.quantity;
+          // Se calcula la cantidad total dependiendo de si se está aumentando o estableciendo la cantidad
+          const totalQuantity = input.increase
+            ? join.cart.quantity + input.quantity
+            : input.quantity;
 
           if (totalQuantity > join.product_details.stock) {
             throw new ActionError({

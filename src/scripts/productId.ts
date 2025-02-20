@@ -125,7 +125,6 @@ function handleAddToCart(props: addToCartProps) {
   // Obtener cantidad y detalles del producto seleccionado
   const quantity = form.elements.namedItem("quantity") as HTMLInputElement;
   const productDetailId = el.getAttribute("data-selected-product") as string;
-  const productId = product.id;
 
   // Agregar producto al carrito
   el.classList.add("load");
@@ -133,7 +132,8 @@ function handleAddToCart(props: addToCartProps) {
   addToCart({
     productDetailId,
     userId: window.user,
-    quantity: parseInt(quantity.value, 10)
+    quantity: parseInt(quantity.value, 10),
+    increase: true
   })
     .then(() => {
       message.success("Producto agregado al carrito");
