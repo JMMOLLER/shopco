@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
-import "./dualRangeSlider.css";
+import { useCallback, useEffect, useState, useRef } from "react";
+import styles from "./styles.module.css";
 
 interface DualRangeSliderProps {
   min: number;
@@ -47,7 +47,7 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
   }, [minVal, maxVal, onChange]);
 
   return (
-    <div className="dual_range_container">
+    <div className={styles.dual_range_container}>
       <input
         type="range"
         min={min}
@@ -58,7 +58,7 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
           setMinVal(value);
           minValRef.current = value;
         }}
-        className="thumb thumb--left"
+        className={`${styles.thumb} ${styles["thumb--left"]}`}
         style={{ zIndex: minVal > max - 100 ? "5" : undefined }}
       />
       <input
@@ -71,14 +71,14 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
           setMaxVal(value);
           maxValRef.current = value;
         }}
-        className="thumb thumb--right"
+        className={`${styles.thumb} ${styles["thumb--right"]}`}
       />
 
-      <div className="slider">
-        <div className="slider__track" />
-        <div ref={range} className="slider__range" />
-        <div className="slider__left-value">$ {minVal}</div>
-        <div className="slider__right-value">$ {maxVal}</div>
+      <div className={styles.slider}>
+        <div className={styles.slider__track} />
+        <div ref={range} className={styles.slider__range} />
+        <div className={styles["slider__left-value"]}>$ {minVal}</div>
+        <div className={styles["slider__right-value"]}>$ {maxVal}</div>
       </div>
     </div>
   );
