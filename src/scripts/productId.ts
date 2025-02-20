@@ -145,9 +145,35 @@ function handleAddToCart(props: addToCartProps) {
       el.classList.remove("load");
       el.removeAttribute("disabled");
       form.reset();
+      resetInputValue(
+        form.querySelector('input[type="number"]') as HTMLInputElement
+      );
       // Se llama a la función handleChange porque el form reset no dispara el evento change
       handleChange(product);
     });
+}
+
+/**
+ * @description Resetea el valor de un input de tipo número del componente `InputQuantity`, ya que el evento `reset` no dispara el evento del input
+ */
+function resetInputValue(input?: HTMLInputElement) {
+  if (!input) return;
+  const descriptor = Object.getOwnPropertyDescriptor(
+    window.HTMLInputElement.prototype,
+    "value"
+  );
+
+  if (!descriptor || !descriptor.set)
+    return console.error(
+      "No se pudo obtener el descriptor del prototipo HTMLInputElement"
+    );
+
+  const nativeSetter = descriptor.set;
+  // Asigna el valor a través del descriptor nativo
+  nativeSetter.call(input, "1");
+
+  // Dispara el evento "input"
+  input.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
 /**
