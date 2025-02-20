@@ -47,8 +47,9 @@ async function handleClick(
     container.classList.add("animate-shine");
 
     const id = article.dataset.id!;
+    const detailId = article.querySelector("div")!.dataset.id!;
 
-    const res = await actions.deleteFromCart({ productDetailId: id });
+    const res = await actions.deleteFromCart({ productDetailId: detailId });
     if (isActionError(res) || isInputError(res)) {
       console.error(res.message);
       return onRequestFail(container, article, toast, btns);
@@ -95,13 +96,12 @@ function slideRightAndUp(element: HTMLElement, parent: HTMLElement) {
   var listH = element.offsetHeight;
   var listMargin = parseInt(window.getComputedStyle(element).marginBottom, 10);
 
-  nextAll.length > 0 &&
-    gsap.to(nextAll, {
-      duration: 0.5,
-      y: -(listH + listMargin),
-      onComplete: fadeOut,
-      onCompleteParams: [element, nextAll, parent]
-    });
+  gsap.to(nextAll, {
+    duration: 0.5,
+    y: -(listH + listMargin),
+    onComplete: fadeOut,
+    onCompleteParams: [element, nextAll, parent]
+  });
 }
 
 function fadeOut(

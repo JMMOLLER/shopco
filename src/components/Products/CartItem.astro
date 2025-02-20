@@ -13,7 +13,7 @@ const { cart, product, product_details } = Astro.props as Props;
 
 <article
   class="inline-flex gap-x-4 w-full transition-opacity duration-200"
-  data-id={product_details.id}
+  data-id={cart.id}
   aria-label="Product"
 >
   <figure aria-label="Product Thumbnail">
@@ -25,7 +25,7 @@ const { cart, product, product_details } = Astro.props as Props;
       decoding="async"
     />
   </figure>
-  <div class="inline-flex gap-x-2 justify-between w-full">
+  <div data-id={product_details.id} class="inline-flex gap-x-2 justify-between w-full">
     <div aria-label="Product details" class="flex flex-col justify-between">
       <span>
         <a href={`shop/product/${product.id}`} class="hover:underline">
@@ -64,6 +64,7 @@ const { cart, product, product_details } = Astro.props as Props;
       <CardItemInput
         product_details={product_details}
         userId={Astro.locals.user}
+        product={product}
         cart={cart}
         client:load
       />
