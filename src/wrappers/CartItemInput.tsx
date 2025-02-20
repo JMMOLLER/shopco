@@ -2,11 +2,13 @@ import type { ProcessInputEvent } from "@components/react-components/InputQuanti
 import InputQuantity from "@components/react-components/InputQuantity";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { MessageInstance } from "antd/es/message/interface";
+import { isLoading, cartItems } from "@stores/cartStore";
 import ToastMessage from "@libs/ToastMessage";
 import addToCart from "@utils/addToCart";
 import debounce from "@utils/debounce";
 
 interface CartItemInputProps {
+  product: Omit<Product, "inventory">;
   product_details: ProductDetail;
   userId?: Window["user"];
   cart: CartItem;
@@ -26,6 +28,7 @@ function CartItemInput(props: CartItemInputProps) {
   const handleAddToCart = useCallback<ProcessQuantityUpdate>(
     async (...args) => {
       const [quantity, setter, prev] = args;
+      isLoading.set(true);
       return addToCart({
         productDetailId: product_details.id,
         userId: userId,
@@ -33,11 +36,15 @@ function CartItemInput(props: CartItemInputProps) {
       })
         .then(() => {
           setQuantity(quantity);
+          cartItems.setKey(cart.id, { ...props.product, quantity });
         })
         .catch((err) => {
           console.error(err);
           setter(prev);
           toast && toast.error("Error updating product quantity");
+        })
+        .finally(() => {
+          isLoading.set(false);
         });
     },
     [toast]
@@ -73,6 +80,7 @@ function CartItemInput(props: CartItemInputProps) {
 
   useEffect(() => {
     ToastMessage.getInstance().then(setToast);
+    cartItems.setKey(cart.id, {...props.product, quantity});
   }, []);
 
   return (

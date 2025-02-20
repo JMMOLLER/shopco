@@ -1,4 +1,5 @@
 import type { MessageInstance } from "antd/es/message/interface";
+import { cartItems, isLoading } from "@stores/cartStore";
 import { isActionError } from "astro:actions";
 import ToastMessage from "@libs/ToastMessage";
 import { isInputError } from "astro:actions";
@@ -49,6 +50,8 @@ async function handleClick(
     const id = article.dataset.id!;
     const detailId = article.querySelector("div")!.dataset.id!;
 
+    isLoading.set(true);
+
     const res = await actions.deleteFromCart({ productDetailId: detailId });
     if (isActionError(res) || isInputError(res)) {
       console.error(res.message);
@@ -71,6 +74,10 @@ async function handleClick(
       },
       onCompleteParams: [container, parent]
     });
+
+    // Elimina el producto del carrito
+    cartItems.setKey(id, undefined as any);
+    isLoading.set(false);
   }
 }
 

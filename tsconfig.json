@@ -12,6 +12,7 @@
       "@styles/*": ["src/styles/*"],
       "@assets/*": ["src/assets/*"],
       "@config/*": ["src/config/*"],
+      "@stores/*": ["src/stores/*"],
       "@models/*": ["db/models/*"],
       "@utils/*": ["src/utils/*"],
       "@libs/*": ["src/libs/*"],
