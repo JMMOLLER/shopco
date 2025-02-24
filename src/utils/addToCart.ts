@@ -28,7 +28,7 @@ export default async function addToCart(props: Props): Promise<void> {
 
     // Check if product already exists in cart
     const existingProduct = Array.from(cart).find(
-      ([_, item]) => item.id === productDetailId
+      ([_, item]) => item.productDetail.id === productDetailId
     )?.[1];
 
     // If product exists, update quantity
