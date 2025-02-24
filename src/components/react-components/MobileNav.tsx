@@ -11,6 +11,8 @@ type SvgIcon = {
 
 function MobileNav() {
   // Selecciona el botón y los elementos relevantes
+  const dressCategoryRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
 
@@ -58,16 +60,32 @@ function MobileNav() {
     const el = e.currentTarget as HTMLElement;
     const content = el.querySelector("[data-content]") as HTMLElement;
     const icon = el.querySelector("[data-icon]") as HTMLElement;
+    const firstChild = el.firstElementChild as HTMLElement;
 
     if (content.style.maxHeight && content.style.maxHeight !== "0px") {
       el.className = "";
       content.style.maxHeight = "0";
       icon.style.transform = "rotate(0deg)";
+      firstChild.setAttribute("aria-expanded", "false");
     } else {
       el.className = "border-b border-slate-200 pb-2";
-      content.style.maxHeight = content.scrollHeight + "px";
+      firstChild.setAttribute("aria-expanded", "true");
+
+      // Calcular el alto total del contenido considerando los acordeones anidados
+      const nestedAccordions = content.querySelectorAll("[data-accordion]");
+      let totalHeight = content.scrollHeight;
+      nestedAccordions.forEach((nestedAccordion) => {
+        const nestedContent = nestedAccordion.querySelector(
+          "[data-content]"
+        ) as HTMLElement;
+        totalHeight += nestedContent.scrollHeight;
+      });
+
+      content.style.maxHeight = totalHeight + "px";
       icon.style.transform = "rotate(180deg)";
     }
+
+    e.stopPropagation(); // Detener la propagación del evento
   };
 
   // Logica para cerrar el nav al hacer click fuera de él
@@ -79,6 +97,14 @@ function MobileNav() {
       btnRef.current &&
       !btnRef.current.contains(e.target as Node)
     ) {
+      // Cerrar los acordeones abiertos
+      [dropdownRef, dressCategoryRef].forEach((ref) => {
+        const button = ref.current?.firstChild as HTMLElement;
+        if (button?.getAttribute("aria-expanded") === "true") {
+          ref.current?.click();
+        }
+      });
+      // Cerrar el nav
       handleToggleNav();
       navRef.current!.addEventListener("animationend", handleEndAnimation);
       setNavIsOpen(false);
@@ -147,8 +173,15 @@ function MobileNav() {
       >
         <ul className="flex flex-col gap-y-3 items-center text-center">
           <li>
-            <div data-accordion onClick={handleToggleAccordion}>
-              <button className="flex justify-between gap-1 items-center text-slate-800">
+            <div
+              data-accordion
+              ref={dropdownRef}
+              onClick={handleToggleAccordion}
+            >
+              <button
+                aria-expanded="false"
+                className="flex justify-between gap-1 items-center text-slate-800 mx-auto"
+              >
                 <span>Shop</span>
                 <span
                   className="text-slate-800 transition-transform duration-300"
@@ -172,9 +205,50 @@ function MobileNav() {
                   </a>
                 </li>
                 <li>
-                  <a aria-label="Ir a Item 2" className="text-nowrap" href="/">
-                    Item 2
-                  </a>
+                  <div
+                    onClick={handleToggleAccordion}
+                    ref={dressCategoryRef}
+                    data-accordion
+                  >
+                    <button
+                      aria-expanded="false"
+                      className="flex justify-between gap-1 items-center text-slate-800"
+                    >
+                      <span>Dress Styles</span>
+                      <span
+                        className="text-slate-800 transition-transform duration-300"
+                        dangerouslySetInnerHTML={{
+                          __html: svgContent?.chevronDown || ""
+                        }}
+                        data-icon="true"
+                      />
+                    </button>
+                    <ul
+                      className="max-h-0 overflow-hidden transition-all duration-300 ease-in-out"
+                      data-content
+                    >
+                      <li>
+                        <a href="/shop/casual" aria-label="Go to category">
+                          Casual
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/shop/formal" aria-label="Go to category">
+                          Formal
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/shop/party" aria-label="Go to category">
+                          Party
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/shop/gym" aria-label="Go to category">
+                          Gym
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
               </ul>
             </div>
