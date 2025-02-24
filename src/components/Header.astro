@@ -3,6 +3,8 @@ import Icon from "@icons";
 import { Image } from "astro:assets";
 import ArrowDownIcon from "@assets/chevron-down.svg?raw";
 import MobileNav from "@components/react-components/MobileNav";
+
+const isAuth = Astro.locals.session;
 ---
 
 <header
@@ -93,24 +95,62 @@ import MobileNav from "@components/react-components/MobileNav";
     >
       <Icon.Search />
     </button>
-    <a aria-label="Ir al carrito" href="/cart">
+    <a aria-label="Go to cart" href="/cart">
       <Icon.Cart />
     </a>
-    <a aria-label="Ir a la cuenta" href="/auth/login">
-      <Icon.User />
-    </a>
+    {
+      !isAuth ? (
+        <a aria-label="Go to login" href="/auth/login">
+          <Icon.User />
+        </a>
+      ) : (
+        <div class="dropdown dropdown-hover dropdown-end">
+          <div
+            aria-haspopup="true"
+            aria-expanded="false"
+            role="button"
+            tabindex="0"
+          >
+            <Icon.User />
+          </div>
+          <div
+            class="dropdown-content menu rounded-box z-[1] w-52"
+            tabindex="0"
+          >
+            <ul class="bg-base-100 p-2 shadow">
+              <li class="hover:bg-red-500 hover:bg-opacity-50">
+                <a
+                  aria-label="Close session"
+                  href="/api/auth/logout"
+                  role="menuitem"
+                >
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )
+    }
   </nav>
 </header>
 
 <script>
-  const dropdowns = document.querySelectorAll(".dropdown button");
-  
-  dropdowns.forEach((dropdown) => {
-    dropdown.addEventListener("mouseover", () => {
-      dropdown.ariaExpanded = 'true';
-    });
-    dropdown.addEventListener("mouseout", () => {
-      dropdown.ariaExpanded = 'false';
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdowns = document.querySelectorAll(".dropdown");
+
+    dropdowns.forEach((dropdown) => {
+      // Al entrar con el puntero sobre todo el contenedor
+      dropdown.addEventListener("mouseenter", () => {
+        const trigger = dropdown.querySelector("*:first-child");
+        if (trigger) trigger.ariaExpanded = "true";
+      });
+
+      // Al salir completamente del contenedor
+      dropdown.addEventListener("mouseleave", () => {
+        const trigger = dropdown.querySelector("*:first-child");
+        if (trigger) trigger.ariaExpanded = "false";
+      });
     });
   });
 </script>
