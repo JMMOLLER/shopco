@@ -1,28 +1,66 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import Icons from "@icons";
 
-if(Astro.locals.session) {
+if (Astro.locals.session) {
   return Astro.redirect("/");
 }
-
 ---
 
-<Layout title="Login">
-  <div class="container mx-auto mb-5 max-w-96 border border-gray-300 p-5 rounded-lg">
+<Layout
+  className="inline-flex justify-center gap-x-8 w-full mx-auto py-10 px-8 max-nav:[background-image:_url('/imgs/login-banner.webp')] bg-cover bg-center"
+  title="Login"
+>
+  <div
+    class="container my-auto max-w-96 border p-5 rounded-2xl shadow-lg h-full max-h-96 bg-white"
+  >
     <h1 class="text-2xl text-center font-bold">Login</h1>
-    <form class="flex flex-col gap-y-4 mt-5" action="/api/auth/login" method="POST">
-      <label class="inline-flex items-center gap-x-3" for="email">
-        <span>Email:</span>
-        <input class="input input-bordered grow" type="email" id="email" name="email" value="user@user.com" required />
+    <form
+      class="flex flex-col gap-y-4 mt-5"
+      action="/api/auth/login"
+      method="POST"
+    >
+      <label class="flex flex-col items-start gap-y-2 relative" for="email">
+        <span>Email</span>
+        <input
+          class="py-2.5 border rounded-xl w-full px-9"
+          type="email"
+          id="email"
+          name="email"
+          value="user@user.com"
+          required
+        />
+        <Icons.Mail class="absolute left-2.5 bottom-2 w-6 h-6" />
       </label>
-      <label class="inline-flex items-center gap-x-3" for="password"
-        ><span>Password:</span>
-        <input class="input input-bordered grow" type="password" id="password" name="password" value="admin123" required />
+      <label class="flex flex-col items-start gap-y-2 relative" for="password">
+        <span>Password</span>
+        <input
+          class="py-2.5 border rounded-xl w-full px-9"
+          type="password"
+          id="password"
+          name="password"
+          value="admin123"
+          required
+        />
+        <Icons.Key class="absolute left-2.5 bottom-2.5 w-6 h-6 text-gray-500" />
       </label>
-      <button class="btn" type="submit">Login</button>
+      <button
+        class="bg-black mt-3 py-2 rounded-xl text-white hover:bg-gray-800 transition-all"
+        type="submit"
+      >
+        Login
+      </button>
     </form>
-    <p class="text-center mt-5">
-      Don't have an account? <a class="text-cyan-600 underline hover:no-underline" href="/auth/signup">Sign up</a>
+    <p class="text-center text-gray-500 text-sm mt-5 cursor-default">
+      Don't have an account? <a
+        class="text-black font-medium hover:underline"
+        href="/auth/signup">Sign up</a
+      >
     </p>
   </div>
+  <img
+    class="w-[calc(100vw-30rem)] max-w-screen-sm max-nav:hidden"
+    src="/imgs/login-banner.webp"
+    alt="Login"
+  />
 </Layout>

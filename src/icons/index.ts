@@ -21,6 +21,7 @@ import User from "./User.astro";
 import VersageLogo from "./VersageLogo.astro";
 import Visa from "./Visa.astro";
 import ZaraLogo from "./ZaraLogo.astro";
+import Key from "./Key.astro";
 
 
 export default Object.assign(
@@ -48,6 +49,7 @@ export default Object.assign(
     User,
     VersageLogo,
     Visa,
-    ZaraLogo
+    ZaraLogo,
+    Key
   }
 );
