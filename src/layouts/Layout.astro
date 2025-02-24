@@ -4,11 +4,15 @@ import "@styles/satoshi.css";
 import "@styles/daisyui.css";
 
 import ToastMessage from "@components/react-components/ToastMessage";
+import { ClientRouter } from "astro:transitions";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import { ClientRouter } from "astro:transitions";
 
-const { className, id, title = "Shop.Co" } = Astro.props as MainLayoutProps;
+const {
+  title = "Shop.Co",
+  clientRouter = false,
+  ...props
+} = Astro.props as MainLayoutProps;
 ---
 
 <!doctype html>
@@ -18,14 +22,14 @@ const { className, id, title = "Shop.Co" } = Astro.props as MainLayoutProps;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="preload" href="/imgs/hero-pattern.webp" as="image">
-    <ClientRouter fallback="animate" />
+    <link rel="preload" href="/imgs/hero-pattern.webp" as="image" />
+    {clientRouter && <ClientRouter fallback="animate" />}
     <title>{title}</title>
   </head>
   <body>
     <Header />
     <ToastMessage client:only="react" />
-    <main class={className} {...({id})} >
+    <main class={props.className} {...{ id: props.id }}>
       <slot />
     </main>
     <Footer />

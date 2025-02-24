@@ -6,6 +6,7 @@ interface MainLayoutProps {
   id?: string;
   title: string;
   className?: string;
+  clientRouter?: boolean;
 }
 
 interface PaginatorType {

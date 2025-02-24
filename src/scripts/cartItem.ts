@@ -7,22 +7,18 @@ import { isInputError } from "astro:actions";
 import { actions } from "astro:actions";
 import { gsap } from "gsap";
 
-document.addEventListener("astro:page-load", async () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const toast = await ToastMessage.getInstance();
-  // Al cargar una nueva página, verifica si es la página de carrito
-  if (document.querySelector("#cart-page")) {
-    console.log("Cart page loaded");
-    const delBtnNodes = document.querySelectorAll(
-      "button.delete-btn"
-    ) as NodeListOf<HTMLButtonElement>;
+  const delBtnNodes = document.querySelectorAll(
+    "button.delete-btn"
+  ) as NodeListOf<HTMLButtonElement>;
 
-    if (delBtnNodes) {
-      delBtnNodes.forEach((btn) =>
-        btn.addEventListener("click", () =>
-          handleClick(btn, Array.from(delBtnNodes), toast)
-        )
-      );
-    }
+  if (delBtnNodes) {
+    delBtnNodes.forEach((btn) =>
+      btn.addEventListener("click", () =>
+        handleClick(btn, Array.from(delBtnNodes), toast)
+      )
+    );
   }
 });
 
