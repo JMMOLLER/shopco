@@ -70,6 +70,21 @@ function MobileNav() {
     }
   };
 
+  // Logica para cerrar el nav al hacer click fuera de él
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      navIsOpen &&
+      navRef.current &&
+      !navRef.current.contains(e.target as Node) &&
+      btnRef.current &&
+      !btnRef.current.contains(e.target as Node)
+    ) {
+      handleToggleNav();
+      navRef.current!.addEventListener("animationend", handleEndAnimation);
+      setNavIsOpen(false);
+    }
+  };
+
   // Listener para cerrar el nav al redimensionar
   useEffect(() => {
     const handleResize = () => {
@@ -82,10 +97,12 @@ function MobileNav() {
     };
 
     window.addEventListener("resize", handleResize);
+    document.addEventListener("mousedown", handleClickOutside);
 
     // Limpiar el listener al desmontar el componente
     return () => {
       window.removeEventListener("resize", handleResize);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [navIsOpen, onClose, onOpen]);
 
@@ -146,7 +163,11 @@ function MobileNav() {
                 data-content
               >
                 <li>
-                  <a aria-label="Ir a Item 1" className="text-nowrap" href="/shop">
+                  <a
+                    aria-label="Ir a Item 1"
+                    className="text-nowrap"
+                    href="/shop"
+                  >
                     All
                   </a>
                 </li>
