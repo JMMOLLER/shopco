@@ -1,5 +1,5 @@
 import { actions, isActionError, isInputError } from "astro:actions";
-import getLocalCart from "./getLocalCart";
+import getLocalCart from "./localCart";
 import { uuidv7 } from "uuidv7";
 
 type Props = Omit<CartItem, "id" | "userId" | "timestamp"> & {

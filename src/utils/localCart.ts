@@ -6,3 +6,7 @@ export default function getLocalCart(): LocalCart {
     return new Map();
   }
 }
+
+export function setLocalCart(cart: LocalCart): void {
+  localStorage.setItem("cart", JSON.stringify(Array.from(cart)));
+}
