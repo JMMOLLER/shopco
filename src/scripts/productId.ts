@@ -119,7 +119,7 @@ type addToCartProps = {
 function handleAddToCart(props: addToCartProps) {
   const { event: e, product, message } = props;
   // Evitar que el formulario se envíe y obtener los datos del producto
-  const el = e.target as HTMLButtonElement;
+  const el = e.currentTarget as HTMLButtonElement;
   const form = el.form || (el.closest("form") as HTMLFormElement);
 
   // Obtener cantidad y detalles del producto seleccionado
