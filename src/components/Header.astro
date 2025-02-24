@@ -53,13 +53,37 @@ const isAuth = Astro.locals.session;
               href="/shop">All</a
             >
           </li>
-          <li>
-            <a
-              aria-label="Ir a Item 2"
-              role="menuitem"
-              class="text-nowrap"
-              href="/">Item 2</a
+          <li class="dropdown dropdown-right group">
+            <div tabindex="0" class="text-nowrap" role="menu">
+              Dress Styles <Icon.ChevronDown
+                class="-rotate-90 group-hover:translate-x-1 group-focus-within:translate-x-1 transition-transform text-black"
+              />
+            </div>
+            <div
+              class="dropdown-content group-[:not(:hover)]:group-[:not(:focus-within)]:!opacity-0 hover:bg-transparent p-0 z-[1]"
             >
+              <ul
+                tabindex="0"
+                class="menu bg-base-100 rounded-box w-52 p-2 shadow"
+              >
+                <li>
+                  <a href="/shop/casual" aria-label="Go to category">
+                    Casual
+                  </a>
+                </li>
+                <li>
+                  <a href="/shop/formal" aria-label="Go to category">
+                    Formal
+                  </a>
+                </li>
+                <li>
+                  <a href="/shop/party" aria-label="Go to category"> Party </a>
+                </li>
+                <li>
+                  <a href="/shop/gym" aria-label="Go to category"> Gym </a>
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
       </li>

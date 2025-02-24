@@ -12,6 +12,13 @@ h1, h2, h3, h4, h5, h6 {
       @apply rounded-lg;
     }
   }
+  .menu li > :not(ul, .menu-title, details, .btn):active {
+    @apply bg-transparent
+  }
+
+  .menu li a:is(:active, :focus) {
+    @apply text-black;
+  }
 }
 
 /* BREADCRUMBS */
