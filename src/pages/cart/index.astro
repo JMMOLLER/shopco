@@ -1,6 +1,7 @@
 ---
 import OrderSummary from "@components/react-components/OrderSummary";
 import Breadcrumb from "@components/Breadcrumb/Breadcrumb.astro";
+import LocalCart from "@components/react-components/LocalCart";
 import CartItem from "@components/Products/CartItem.astro";
 import { isActionError, actions } from "astro:actions";
 import Layout from "@layouts/Layout.astro";
@@ -40,42 +41,50 @@ export const prerender = false;
       aria-labelledby="cart-items"
       class="border border-primary rounded-3xl nav:px-6 nav:py-5 p-3.5 grow max-h-[calc(100vh-20rem)] max-nav:min-h-36 overflow-y-auto relative"
     >
-      <div
-        class="text-center text-lg px-2.5 max-nav:text-base opacity-50 cursor-default absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300"
-        style={{
-          ...(joinItems.length > 0 && { display: "none" }),
-          ...(joinItems.length > 0 && { opacity: 0 })
-        }}
-        aria-hidden={joinItems.length > 0}
-        id="empty_cart"
-      >
-        <p>Your cart is empty. Don't miss out on our amazing products!</p>
-        <div class="inline-flex flex-wrap justify-center gap-x-1">
-          <p>Head over to the</p>
-          <a
-            class="hover:underline font-bold"
-            aria-label="Shop page"
-            href="/shop"
-          >
-            Shop
-          </a>
-          <p class="text-nowrap">and start adding your favorites now.</p>
-        </div>
-      </div>
-      <ul aria-label="product items" class="space-y-6 overflow-x-hidden">
-        {
-          joinItems.map((item, index) => (
-            <li class="rounded-lg" aria-label="item">
-              <CartItem
-                product_details={item.product_details}
-                product={item.product}
-                cart={item.cart}
-              />
-              {joinItems.length === index && <hr class="mt-6 border-primary" />}
-            </li>
-          ))
-        }
-      </ul>
+      {
+        isAuth && (
+          <>
+            <div
+              class="text-center text-lg px-2.5 max-nav:text-base opacity-50 cursor-default absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-300"
+              style={{
+                ...(joinItems.length > 0 && { display: "none" }),
+                ...(joinItems.length > 0 && { opacity: 0 })
+              }}
+              aria-hidden={joinItems.length > 0}
+              id="empty_cart"
+            >
+              <p>Your cart is empty. Don't miss out on our amazing products!</p>
+              <div class="inline-flex flex-wrap justify-center gap-x-1">
+                <p>Head over to the</p>
+                <a
+                  class="hover:underline font-bold"
+                  aria-label="Shop page"
+                  href="/shop"
+                >
+                  Shop
+                </a>
+                <p class="text-nowrap">and start adding your favorites now.</p>
+              </div>
+            </div>
+            <ul aria-label="product items" class="space-y-6 overflow-x-hidden">
+              {joinItems.map((item, index) => (
+                <li class="rounded-lg" aria-label="item">
+                  <CartItem
+                    product_details={item.product_details}
+                    product={item.product}
+                    item={item.cart}
+                  />
+                  {joinItems.length === index && (
+                    <hr class="mt-6 border-primary" />
+                  )}
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+
+      {!isAuth && <LocalCart client:load />}
     </section>
 
     <!-- RESUMEN DE LA ORDEN -->

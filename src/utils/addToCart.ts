@@ -2,22 +2,33 @@ import { actions, isActionError, isInputError } from "astro:actions";
 import getLocalCart from "./localCart";
 import { uuidv7 } from "uuidv7";
 
-type Props = Omit<CartItem, "id" | "userId" | "timestamp"> & {
+type Props = {
+  productDetailId: string;
   userId: Window["user"];
   increase?: boolean;
+  quantity: number;
 };
 
 export default async function addToCart(props: Props): Promise<void> {
   const { productDetailId, quantity, userId, increase = false } = props;
 
   if (!userId) {
-    console.log("Adding product to local cart");
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const res = await actions.getProductDetailById({ id: productDetailId });
+    if (isActionError(res)) {
+      throw new Error(res.message);
+    } else if (isInputError(res)) {
+      throw new Error(res.message);
+    } else if (res.error) {
+      throw new Error(res.error.message);
+    }
     // Add product to cart logic
+    const productDetail = res.data as ProductDetail;
     const cart = getLocalCart();
     const newId = uuidv7();
     cart.set(newId, {
-      productDetailId,
+      timestamp: new Date().toISOString(),
+      productId: productDetail.productId,
+      productDetail,
       id: newId,
       quantity
     });

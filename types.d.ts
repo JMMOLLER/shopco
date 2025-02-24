@@ -66,8 +66,13 @@ interface Cart {
 
 type LocalCart = Map<
   string,
-  Omit<CartItem, "userId" | "timestamp"> &
-    Partial<Pick<CartItem, "userId" | "timestamp">>
+  {
+    readonly id: string;
+    readonly quantity: number;
+    readonly timestamp: string;
+    readonly productId: string;
+    readonly productDetail: ProductDetail;
+  }
 >;
 
 interface CartItem {

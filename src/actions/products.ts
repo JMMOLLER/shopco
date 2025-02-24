@@ -5,8 +5,8 @@ import CardProduct from "@components/Products/CardProduct.astro";
 import { ActionError, defineAction } from "astro:actions";
 import { experimental_AstroContainer } from "astro/container";
 import ProductDetailsModel from "@models/ProductDetails";
+import { count, inArray, sql } from "drizzle-orm";
 import { RedisConnection } from "@db/redis";
-import { count, sql } from "drizzle-orm";
 
 export const products = {
   getProducts: defineAction({
@@ -151,6 +151,59 @@ export const products = {
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to get product"
+        });
+      }
+    }
+  }),
+  getProductDetailById: defineAction({
+    accept: "json",
+    input: z.object({
+      id: z.string()
+    }),
+    handler: async (input, context) => {
+      try {
+        const product = await db
+          .select()
+          .from(ProductDetailsModel)
+          .where(sql`id = ${input.id}`)
+          .get();
+
+        if (!product) {
+          throw new ActionError({
+            code: "NOT_FOUND",
+            message: "Product detail not found"
+          });
+        }
+
+        return product;
+      } catch (error) {
+        console.log(error);
+        throw new ActionError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to get product detail"
+        });
+      }
+    }
+  }),
+  getProductsInfo: defineAction({
+    accept: "json",
+    input: z.object({
+      ids: z.array(z.string())
+    }),
+    handler: async (input, context) => {
+      try {
+        const products = await db
+          .select()
+          .from(ProductModel)
+          .where(inArray(ProductModel.id, input.ids))
+          .all();
+
+        return products;
+      } catch (error) {
+        console.log(error);
+        throw new ActionError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to get products info"
         });
       }
     }

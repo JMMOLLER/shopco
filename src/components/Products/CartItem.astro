@@ -5,15 +5,15 @@ import Icon from "@icons";
 interface Props {
   product: Omit<Product, "inventory"> & { inventory?: Product["inventory"] };
   product_details: ProductDetail;
-  cart: CartItem;
+  item: CartItem;
 }
 
-const { cart, product, product_details } = Astro.props as Props;
+const { item, product, product_details } = Astro.props as Props;
 ---
 
 <article
   class="inline-flex gap-x-4 w-full transition-opacity duration-200"
-  data-id={cart.id}
+  data-id={item.id}
   aria-label="Product"
 >
   <figure aria-label="Product Thumbnail">
@@ -65,7 +65,7 @@ const { cart, product, product_details } = Astro.props as Props;
         product_details={product_details}
         userId={Astro.locals.user}
         product={product}
-        cart={cart}
+        cart={item}
         client:load
       />
     </div>
