@@ -21,7 +21,6 @@ export default async function addToCart(props: Props): Promise<void> {
     } else if (res.error) {
       throw new Error(res.error.message);
     }
-    debugger
     // Add product to cart logic
     const productDetail = res.data as ProductDetail;
     const cart = getLocalCart();
