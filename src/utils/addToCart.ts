@@ -21,6 +21,7 @@ export default async function addToCart(props: Props): Promise<void> {
     } else if (res.error) {
       throw new Error(res.error.message);
     }
+    debugger
     // Add product to cart logic
     const productDetail = res.data as ProductDetail;
     const cart = getLocalCart();
@@ -31,22 +32,22 @@ export default async function addToCart(props: Props): Promise<void> {
       ([_, item]) => item.productDetail.id === productDetailId
     )?.[1];
 
-    // If product exists, update quantity
-    const newItem: CartLocalItem = existingProduct
-      ? {
-          ...existingProduct,
-          quantity: increase ? existingProduct.quantity + quantity : quantity
-        }
-      : {
-          timestamp: new Date().toISOString(),
-          productId: productDetail.productId,
-          productDetail,
-          id: newId,
-          quantity
-        };
+    if (existingProduct) {
+      cart.set(existingProduct.id, {
+        ...existingProduct,
+        quantity: increase ? existingProduct.quantity + quantity : quantity
+      });
+    } else {
+      cart.set(newId, {
+        timestamp: new Date().toISOString(),
+        productId: productDetail.productId,
+        productDetail,
+        id: newId,
+        quantity
+      });
+    }
 
     // Update cart
-    cart.set(newId, newItem);
     localStorage.setItem("cart", JSON.stringify(Array.from(cart)));
     return Promise.resolve();
   } else {
