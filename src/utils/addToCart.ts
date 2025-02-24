@@ -25,13 +25,28 @@ export default async function addToCart(props: Props): Promise<void> {
     const productDetail = res.data as ProductDetail;
     const cart = getLocalCart();
     const newId = uuidv7();
-    cart.set(newId, {
-      timestamp: new Date().toISOString(),
-      productId: productDetail.productId,
-      productDetail,
-      id: newId,
-      quantity
-    });
+
+    // Check if product already exists in cart
+    const existingProduct = Array.from(cart).find(
+      ([_, item]) => item.id === productDetailId
+    )?.[1];
+
+    // If product exists, update quantity
+    const newItem: CartLocalItem = existingProduct
+      ? {
+          ...existingProduct,
+          quantity: increase ? existingProduct.quantity + quantity : quantity
+        }
+      : {
+          timestamp: new Date().toISOString(),
+          productId: productDetail.productId,
+          productDetail,
+          id: newId,
+          quantity
+        };
+
+    // Update cart
+    cart.set(newId, newItem);
     localStorage.setItem("cart", JSON.stringify(Array.from(cart)));
     return Promise.resolve();
   } else {

@@ -65,16 +65,15 @@ interface Cart {
   readonly items: CartItem[];
 }
 
-type LocalCart = Map<
-  string,
-  {
-    readonly id: string;
-    readonly quantity: number;
-    readonly timestamp: string;
-    readonly productId: string;
-    readonly productDetail: ProductDetail;
-  }
->;
+type LocalCart = Map<string, CartLocalItem>;
+
+interface CartLocalItem {
+  readonly id: string;
+  readonly quantity: number;
+  readonly timestamp: string;
+  readonly productId: string;
+  readonly productDetail: ProductDetail;
+}
 
 interface CartItem {
   readonly id: string;
