@@ -21,11 +21,11 @@ export const products = {
         const client = RedisConnection.getInstance().getClient();
 
         try {
-          const cached = await client.get(`products-page:${input.page}`);
+          const cached = await client.get(`products-page:${input.page}-size:${input.size}`);
           if (cached) {
             console.log(
               "\x1b[36m%s\x1b[0m",
-              `Page [${input.page}] loaded from cache`
+              `{Page [${input.page}] | Size [${input.size}]} loaded from cache`
             );
             return JSON.parse(cached);
           }
@@ -80,13 +80,13 @@ export const products = {
         };
 
         client.isOpen &&
-          client.set(`products-page:${input.page}`, JSON.stringify(result), {
+          client.set(`products-page:${input.page}-size:${input.size}`, JSON.stringify(result), {
             EX: 60 * 60 * 24 // 24 horas
           });
 
         return result;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to render products"
@@ -107,7 +107,7 @@ export const products = {
         try {
           const cached = await client.get(`product:${input.id}`);
           if (cached) {
-            console.log(
+            console.info(
               "\x1b[36m%s\x1b[0m",
               `Product [${input.id}] loaded from cache`
             );
@@ -147,7 +147,7 @@ export const products = {
 
         return result;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to get product"
@@ -177,7 +177,7 @@ export const products = {
 
         return product;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to get product detail"
@@ -200,7 +200,7 @@ export const products = {
 
         return products;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to get products info"
