@@ -3,7 +3,9 @@ import ApplePay from "./ApplePay.astro";
 import CalvinKleinLogo from "./CalvinKleinLogo.astro";
 import Cart from "./Cart.astro";
 import ChevronDown from "./ChevronDown.astro";
+import Close from "./Close.astro";
 import Facebook from "./Facebook.astro";
+import Filter from "./Filter.astro";
 import GitHub from "./GitHub.astro";
 import GooglePay from "./GooglePay.astro";
 import GucciLogo from "./GucciLogo.astro";
@@ -32,7 +34,9 @@ export default Object.assign(
     CalvinKleinLogo,
     Cart,
     ChevronDown,
+    Close,
     Facebook,
+    Filter,
     GitHub,
     GooglePay,
     GucciLogo,
