@@ -1,8 +1,18 @@
 ---
+import { loadShopData } from "./controller";
 import Shop from "@components/Shop.astro";
 
+const { redirect, ...res } = await loadShopData(Astro);
+const { currentPage, html, total, pagination } = res;
+
+if (redirect) {
+  return Astro.redirect(redirect);
+}
 ---
 
-<Shop />
-
-
+<Shop
+  currentPage={currentPage}
+  pagination={pagination}
+  total={total}
+  html={html}
+/>

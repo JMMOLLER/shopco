@@ -3,24 +3,17 @@ import Layout from "@layouts/Layout.astro";
 import Filters from "@components/Filters.astro";
 import { Breadcrumb } from "@components/Breadcrumb";
 import { Paginator } from "@components/Paginator";
-import { actions } from "astro:actions";
 import Icons from "@icons";
 
-const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
-const result = await Astro.callAction(actions.getProducts, {
-  page: currentPage,
-  size: 12
-});
-if (!result || result.error) {
-  return Astro.redirect(`/404`);
+interface ShopProps {
+  html: string;
+  total: number;
+  currentPage: number;
+  pagination: PaginatorType;
 }
 
-const { html, total, ...rest } = result.data;
-const pagination = rest as PaginatorType;
-
+const { currentPage, html, total, pagination } = Astro.props as ShopProps;
 const { category } = Astro.params;
-
-export const prerender = false;
 ---
 
 <Layout
@@ -51,7 +44,7 @@ export const prerender = false;
           aria-label="show count of products"
           id="products__info"
         >
-          Showing {currentPage}-{rest.totalPages} of {total} Products
+          Showing {currentPage}-{pagination.totalPages} of {total} Products
         </p>
         <div class="max-nav:hidden" aria-label="sort products">
           <label for="sort">Sort by:</label>
