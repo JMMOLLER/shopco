@@ -72,7 +72,7 @@ const { category } = Astro.params;
     <!-- CONTENEDOR DE LOS PRODUCTOS -->
     <div
       id="products__container"
-      class="grid gap-5 grid-cols-[repeat(auto-fit,minmax(234px,1fr))]"
+      class="grid gap-5 grid-cols-[repeat(auto-fit,minmax(234px,1fr))] aria-busy:min-h-52"
       aria-labelledby="products__info"
       role="region"
     >
@@ -94,90 +94,4 @@ const { category } = Astro.params;
   <Paginator {...pagination} />
 </Layout>
 
-<script>
-  import { actions, isActionError, isInputError } from "astro:actions";
-  import { $isFilterOpen } from "@stores/shopStore";
-
-  document.addEventListener("astro:page-load", () => {
-    // Evitar que el script se ejecute en otras páginas
-    // esto sucede cuando se usa client-side navigation
-    if (!document.querySelector("main#shop")) return;
-
-    // ===================== EVENTOS ===================== //
-
-    /**
-     * @description Evento personalizado definido en `Paginator.astro`
-     */
-    document.addEventListener("paginate", (event) => {
-      const e = event as CustomEvent<{ page: number; popState: boolean }>;
-      fetchProducts(e.detail.page, e.detail.popState);
-    });
-
-    const container = document.getElementById("products__container")!;
-    const btnFilter = document.getElementById("filter__toggle")!;
-    const loader = document.getElementById("products__loader")!;
-    const info = document.getElementById("products__info")!;
-
-    btnFilter.addEventListener("click", () => {
-      $isFilterOpen.set(true);
-    });
-
-    // ===================== FUNCIONES ===================== //
-
-    type IsLoadingProps = {
-      isLoading?: boolean;
-      beforeEnd?: (loader: HTMLElement) => void;
-      afterEnd?: (loader: HTMLElement) => void;
-    };
-
-    function isLoading(props: IsLoadingProps) {
-      const { isLoading = true, beforeEnd, afterEnd } = props;
-
-      afterEnd && afterEnd(loader);
-
-      if (isLoading) {
-        container.classList.replace("grid", "flex");
-        container.classList.add("h-full");
-        loader.classList.remove("hidden");
-      } else {
-        container.classList.replace("flex", "grid");
-        container.classList.remove("h-full");
-        loader.classList.add("hidden");
-      }
-
-      beforeEnd && beforeEnd(loader);
-    }
-
-    async function fetchProducts(page: number, isPopState = false) {
-      // Scroll al inicio de la página
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      // Esperar a que la página se desplace al inicio
-      await new Promise((resolve) => setTimeout(resolve, 200));
-
-      // Mostrar el loader y limpiar los productos actuales
-      isLoading({
-        afterEnd: (loader) => {
-          Array.from(container.childNodes).forEach((node) => {
-            if ((node as HTMLElement).id !== loader.id) node.remove();
-          });
-        }
-      });
-
-      // Obtener los productos de la página seleccionada
-      const { data, error } = await actions.getProducts({ page, size: 12 });
-      !isPopState && window.history.pushState({}, "", `?page=${page}`);
-      // Manejar errores de la petición
-      if (isActionError(error)) alert(error.message);
-      else if (isInputError(data)) alert(data.message);
-
-      // Insertar los productos en el contenedor
-      isLoading({
-        isLoading: false,
-        beforeEnd: (loader) => {
-          loader.insertAdjacentHTML("afterend", data!.html);
-          info.textContent = `Showing ${page}-${data!.totalPages} of ${data!.total} Products`;
-        }
-      });
-    }
-  });
-</script>
+<script src="@scripts/shop.ts"></script>

@@ -18,7 +18,7 @@ interface PaginatorType {
   /**
    * @summary Total de items que se muestran en la página
    */
-  total: number;
+  itemsPerPage: number;
 }
 
 // PRODUCT

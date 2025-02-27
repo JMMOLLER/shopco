@@ -1,17 +1,29 @@
 import getPageNumbers from "@utils/getPageNumbers";
+import { $pagination } from "@stores/shopStore";
 
 document.addEventListener("astro:page-load", () => {
   // Evitar que el script se ejecute en otras páginas
   // esto sucede cuando se usa client-side navigation
   if (!document.querySelector("main#shop")) return;
 
-  const getPaginator = () => document.querySelectorAll("#paginator__container > *")!;
+  const getPaginator = () =>
+    document.querySelectorAll("#paginator__container > *")!;
   const btnPrev = document.getElementById("paginator__prev")!;
   const btnNext = document.getElementById("paginator__next")!;
 
+  $pagination.subscribe((pagination) => {
+    if (pagination) {
+      const nav = document.querySelector("#paginator__container")!;
+      nav.setAttribute("data-current", pagination.currentPage.toString());
+      nav.setAttribute("data-total", pagination.totalPages.toString());
+      // Inicializar el paginador
+      handleInit();
+    }
+  });
+
   const lastCreatedPages: (string | number)[] = [];
   let lastSelectedPage: HTMLElement | null = null;
-  let lastVisiblePages: number | null = null;
+  let lastBtnPages: number | null = null;
 
   // Eventos de los botones de navegación
   btnPrev.addEventListener("click", () => handleNavigation("prev"));
@@ -19,9 +31,6 @@ document.addEventListener("astro:page-load", () => {
 
   // Inicializar el paginador
   handleInit();
-
-  // Actualizar el paginador al cambiar el tamaño de la ventana
-  window.addEventListener("resize", handleInit);
 
   // Evento del botón del navegador a página anterior
   window.addEventListener("popstate", async (e) => {
@@ -36,26 +45,28 @@ document.addEventListener("astro:page-load", () => {
    * @description Inicializa el paginador con el número de páginas visibles adecuado
    */
   function handleInit() {
-    let visiblePages = 7;
+    const p = getPageInfo();
+    let btnPages = p.totalPages > 7 ? 7 : p.totalPages;
 
     // Forzar la creación del paginador si la última página es "..."
-    if (lastCreatedPages.findIndex(e => e === getCurrentPage())) lastVisiblePages = null;
+    if (lastCreatedPages.findIndex((e) => e === getCurrentPage()))
+      lastBtnPages = null;
 
-    if (window.innerWidth > 600 && lastVisiblePages !== 7) {
-      createNavPaginator(visiblePages);
-      lastVisiblePages = visiblePages;
+    if (window.innerWidth > 600 && lastBtnPages !== 7) {
+      createNavPaginator(btnPages);
+      lastBtnPages = btnPages;
     } else if (
       window.innerWidth <= 600 &&
       window.innerWidth > 500 &&
-      lastVisiblePages !== 5
+      lastBtnPages !== 5
     ) {
-      visiblePages = 5;
-      createNavPaginator(visiblePages);
-      lastVisiblePages = visiblePages;
-    } else if (window.innerWidth <= 500 && lastVisiblePages !== 3) {
-      visiblePages = 3;
-      createNavPaginator(visiblePages);
-      lastVisiblePages = visiblePages;
+      btnPages = 5;
+      createNavPaginator(btnPages);
+      lastBtnPages = btnPages;
+    } else if (window.innerWidth <= 500 && lastBtnPages !== 3) {
+      btnPages = 3;
+      createNavPaginator(btnPages);
+      lastBtnPages = btnPages;
     }
   }
 
@@ -69,32 +80,40 @@ document.addEventListener("astro:page-load", () => {
     const props: PaginatorType = {
       currentPage: parseInt(nav.getAttribute("data-current")!, 10),
       totalPages: parseInt(nav.getAttribute("data-total")!, 10),
-      total: 0
+      itemsPerPage: 0
     };
     nav.innerHTML = "";
 
     // Crear los botones de paginación
     lastCreatedPages.length = 0;
-    lastCreatedPages.push(...getPageNumbers({ ...props, maxVisiblePages: visiblePages }))
-    lastCreatedPages.forEach(
-      (page) => {
-        const button = document.createElement("button");
-        button.classList.add("shadow-md", "w-10", "h-10", "rounded-md", "max-md:w-[34px]", "max-md:h-[34px]", "max-md:text-sm");
-        button.setAttribute("aria-label", `Página ${page}`);
-        button.textContent = typeof page === "number" ? page.toString() : "...";
-        if (typeof page === "number") {
-          if (page === props.currentPage) {
-            button.classList.add("bg-primary");
-            lastSelectedPage = button;
-          }
-          button.addEventListener("click", handleClick);
-        } else {
-          button.classList.add("btn-disabled", "cursor-default");
-          button.setAttribute("disabled", "");
-        }
-        nav.appendChild(button);
-      }
+    lastCreatedPages.push(
+      ...getPageNumbers({ ...props, maxVisiblePages: visiblePages })
     );
+    lastCreatedPages.forEach((page) => {
+      const button = document.createElement("button");
+      button.classList.add(
+        "shadow-md",
+        "w-10",
+        "h-10",
+        "rounded-md",
+        "max-md:w-[34px]",
+        "max-md:h-[34px]",
+        "max-md:text-sm"
+      );
+      button.setAttribute("aria-label", `Página ${page}`);
+      button.textContent = typeof page === "number" ? page.toString() : "...";
+      if (typeof page === "number") {
+        if (page === props.currentPage) {
+          button.classList.add("bg-primary");
+          lastSelectedPage = button;
+        }
+        button.addEventListener("click", handleClick);
+      } else {
+        button.classList.add("btn-disabled", "cursor-default");
+        button.setAttribute("disabled", "");
+      }
+      nav.appendChild(button);
+    });
   }
 
   /**
@@ -107,7 +126,9 @@ document.addEventListener("astro:page-load", () => {
 
     // Actualizar a la página seleccionada
     lastSelectedPage.classList.remove("bg-primary");
-    lastSelectedPage = getPaginator()[page - 1] as HTMLElement;
+    lastSelectedPage = Array.from(getPaginator().values()).find(
+      (el) => parseInt(el.textContent!) === page
+    ) as HTMLElement;
     lastSelectedPage.classList.add("bg-primary");
 
     // Actualizar el atributo data-current
@@ -134,13 +155,11 @@ document.addEventListener("astro:page-load", () => {
     const nextPage = to === "next" ? currentPage + 1 : currentPage - 1;
 
     // Evitar navegar a una página inválida
-    if (nextPage < 1 || nextPage > getPaginator().length) {
-      if (nextPage > getPaginator().length) {
-        const nav = document.querySelector("#paginator__container")!;
-        nav.setAttribute("data-current", String(getCurrentPage() + 1));
-        createNavPaginator();
-      }
-    }
+    if (nextPage < 1 || nextPage > getPageInfo().totalPages) return;
+
+    const nav = document.querySelector("#paginator__container")!;
+    nav.setAttribute("data-current", String(getCurrentPage() + 1));
+    createNavPaginator();
 
     selectPaginatorPage(nextPage);
     dispatchPaginatorEvent(nextPage);
