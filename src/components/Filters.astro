@@ -5,155 +5,157 @@ import ColorSelector from "@components/ColorSelector.astro";
 import DualRangeSlider from "@components/react-components/DualRangeSlider";
 ---
 
-<aside class="row-span-4 row-start-2 py-5 px-6 border rounded-3xl h-fit max-nav:hidden">
+<aside
+  class="nav:row-span-4 nav:row-start-2 py-5 px-6 border rounded-3xl h-fit bg-white max-nav:fixed max-nav:left-0 max-nav:-bottom-full max-nav:rounded-b-none max-nav:z-10 max-nav:overflow-y-auto max-nav:max-h-[calc(100dvh_-_72px_-_10px)] max-nav:transition-all"
+  id="filters"
+>
   <!-- HEADER -->
   <div class="inline-flex justify-between items-center w-full">
     <h4 class="font-bold text-xl">Filters</h4>
-    <svg
-      width="24"
-      height="25"
-      viewBox="0 0 24 25"
-      xmlns="http://www.w3.org/2000/svg"
+    <Icon.Filter class="w-6 opacity-50 max-nav:hidden" />
+    <button
+      role="button"
+      id="close_filter"
+      aria-label="Close filter"
+      class="nav:hidden"
     >
-      <path
-        d="M13.125 12.125v8.625a1.125 1.125 0 1 1-2.25 0v-8.625a1.125 1.125 0 1 1 2.25 0ZM18.75 18.5a1.125 1.125 0 0 0-1.125 1.125v1.125a1.125 1.125 0 1 0 2.25 0v-1.125A1.125 1.125 0 0 0 18.75 18.5ZM21 14.75h-1.125V4.25a1.125 1.125 0 1 0-2.25 0v10.5H16.5a1.125 1.125 0 1 0 0 2.25H21a1.125 1.125 0 1 0 0-2.25Zm-15.75.75a1.125 1.125 0 0 0-1.125 1.125v4.125a1.125 1.125 0 0 0 2.25 0v-4.125A1.125 1.125 0 0 0 5.25 15.5Zm2.25-3.75H6.375v-7.5a1.125 1.125 0 0 0-2.25 0v7.5H3A1.125 1.125 0 1 0 3 14h4.5a1.125 1.125 0 1 0 0-2.25Zm6.75-4.5h-1.125v-3a1.125 1.125 0 1 0-2.25 0v3H9.75a1.125 1.125 0 0 0 0 2.25h4.5a1.125 1.125 0 0 0 0-2.25Z"
-        fill="#000"
-        fill-opacity=".4"
-      >
-      </path>
-    </svg>
-  </div>
-
-  <hr class="my-6" />
-
-  <!-- CATEGORY -->
-  <div class="text-primary flex flex-col gap-y-3">
-    <a
-      href="/"
-      aria-label="Go to category"
-      class="inline-flex w-full justify-between items-center hover:underline"
-    >
-      T-Shirts <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
-    </a>
-    <a
-      href="/"
-      aria-label="Go to category"
-      class="inline-flex w-full justify-between items-center hover:underline"
-    >
-      Shorts <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
-    </a>
-    <a
-      href="/"
-      aria-label="Go to category"
-      class="inline-flex w-full justify-between items-center hover:underline"
-    >
-      Shirts <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
-    </a>
-    <a
-      href="/"
-      aria-label="Go to category"
-      class="inline-flex w-full justify-between items-center hover:underline"
-    >
-      Jeans <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
-    </a>
+      <Icon.Close class="w-6 opacity-45" />
+    </button>
   </div>
 
   <hr class="mt-6" />
 
-  <!-- DUALSLIDER -->
-  <div class="collapse collapse-arrow bg-transparent mt-6">
-    <input type="checkbox" />
-    <div class="collapse-title text-xl font-medium">Price</div>
-    <div class="collapse-content mt-5">
-      <!-- COLLAPSE CONTENT -->
-      <DualRangeSlider min={0} max={100} client:load />
+  <!-- SCROLLABLE CONTENT -->
+  <div class="max-nav:max-h-96 max-nav:overflow-auto">
+    <!-- CATEGORY -->
+    <div class="text-primary flex flex-col gap-y-3 mt-6">
+      <a
+        href="/"
+        aria-label="Go to category"
+        class="inline-flex w-full justify-between items-center hover:underline"
+      >
+        T-Shirts <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
+      </a>
+      <a
+        href="/"
+        aria-label="Go to category"
+        class="inline-flex w-full justify-between items-center hover:underline"
+      >
+        Shorts <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
+      </a>
+      <a
+        href="/"
+        aria-label="Go to category"
+        class="inline-flex w-full justify-between items-center hover:underline"
+      >
+        Shirts <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
+      </a>
+      <a
+        href="/"
+        aria-label="Go to category"
+        class="inline-flex w-full justify-between items-center hover:underline"
+      >
+        Jeans <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
+      </a>
     </div>
-  </div>
 
-  <hr class="mt-1" />
+    <hr class="mt-6" />
 
-  <!-- COLORS -->
-  <div class="collapse collapse-arrow bg-transparent mt-6">
-    <input type="checkbox" />
-    <div class="collapse-title text-xl font-medium">Colors</div>
-    <div class="collapse-content mt-5 flex flex-wrap gap-4">
-      <!-- COLLAPSE CONTENT -->
-      <ColorSelector className="bg-green-500" />
-      <ColorSelector className="bg-red-500" />
-      <ColorSelector className="bg-yellow-500" />
-      <ColorSelector className="bg-orange-500" />
-      <ColorSelector className="bg-cyan-500" />
-      <ColorSelector className="bg-blue-500" />
-      <ColorSelector className="bg-purple-500" />
-      <ColorSelector className="bg-pink-500" />
-      <ColorSelector className="bg-white" />
-      <ColorSelector />
+    <!-- DUALSLIDER -->
+    <div class="collapse collapse-arrow bg-transparent mt-6">
+      <input type="checkbox" />
+      <div class="collapse-title text-xl font-medium">Price</div>
+      <div class="collapse-content mt-5">
+        <!-- COLLAPSE CONTENT -->
+        <DualRangeSlider min={0} max={100} client:load />
+      </div>
     </div>
-  </div>
 
-  <hr class="mt-1" />
+    <hr class="mt-1" />
 
-  <!-- SIZE -->
-  <div class="collapse collapse-arrow bg-transparent mt-6">
-    <input type="checkbox" />
-    <div class="collapse-title text-xl font-medium">Size</div>
-    <div class="collapse-content mt-5 flex flex-wrap justify-start gap-2">
-      <!-- COLLAPSE CONTENT -->
-      <SizeSelector content="XX-Small" />
-      <SizeSelector content="X-Small" />
-      <SizeSelector content="Small" />
-      <SizeSelector content="Medium" />
-      <SizeSelector content="Large" />
-      <SizeSelector content="X-Large" />
-      <SizeSelector content="XX-Large" />
-      <SizeSelector content="3X-Large" />
-      <SizeSelector content="4X-Large" />
+    <!-- COLORS -->
+    <div class="collapse collapse-arrow bg-transparent mt-6">
+      <input type="checkbox" />
+      <div class="collapse-title text-xl font-medium">Colors</div>
+      <div class="collapse-content mt-5 flex flex-wrap gap-4">
+        <!-- COLLAPSE CONTENT -->
+        <ColorSelector color="#22c55e" />
+        <ColorSelector color="#ef4444" />
+        <ColorSelector color="#eab308" />
+        <ColorSelector color="#f97316" />
+        <ColorSelector color="#06b6d4" />
+        <ColorSelector color="#3b82f6" />
+        <ColorSelector color="#a855f7" />
+        <ColorSelector color="#ec4899" />
+        <ColorSelector color="#ffffff" />
+        <ColorSelector />
+      </div>
     </div>
-  </div>
 
-  <hr class="mt-1" />
+    <hr class="mt-1" />
 
-  <!-- DRESS STYLE -->
-  <div class="collapse collapse-arrow bg-transparent mt-6">
-    <input type="checkbox" />
-    <div class="collapse-title text-xl font-medium">Dress Style</div>
-    <div
-      class="collapse-content mt-5 flex flex-wrap justify-start gap-2 text-primary"
-    >
-      <!-- COLLAPSE CONTENT -->
-      <a
-        href="/shop/casual"
-        aria-label="Go to category"
-        class="inline-flex w-full justify-between items-center hover:underline"
+    <!-- SIZE -->
+    <div class="collapse collapse-arrow bg-transparent mt-6">
+      <input type="checkbox" />
+      <div class="collapse-title text-xl font-medium">Size</div>
+      <div class="collapse-content mt-5 flex flex-wrap justify-start gap-2">
+        <!-- COLLAPSE CONTENT -->
+        <SizeSelector content="XX-Small" />
+        <SizeSelector content="X-Small" />
+        <SizeSelector content="Small" />
+        <SizeSelector content="Medium" />
+        <SizeSelector content="Large" />
+        <SizeSelector content="X-Large" />
+        <SizeSelector content="XX-Large" />
+        <SizeSelector content="3X-Large" />
+        <SizeSelector content="4X-Large" />
+      </div>
+    </div>
+
+    <hr class="mt-1" />
+
+    <!-- DRESS STYLE -->
+    <div class="collapse collapse-arrow bg-transparent mt-6">
+      <input type="checkbox" />
+      <div class="collapse-title text-xl font-medium">Dress Style</div>
+      <div
+        class="collapse-content mt-3 flex flex-wrap justify-start gap-2 text-primary"
       >
-        Casual <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
-      </a>
-      <a
-        href="/shop/formal"
-        aria-label="Go to category"
-        class="inline-flex w-full justify-between items-center hover:underline"
-      >
-        Formal <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
-      </a>
-      <a
-        href="/shop/party"
-        aria-label="Go to category"
-        class="inline-flex w-full justify-between items-center hover:underline"
-      >
-        Party <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
-      </a>
-      <a
-        href="/shop/gym"
-        aria-label="Go to category"
-        class="inline-flex w-full justify-between items-center hover:underline"
-      >
-        Gym <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
-      </a>
+        <!-- COLLAPSE CONTENT -->
+        <a
+          href="/shop/casual"
+          aria-label="Go to category"
+          class="inline-flex w-full justify-between items-center hover:underline"
+        >
+          Casual <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
+        </a>
+        <a
+          href="/shop/formal"
+          aria-label="Go to category"
+          class="inline-flex w-full justify-between items-center hover:underline"
+        >
+          Formal <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
+        </a>
+        <a
+          href="/shop/party"
+          aria-label="Go to category"
+          class="inline-flex w-full justify-between items-center hover:underline"
+        >
+          Party <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
+        </a>
+        <a
+          href="/shop/gym"
+          aria-label="Go to category"
+          class="inline-flex w-full justify-between items-center hover:underline"
+        >
+          Gym <Icon.ChevronDown class="-rotate-90 text-black opacity-55" />
+        </a>
+      </div>
     </div>
   </div>
 
   <button
-    class="max-2lg:py-2 py-4 px-4 bg-black text-white rounded-full w-full"
+    class="max-2lg:py-2 py-4 px-4 bg-black text-white rounded-full w-full mt-2"
     type="button">Apply Filter</button
   >
 </aside>
@@ -166,3 +168,26 @@ import DualRangeSlider from "@components/react-components/DualRangeSlider";
     margin-top: 24px;
   }
 </style>
+
+<script>
+  import { $isFilterOpen } from "@stores/shopStore";
+
+  document.addEventListener("astro:page-load", onPageLoad);
+
+  function onPageLoad() {
+    const closeFilter = document.querySelector("#close_filter")!;
+
+    closeFilter.addEventListener("click", () => {
+      $isFilterOpen.set(false);
+    });
+
+    $isFilterOpen.subscribe((isOpen) => {
+      const el = document.querySelector("#filters") as HTMLElement;
+      if (isOpen) {
+        el.classList.replace("max-nav:-bottom-full", "max-nav:bottom-0");
+      } else {
+        el.classList.replace("max-nav:bottom-0", "max-nav:-bottom-full");
+      }
+    });
+  }
+</script>

@@ -4,6 +4,7 @@ import Filters from "@components/Filters.astro";
 import { Breadcrumb } from "@components/Breadcrumb";
 import { Paginator } from "@components/Paginator";
 import { actions } from "astro:actions";
+import Icons from "@icons";
 
 const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
 const result = await Astro.callAction(actions.getProducts, {
@@ -15,7 +16,7 @@ if (!result || result.error) {
 }
 
 const { html, total, ...rest } = result.data;
-const pagination = rest as PaginatorType
+const pagination = rest as PaginatorType;
 
 const { category } = Astro.params;
 
@@ -26,7 +27,7 @@ export const prerender = false;
   id="shop"
   title="Shop"
   clientRouter={true}
-  className="max-w-screen-8xl mx-auto w-full nav:grid nav:grid-cols-[0.5fr_1fr_1fr] nav:grid-rows-[auto_1fr_1fr_1fr_auto] gap-x-5 gap-y-6 px-4 pb-20 pt-6 border-primary border-t"
+  className="relative max-w-screen-8xl mx-auto w-full nav:grid nav:grid-cols-[0.5fr_1fr_1fr] nav:grid-rows-[auto_1fr_1fr_1fr_auto] gap-x-5 gap-y-6 px-4 pb-20 pt-6 border-primary border-t"
 >
   <!-- BREADCRUMB -->
   <Breadcrumb />
@@ -42,11 +43,17 @@ export const prerender = false;
     <!-- HEADER -->
     <header aria-label="header" class="flex justify-between items-end">
       <h3 class="font-bold text-2xl capitalize">{category || "All"}</h3>
-      <div class="inline-flex gap-x-3 max-md:justify-between max-md:items-center max-md:w-full max-md:ml-2 text-primary">
-        <p class="max-md:text-sm max-md:h-fit" aria-label="show count of products" id="products__info">
+      <div
+        class="inline-flex gap-x-3 max-nav:justify-between max-nav:items-center max-nav:w-full max-nav:ml-2 text-primary"
+      >
+        <p
+          class="max-nav:text-sm max-nav:h-fit"
+          aria-label="show count of products"
+          id="products__info"
+        >
           Showing {currentPage}-{rest.totalPages} of {total} Products
         </p>
-        <div class="max-md:hidden" aria-label="sort products">
+        <div class="max-nav:hidden" aria-label="sort products">
           <label for="sort">Sort by:</label>
           <select
             id="sort"
@@ -58,19 +65,14 @@ export const prerender = false;
             <option value="price" selected>Most Popular</option>
           </select>
         </div>
-        <span class="bg-primary rounded-full p-1.5 h-fit md:hidden">
-          <svg
-            class="w-5"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M13.125 11.625v8.625a1.125 1.125 0 1 1-2.25 0v-8.625a1.125 1.125 0 1 1 2.25 0ZM18.75 18a1.125 1.125 0 0 0-1.125 1.125v1.125a1.125 1.125 0 1 0 2.25 0v-1.125A1.125 1.125 0 0 0 18.75 18ZM21 14.25h-1.125V3.75a1.125 1.125 0 1 0-2.25 0v10.5H16.5a1.125 1.125 0 1 0 0 2.25H21a1.125 1.125 0 1 0 0-2.25ZM5.25 15a1.125 1.125 0 0 0-1.125 1.125v4.125a1.125 1.125 0 0 0 2.25 0v-4.125A1.125 1.125 0 0 0 5.25 15Zm2.25-3.75H6.375v-7.5a1.125 1.125 0 0 0-2.25 0v7.5H3a1.125 1.125 0 1 0 0 2.25h4.5a1.125 1.125 0 1 0 0-2.25Zm6.75-4.5h-1.125v-3a1.125 1.125 0 1 0-2.25 0v3H9.75a1.125 1.125 0 0 0 0 2.25h4.5a1.125 1.125 0 0 0 0-2.25Z"
-              fill="#000"
-            >
-            </path>
-          </svg>
-        </span>
+        <button
+          role="button"
+          id="filter__toggle"
+          aria-label="Toggle filter"
+          class="bg-primary rounded-full p-1.5 h-fit nav:hidden"
+        >
+          <Icons.Filter />
+        </button>
       </div>
     </header>
 
@@ -96,16 +98,17 @@ export const prerender = false;
     </div>
   </section>
 
-  <Paginator {...(pagination)} />
+  <Paginator {...pagination} />
 </Layout>
 
 <script>
   import { actions, isActionError, isInputError } from "astro:actions";
+  import { $isFilterOpen } from "@stores/shopStore";
 
   document.addEventListener("astro:page-load", () => {
     // Evitar que el script se ejecute en otras páginas
     // esto sucede cuando se usa client-side navigation
-    if(!document.querySelector("main#shop")) return
+    if (!document.querySelector("main#shop")) return;
 
     // ===================== EVENTOS ===================== //
 
@@ -113,13 +116,18 @@ export const prerender = false;
      * @description Evento personalizado definido en `Paginator.astro`
      */
     document.addEventListener("paginate", (event) => {
-      const e = event as CustomEvent<{ page: number, popState: boolean }>;
+      const e = event as CustomEvent<{ page: number; popState: boolean }>;
       fetchProducts(e.detail.page, e.detail.popState);
-    })
+    });
 
     const container = document.getElementById("products__container")!;
+    const btnFilter = document.getElementById("filter__toggle")!;
     const loader = document.getElementById("products__loader")!;
     const info = document.getElementById("products__info")!;
+
+    btnFilter.addEventListener("click", () => {
+      $isFilterOpen.set(true);
+    });
 
     // ===================== FUNCIONES ===================== //
 
