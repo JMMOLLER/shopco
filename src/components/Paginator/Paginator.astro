@@ -4,7 +4,7 @@ import getPageNumbers from "@utils/getPageNumbers";
 export interface PaginatorProps extends PaginatorType {}
 
 const pagination = Astro.props as PaginatorProps;
-const pages = getPageNumbers({ ...pagination });
+const pages = getPageNumbers({ ...pagination, maxVisiblePages: 5 });
 ---
 
 <footer class="col-span-2 col-start-2 row-start-5">
