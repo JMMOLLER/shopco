@@ -1,7 +1,13 @@
 import { actions, isActionError, isInputError } from "astro:actions";
-import { $isFilterOpen, $pagination } from "@stores/shopStore";
 import ToastMessage from "@libs/ToastMessage";
+import suitStyles from "@utils/suitStyles";
 import debounce from "@utils/debounce";
+import {
+  $status,
+  $pagination,
+  $isFilterOpen,
+  $pageChangeEvent
+} from "@stores/shopStore";
 
 document.addEventListener("astro:page-load", async () => {
   // Evitar que el script se ejecute en otras páginas
@@ -10,27 +16,40 @@ document.addEventListener("astro:page-load", async () => {
 
   // ===================== EVENTOS ===================== //
 
-  /**
-   * @description Evento personalizado definido en `Paginator.astro`
-   */
-  document.addEventListener("paginate", (event) => {
-    const e = event as CustomEvent<{ page: number; popState: boolean }>;
-    fetchProducts(e.detail.page, e.detail.popState);
-  });
+  // Evitar que el script se ejecute varias veces
+  const scriptStatus = $status.get()["shop"];
+  if (!scriptStatus) {
+    $status.setKey("shop", true);
+  }
 
-  const container = document.getElementById("products__container")!;
-  const btnFilter = document.getElementById("filter__toggle")!;
-  const loader = document.getElementById("products__loader")!;
-  const info = document.getElementById("products__info")!;
+  // Verificar si el store tiene un listener
+  if ($pageChangeEvent.lc === 0) {
+    // Suscribirse a los cambios del paginador
+    $pageChangeEvent.listen((curVal) => {
+      if (!curVal) return;
+      fetchProducts(curVal.page, curVal.popState);
+    });
+  }
+
+  const getContainer = () => document.getElementById("products__container")!;
+  const getLoader = () => document.getElementById("products__loader")!;
+  const getBtnFilter = () => document.getElementById("filter__toggle")!;
+  const getInfo = () => document.getElementById("products__info")!;
   /**
    * @description Ancho de la ventana antes de redimensionar porque los dispositivos móviles suelen tener un alto dinámico
    */
   let prevWidth: number = window.innerWidth;
 
-  btnFilter.addEventListener("click", () => {
+  getBtnFilter().addEventListener("click", () => {
     $isFilterOpen.set(true);
   });
 
+  // Limpiar el estatus del script en el store
+  window.addEventListener("beforeunload", () => {
+    $status.setKey("shop", false);
+  });
+
+  // Evento de redimensionar la ventana
   window.addEventListener(
     "resize",
     debounce(() => {
@@ -47,7 +66,11 @@ document.addEventListener("astro:page-load", async () => {
   const total = paginator_container.getAttribute("data-total");
   const isInLastPage = current === total;
 
-  if (!isInLastPage && calcDynamicSize() !== container.querySelectorAll("article").length) {
+  // Cuando se renderiza la pagina y la cantidad de productos no coincide con la calculada
+  if (
+    !isInLastPage &&
+    calcDynamicSize() !== getContainer().querySelectorAll("article").length
+  ) {
     isLoading({ isLoading: true, beforeStart: flushArticles });
     fetchProducts(getCurrentPage());
   }
@@ -58,10 +81,10 @@ document.addEventListener("astro:page-load", async () => {
 
   function calcDynamicSize() {
     const isMobile = window.matchMedia("(max-width: 904px)").matches;
-    const isLoading = container.getAttribute("aria-busy") === "true";
+    const isLoading = getContainer().getAttribute("aria-busy") === "true";
     isLoading && resetContainerStyles();
 
-    const articles = Array.from(container.querySelectorAll("article"));
+    const articles = Array.from(getContainer().querySelectorAll("article"));
     let columns = 0;
     let productHeight = 0;
 
@@ -94,18 +117,18 @@ document.addEventListener("astro:page-load", async () => {
    * @summary Resetea los estilos del contenedor para evitar distorsiones en la medición.
    */
   function resetContainerStyles() {
-    container.classList.remove("flex", "h-full");
-    container.classList.add("grid");
-    loader.classList.add("hidden");
+    getContainer().classList.remove("flex", "h-full");
+    getContainer().classList.add("grid");
+    getLoader().classList.add("hidden");
   }
 
   /**
    * @summary Restaura los estilos originales del contenedor después de la medición.
    */
   function restoreContainerStyles() {
-    container.classList.remove("grid");
-    container.classList.add("flex", "h-full");
-    loader.classList.remove("hidden");
+    getContainer().classList.remove("grid");
+    getContainer().classList.add("flex", "h-full");
+    getLoader().classList.remove("hidden");
   }
 
   /**
@@ -141,7 +164,7 @@ document.addEventListener("astro:page-load", async () => {
    */
   function getTempArticleHeight() {
     const tempArticle = generateTempArticle();
-    container.appendChild(tempArticle);
+    getContainer().appendChild(tempArticle);
     const height = tempArticle.offsetHeight;
     tempArticle.remove();
     return height;
@@ -157,7 +180,7 @@ document.addEventListener("astro:page-load", async () => {
 
     for (let i = 0; i < 100; i++) {
       const tempArticle = generateTempArticle();
-      container.appendChild(tempArticle);
+      getContainer().appendChild(tempArticle);
       tempArticles.push(tempArticle);
 
       if (prevOffsetTop === undefined) {
@@ -187,21 +210,21 @@ document.addEventListener("astro:page-load", async () => {
   function isLoading(props: IsLoadingProps) {
     const { isLoading = true, afterEnd, beforeStart } = props;
 
-    beforeStart && beforeStart(loader);
+    beforeStart && beforeStart(getLoader());
 
     if (isLoading) {
-      container.setAttribute("aria-busy", "true");
-      container.classList.replace("grid", "flex");
-      container.classList.add("h-full");
-      loader.classList.remove("hidden");
+      getContainer().setAttribute("aria-busy", "true");
+      getContainer().classList.replace("grid", "flex");
+      getContainer().classList.add("h-full");
+      getLoader().classList.remove("hidden");
     } else {
-      container.setAttribute("aria-busy", "false");
-      container.classList.replace("flex", "grid");
-      container.classList.remove("h-full");
-      loader.classList.add("hidden");
+      getContainer().setAttribute("aria-busy", "false");
+      getContainer().classList.replace("flex", "grid");
+      getContainer().classList.remove("h-full");
+      getLoader().classList.add("hidden");
     }
 
-    afterEnd && afterEnd(loader);
+    afterEnd && afterEnd(getLoader());
   }
 
   async function fetchProducts(page: number, isPopState = false) {
@@ -209,19 +232,24 @@ document.addEventListener("astro:page-load", async () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     // Esperar a que la página se desplace al inicio
     await new Promise((resolve) => setTimeout(resolve, 200));
-    // Calcular la cantidad de productos a mostrar
-    const size = calcDynamicSize();
 
     // Mostrar el loader y limpiar los productos actuales
     isLoading({
       beforeStart: flushArticles
     });
 
+    // Calcular la cantidad de productos a mostrar
+    const size = calcDynamicSize();
+
     // Obtener los productos de la página seleccionada
-    const { data, error } = await actions.getProducts({ page, size });
+    const { data, error } = await actions.getProducts({
+      suitStyle: getCategory(),
+      size,
+      page
+    });
 
     // Manejar errores de la petición
-    if (isActionError(error) || isInputError(data)) {
+    if (isActionError(error) || isInputError(error) || !data) {
       toast.error("Failed to fetch products");
       isLoading({ isLoading: false });
       return;
@@ -241,7 +269,7 @@ document.addEventListener("astro:page-load", async () => {
       isLoading: false,
       afterEnd: (loader) => {
         loader.insertAdjacentHTML("afterend", data!.html);
-        info.textContent = `Showing ${page}-${data!.totalPages} of ${
+        getInfo().textContent = `Showing ${page}-${data!.totalPages} of ${
           data!.total
         } Products`;
         $pagination.set({
@@ -253,6 +281,13 @@ document.addEventListener("astro:page-load", async () => {
     });
   }
 });
+
+function getCategory() {
+  const category = location.pathname.split("/").pop();
+  const res = suitStyles.includes(category as any);
+  if (!category || !res) return undefined;
+  return category.toLowerCase() as SuitStyleType[number];
+}
 
 function flushArticles() {
   const container = document.getElementById("products__container")!;

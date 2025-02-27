@@ -1,29 +1,38 @@
+import { $pageChangeEvent, $pagination, $status } from "@stores/shopStore";
 import getPageNumbers from "@utils/getPageNumbers";
-import { $pagination } from "@stores/shopStore";
 
 document.addEventListener("astro:page-load", () => {
   // Evitar que el script se ejecute en otras páginas
   // esto sucede cuando se usa client-side navigation
   if (!document.querySelector("main#shop")) return;
 
+  // Verificar si el store ya tiene un status
+  const scriptStatus = $status.get()["paginator"]
+  if (!scriptStatus) {
+    $status.setKey("paginator", true);
+  }
+
   const getPaginator = () =>
     document.querySelectorAll("#paginator__container > *")!;
   const btnPrev = document.getElementById("paginator__prev")!;
   const btnNext = document.getElementById("paginator__next")!;
 
-  $pagination.subscribe((pagination) => {
-    if (pagination) {
+  const lastCreatedPages: (string | number)[] = [];
+  let lastSelectedPage: HTMLElement | null = null;
+  let lastBtnPages: number | null = null;
+
+  //Verificar si el store ya tiene un listener
+  if ($pagination.lc === 0) {
+    // Suscribirse a los cambios del paginador
+    $pagination.listen((pagination) => {
+      if (!pagination) return;
       const nav = document.querySelector("#paginator__container")!;
       nav.setAttribute("data-current", pagination.currentPage.toString());
       nav.setAttribute("data-total", pagination.totalPages.toString());
       // Inicializar el paginador
       handleInit();
-    }
-  });
-
-  const lastCreatedPages: (string | number)[] = [];
-  let lastSelectedPage: HTMLElement | null = null;
-  let lastBtnPages: number | null = null;
+    });
+  }
 
   // Eventos de los botones de navegación
   btnPrev.addEventListener("click", () => handleNavigation("prev"));
@@ -37,6 +46,10 @@ document.addEventListener("astro:page-load", () => {
     const currentPage = getCurrentPage();
     selectPaginatorPage(currentPage);
     dispatchPaginatorEvent(currentPage, true);
+  });
+  // Limpiar el estatus del script en el store
+  window.addEventListener("beforeunload", () => {
+    $status.setKey("paginator", false);
   });
 
   // ===================== FUNCIONES ===================== //
@@ -172,12 +185,7 @@ document.addEventListener("astro:page-load", () => {
    * @param popState Indica si el evento fue disparado por el botón de navegación del navegador
    */
   function dispatchPaginatorEvent(page: number, popState = false) {
-    const paginatorEvent = new CustomEvent("paginate", {
-      bubbles: false,
-      cancelable: true,
-      detail: { page, popState }
-    });
-    document.dispatchEvent(paginatorEvent);
+    $pageChangeEvent.set({ page, popState });
   }
 
   function getCurrentPage() {
