@@ -115,7 +115,10 @@ import DualRangeSlider from "@components/react-components/DualRangeSlider";
     <hr class="mt-1" />
 
     <!-- DRESS STYLE -->
-    <div class="collapse collapse-arrow bg-transparent mt-6">
+    <div
+      id="suit_style_filter"
+      class="collapse collapse-arrow bg-transparent mt-6"
+    >
       <input type="checkbox" />
       <div class="collapse-title text-xl font-medium">Dress Style</div>
       <div
@@ -176,11 +179,13 @@ import DualRangeSlider from "@components/react-components/DualRangeSlider";
 
   function onPageLoad() {
     const closeFilter = document.querySelector("#close_filter")!;
+    const suitStyle = document.querySelector("#suit_style_filter")!;
 
     closeFilter.addEventListener("click", () => {
       $isFilterOpen.set(false);
     });
 
+    // Suscribirse al estado de la ventana filtro
     $isFilterOpen.subscribe((isOpen) => {
       const el = document.querySelector("#filters") as HTMLElement;
       if (isOpen) {
@@ -188,6 +193,23 @@ import DualRangeSlider from "@components/react-components/DualRangeSlider";
       } else {
         el.classList.replace("max-nav:bottom-0", "max-nav:-bottom-full");
       }
+    });
+
+    // Aplicar un evento a cada enlace de la lista de estilos de vestir
+    suitStyle.querySelectorAll("a").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        // Eliminar todos los productos y mostrar el loader
+        const products__container = document.querySelector(
+          "#products__container"
+        )!;
+        products__container.querySelectorAll("article").forEach((el) => {
+          el.remove();
+        });
+        products__container.classList.replace("grid", "flex")
+        products__container.firstElementChild?.classList.remove("hidden");
+        // Cerrar el filtro
+        $isFilterOpen.set(false);
+      });
     });
   }
 </script>
