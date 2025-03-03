@@ -14,7 +14,7 @@ const {
   content,
   type = "checkbox",
   disabled = false,
-  checked = false,
+  checked = false
 } = Astro.props as ColorSelectorProps;
 ---
 
@@ -31,7 +31,7 @@ const {
     id={id}
   />
   <span>{content}</span>
-  <span class="sr-only">Select size {name}</span>
+  <span class="sr-only">Select size {name || content}</span>
 </label>
 
 <style>
