@@ -4,10 +4,12 @@ import styles from "./styles.module.css";
 interface DualRangeSliderProps {
   min: number;
   max: number;
+  minId?: string;
+  maxId?: string;
   onChange?: (value: { min: number; max: number }) => void;
 }
 
-const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
+const DualRangeSlider = ({ min, max, ...props }: DualRangeSliderProps) => {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(min);
@@ -43,8 +45,8 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
 
   // Get min and max values when their state changes
   useEffect(() => {
-    onChange && onChange({ min: minVal, max: maxVal });
-  }, [minVal, maxVal, onChange]);
+    props.onChange && props.onChange({ min: minVal, max: maxVal });
+  }, [minVal, maxVal, props.onChange]);
 
   return (
     <div className={styles.dual_range_container}>
@@ -53,6 +55,7 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
         min={min}
         max={max}
         value={minVal}
+        id={props.minId}
         onChange={(event) => {
           const value = Math.min(Number(event.target.value), maxVal - 1);
           setMinVal(value);
@@ -66,6 +69,7 @@ const DualRangeSlider = ({ min, max, onChange }: DualRangeSliderProps) => {
         min={min}
         max={max}
         value={maxVal}
+        id={props.maxId}
         onChange={(event) => {
           const value = Math.max(Number(event.target.value), minVal + 1);
           setMaxVal(value);
