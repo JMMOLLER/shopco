@@ -73,17 +73,21 @@ if (Astro.locals.session) {
         <Icons.Key class="absolute left-2.5 bottom-2.5 w-6 h-6 text-gray-500" />
       </label>
       <button
-        class="bg-black mt-3 py-2 rounded-xl text-white hover:bg-gray-800 transition-all"
+        class="bg-black mt-3 py-2 rounded-xl text-white hover:bg-gray-800 group transition-all"
+        aria-busy="false"
         type="submit"
       >
-        Register
+        <span class="group-aria-busy:hidden">Register</span>
+        <span
+          class="hidden -my-3 loading loading-infinity loading-lg group-aria-busy:inline-block"
+        ></span>
       </button>
     </form>
     <p class="text-center text-gray-500 text-sm mt-5 cursor-default">
-      Already have an account? <a
-        class="text-black font-medium hover:underline"
-        href="/auth/login">Login</a
-      >
+      <span>Already have an account?</span>
+      <a class="text-black font-medium hover:underline" href="/auth/login">
+        Login
+      </a>
     </p>
   </div>
   <img
